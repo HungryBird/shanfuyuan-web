@@ -11,7 +11,7 @@
             </view>
             <view class="input-row">
                 <text class="title">昵称：</text>
-                <input type="text" v-model="nickname" placeholder="请输入登录昵称"></input>
+                <input type="text" v-model="nickname" placeholder="请输入昵称"></input>
             </view>
 			<view class="input-row">
 				<radio-group @change="radioChange">
