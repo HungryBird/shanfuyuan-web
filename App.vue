@@ -133,4 +133,36 @@
 	button.primary {
 		background-color: #0faeff;
 	}
+	
+	uni-radio{
+		transform: scale(0.75);
+	}
+	uni-radio .uni-radio-input {
+	    -webkit-appearance: none;
+	    appearance: none;
+	    margin-right: 5px;
+	    outline: 0;
+	    border: 1px solid rgba(0,0,0,.1);
+	    background-color: #FFE3BB;
+	    border-radius: 50%;
+	    width: 22px;
+	    height: 22px;
+	    position: relative;
+	}
+	uni-radio .uni-radio-input.uni-radio-input-checked{
+		background-color: #fff !important;
+		border: 1px solid #fff !important;
+		box-shadow: #C8C7CC 0px 0px 3px 1px;
+	}
+	uni-radio .uni-radio-input.uni-radio-input-checked:before {
+	    content: "";
+		width: 80%;
+		height: 80%;
+		background-color: #E2892B;
+		border-radius: 100%;
+	    position: absolute;
+	    top: 50%;
+	    left: 50%;
+	    transform: translate(-50%,-50%);
+	}
 </style>
