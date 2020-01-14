@@ -152,7 +152,7 @@
 	uni-radio .uni-radio-input.uni-radio-input-checked{
 		background-color: #fff !important;
 		border: 1px solid #fff !important;
-		box-shadow: #C8C7CC 0px 0px 3px 1px;
+		box-shadow: #C8C7CC 0px 0px 4px 2px;
 	}
 	uni-radio .uni-radio-input.uni-radio-input-checked:before {
 	    content: "";
