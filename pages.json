@@ -5,22 +5,32 @@
             "style": {
                 "navigationBarTitleText": "善福源"
             }
-        }, {
+        }, 
+		{
             "path": "pages/login/login",
             "style": {
 				"app-plus": {"titleNView": false}
             }
-        }, {
+        }, 
+		{
             "path": "pages/reg/reg",
             "style": {
                 "app-plus": {"titleNView": false}
             }
-        }, {
+        }, 
+		{
             "path": "pages/pwd/pwd",
             "style": {
                 "app-plus": {"titleNView": false}
             }
-        }, {
+        }, 
+		{
+		    "path": "pages/boot/boot",
+		    "style": {
+		        "app-plus": {"titleNView": false}
+		    }
+		}, 
+		{
             "path": "pages/user/user",
             "style": {
                 "navigationBarTitleText": "我的"
