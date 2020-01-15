@@ -1,5 +1,11 @@
 {
     "pages": [ //pages数组中第一项表示应用启动页,
+		{
+			"path": "pages/boot/boot",
+			"style": {
+				"app-plus": {"titleNView": false}
+			}
+		}, 
         {
             "path": "pages/main/main",
             "style": {
@@ -25,17 +31,17 @@
             }
         }, 
 		{
-		    "path": "pages/boot/boot",
-		    "style": {
-		        "app-plus": {"titleNView": false}
-		    }
-		}, 
-		{
             "path": "pages/user/user",
             "style": {
                 "navigationBarTitleText": "我的"
             }
-        }
+        },
+		{
+		    "path": "pages/choiceGod/choiceGod",
+		    "style": {
+		        "app-plus": {"titleNView": false}
+		    }
+		}
     ],
     "tabBar": {
         "color": "#7a7e83",

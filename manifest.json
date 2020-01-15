@@ -48,5 +48,21 @@
 	},
 	"mp-toutiao" : {
 	    "usingComponents" : true
+	},
+	"h5": {
+		"devServer": {
+			"port": 8080, 
+			"disableHostCheck": true, 
+			"proxy": { 
+				"/fo": { 
+					"target": "http://fo.nnzysp.com/api", // 需要跨域的域名 
+					"changeOrigin": true, 
+					"secure": false, 
+					"pathRewrite": { 
+						"^/fo": "" 
+					} 
+				} 
+			} 
+		}
 	}
 }

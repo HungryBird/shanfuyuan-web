@@ -18,6 +18,19 @@
 		src: url(static/fonts/方正粗黑宋简体.ttf);
 	}
 	
+	.custom-btn{
+		display: inline-block;
+		color: #fff;
+		padding: 0 60upx;
+		width: auto;
+		border-top-left-radius: 60upx;
+		border-top-right-radius: 60upx;
+		border-bottom-left-radius: 60upx;
+		border-bottom-right-radius: 60upx;
+		background-image: linear-gradient(to right, rgb(235, 114, 033),  rgb(232, 172, 094));
+		font-family: customFont;
+	}
+	
 	/*每个页面公共css */
 	page {
 		min-height: 100%;

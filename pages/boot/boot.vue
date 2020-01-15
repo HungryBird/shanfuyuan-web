@@ -25,6 +25,15 @@
 </template>
 
 <script>
+	export default{
+		onReady() {
+			setTimeout(() => {
+				uni.switchTab({
+					url: '../main/main'
+				})
+			}, 3500)
+		}
+	}
 </script>
 
 <style lang="scss">

@@ -7,7 +7,7 @@
         <view class="login-form-group">
             <view class="input-row">
                 <text class="title">账号：</text>
-                <input type="text" clearable focus v-model="account" placeholder="字母加数字"></input>
+                <input type="text" clearable focus v-model="tel" placeholder="输入账号"></input>
             </view>
             <view class="input-row">
                 <text class="title">密码：</text>
@@ -36,6 +36,8 @@
         mapMutations
     } from 'vuex'
     import mInput from '../../components/m-input.vue'
+    import { isEmpty } from '@/utils/util'
+	import { login } from '@/api/login/login.js'
 
     export default {
         components: {
@@ -45,7 +47,7 @@
             return {
                 providerList: [],
                 hasProvider: false,
-                account: '',
+                tel: '',
                 password: '',
                 positionTop: 0
             }
@@ -53,51 +55,22 @@
         computed: mapState(['forcedLogin']),
         methods: {
             ...mapMutations(['login']),
-            initProvider() {
-                const filters = ['weixin', 'qq', 'sinaweibo'];
-                uni.getProvider({
-                    service: 'oauth',
-                    success: (res) => {
-                        if (res.provider && res.provider.length) {
-                            for (let i = 0; i < res.provider.length; i++) {
-                                if (~filters.indexOf(res.provider[i])) {
-                                    this.providerList.push({
-                                        value: res.provider[i],
-                                        image: '../../static/img/' + res.provider[i] + '.png'
-                                    });
-                                }
-                            }
-                            this.hasProvider = true;
-                        }
-                    },
-                    fail: (err) => {
-                        console.error('获取服务供应商失败：' + JSON.stringify(err));
-                    }
-                });
-            },
-            initPosition() {
-                /**
-                 * 使用 absolute 定位，并且设置 bottom 值进行定位。软键盘弹出时，底部会因为窗口变化而被顶上来。
-                 * 反向使用 top 进行定位，可以避免此问题。
-                 */
-                this.positionTop = uni.getSystemInfoSync().windowHeight - 100;
-            },
             bindLogin() {
                 /**
                  * 客户端对账号信息进行一些必要的校验。
                  * 实际开发中，根据业务需要进行处理，这里仅做示例。
                  */
-                if (this.account.length < 5) {
+                if (isEmpty(this.tel)) {
                     uni.showToast({
                         icon: 'none',
-                        title: '账号最短为 5 个字符'
+                        title: '请输入账号'
                     });
                     return;
                 }
-                if (this.password.length < 6) {
+                if (isEmpty(this.password)) {
                     uni.showToast({
                         icon: 'none',
-                        title: '密码最短为 6 个字符'
+                        title: '请输入密码'
                     });
                     return;
                 }
@@ -107,20 +80,14 @@
                  * 实际开发中，使用 uni.request 将账号信息发送至服务端，客户端在回调函数中获取结果信息。
                  */
                 const data = {
-                    account: this.account,
+                    tel: this.tel,
                     password: this.password
                 };
-                const validUser = service.getUsers().some(function (user) {
-                    return data.account === user.account && data.password === user.password;
-                });
-                if (validUser) {
-                    this.toMain(this.account);
-                } else {
-                    uni.showToast({
-                        icon: 'none',
-                        title: '用户账号或密码不正确',
-                    });
-                }
+                login(data).then(res => {
+					console.log('res: ', res);
+				}).catch(err => {
+					console.log('res: ', res);
+				})
             },
             oauth(value) {
                 uni.login({
@@ -159,8 +126,7 @@
             }
         },
         onReady() {
-            this.initPosition();
-            this.initProvider();
+			// 
         }
     }
 </script>
