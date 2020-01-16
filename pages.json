@@ -7,7 +7,7 @@
 			}
 		}, 
         {
-            "path": "pages/main/main",
+            "path": "pages/pray/pray",
             "style": {
                 "navigationBarTitleText": "善福源"
             }

@@ -36,7 +36,7 @@
         mapMutations
     } from 'vuex'
     import mInput from '../../components/m-input.vue'
-    import { isEmpty } from '@/utils/util'
+    import { isEmpty, setUniStorage } from '@/utils/util'
 	import { login } from '@/api/login/login.js'
 
     export default {
@@ -84,7 +84,16 @@
                     password: this.password
                 };
                 login(data).then(res => {
-					console.log('res: ', res);
+					if(res.code === 1) {
+						setUniStorage('token', res['data']['token'], () => {
+							uni.navigateTo({
+								url: '../choiceGod/choiceGod'
+							})
+						})
+					}
+					else {
+						this.$msg(res.msg);
+					}
 				}).catch(err => {
 					console.log('res: ', res);
 				})

@@ -169,3 +169,54 @@ export const clearExpiresStorage = () => {
     clearLocalStorage();
     return true;
 }
+
+// uni.setStorage
+export const setUniStorage = (key, data, cb) => {
+	uni.setStorage({
+		key,
+		data,
+		success: () => {
+			cb(true)
+		},
+		fail: () => {
+			cb(false)
+		}
+	})
+}
+
+// uni.getStorage
+export const getUniStorage = (key, cb) => {
+	uni.getStorage({
+		key,
+		success: (data) => {
+			cb(data[key])
+		},
+		fail: () => {
+			cb()
+		}
+	})
+}
+
+// uni.getStorageSync
+export const getUniStorageSync = (key) => {
+	return uni.getStorageSync(key);
+}
+
+// uni.removeStorage
+export const removeUniStorage = (key, cb) => {
+	uni.removeStorage({
+		key,
+		success: () => {
+			cb(true)
+		},
+		fail: () => {
+			cb(false)
+		}
+	})
+}
+
+// uni.clearStorage
+export const clearUniStorage = (cb) => {
+	uni.clearStorage();
+	cb(true);
+}

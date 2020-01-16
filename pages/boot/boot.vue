@@ -25,13 +25,29 @@
 </template>
 
 <script>
+	import { getUniStorage, isEmpty } from '@/utils/util.js'
+	
 	export default{
 		onReady() {
-			setTimeout(() => {
-				uni.switchTab({
-					url: '../main/main'
-				})
-			}, 3500)
+			console.log('ready')
+			getUniStorage('token', (token) => {
+				if(isEmpty(token)) {
+					console.log('这里1')
+					setTimeout(() => {
+						uni.navigateTo({
+							url: '../login/login'
+						})
+					}, 3500)
+				}
+				else {
+					console.log('这里2')
+					setTimeout(() => {
+						uni.switchTab({
+							url: '../main/main'
+						})
+					}, 3500)
+				}
+			})
 		}
 	}
 </script>
