@@ -1,12 +1,5 @@
 {
     "pages": [ //pages数组中第一项表示应用启动页,
-    {
-            "path": "pages/user/user",
-            "style": {
-                // "navigationBarTitleText": "我的"
-                "navigationStyle": "custom"
-            }
-        },
 		{
 			"path": "pages/boot/boot",
 			"style": {
@@ -43,7 +36,19 @@
 		    "style": {
 		        "app-plus": {"titleNView": false}
 		    }
-		}
+		},
+    {
+            "path": "pages/activity/activity",
+            "style": {
+                "navigationStyle": "custom"
+            }
+        },
+    {
+            "path": "pages/user/user",
+            "style": {
+                "navigationStyle": "custom"
+            }
+        }
     ],
   //   "tabBar": {
   //       "color": "#7a7e83",
