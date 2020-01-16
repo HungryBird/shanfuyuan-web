@@ -43,22 +43,38 @@
 		    }
 		}
     ],
-    "tabBar": {
-        "color": "#7a7e83",
-        "selectedColor": "#0faeff",
-        "backgroundColor": "#ffffff",
-        "list": [{
-            "pagePath": "pages/main/main",
-            "text": "首页",
-            "iconPath": "static/img/home.png",
-            "selectedIconPath": "static/img/homeHL.png"
-        }, {
-            "pagePath": "pages/user/user",
-            "text": "我的",
-            "iconPath": "static/img/user.png",
-            "selectedIconPath": "static/img/userHL.png"
-        }]
-    },
+  //   "tabBar": {
+  //       "color": "#7a7e83",
+  //       "selectedColor": "#0faeff",
+  //       "backgroundColor": "#ffffff",
+  //       "list": [
+		// 	{
+		// 		"pagePath": "pages/activity/activity",
+		// 		"iconPath": "static/img/tabbars/huodong.png",
+		// 		"selectedIconPath": "static/img/tabbars/huodong_xz.png"
+		// 	},
+		// 	{
+		// 		"pagePath": "pages/luck/luck",
+		// 		"iconPath": "static/img/tabbars/yunshi.png",
+		// 		"selectedIconPath": "static/img/tabbars/yunshi_xz.png"
+		// 	},
+		// 	{
+		// 		"pagePath": "pages/pray/pray",
+		// 		"iconPath": "./static/img/tabbars/jibai.png",
+		// 		"selectedIconPath": "static/img/tabbars/jibai_xz.png"
+		// 	},
+		// 	{
+		// 		"pagePath": "pages/turnDeserves/turnDeserves",
+		// 		"iconPath": "static/img/tabbars/jide.png",
+		// 		"selectedIconPath": "static/img/tabbars/jide_xz.png"
+		// 	}, 
+		// 	{
+		// 		"pagePath": "pages/mine/mine",
+		// 		"iconPath": "static/img/tabbars/wode.png",
+		// 		"selectedIconPath": "static/img/tabbars/wode_xz.png"
+		// 	}
+		// ]
+  //   },
     "globalStyle": {
         "navigationBarTextStyle": "white",
         "navigationBarBackgroundColor": "#0faeff",

@@ -1,6 +1,6 @@
 <template>
     <view class="content">
-        <view v-if="hasLogin" class="hello">
+        <view class="hello">
             <view class="title">
                 您好 {{userName}}，您已成功登录。
             </view>
@@ -9,7 +9,7 @@
                 <view>在 “我的” 中点击 “退出” 可以 “注销当前账户”</view>
             </view>
         </view>
-        <view v-if="!hasLogin" class="hello">
+        <!-- <view v-if="!hasLogin" class="hello">
             <view class="title">
                 您好 游客。
             </view>
@@ -17,7 +17,8 @@
                 <view>这是 uni-app 带登录模板的示例App首页。</view>
                 <view>在 “我的” 中点击 “登录” 可以 “登录您的账户”</view>
             </view>
-        </view>
+        </view> -->
+		<tab-bar :active="2"></tab-bar>
     </view>
 </template>
 
@@ -25,8 +26,13 @@
     import {
         mapState
     } from 'vuex'
+	
+	import tabBar from '../../components/tab-bar.vue'
 
     export default {
+		components:{
+			tabBar,
+		},
         computed: mapState(['forcedLogin', 'hasLogin', 'userName']),
         onLoad() {
             if (!this.hasLogin) {

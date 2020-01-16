@@ -13,6 +13,14 @@
 </script>
 
 <style>
+	ul,ol{
+		margin: 0;
+		padding: 0;
+	}
+	li{
+		list-style: none;
+	}
+	
 	@font-face {
 		font-family:customFont;
 		src: url(static/fonts/方正粗黑宋简体.ttf);
