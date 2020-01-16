@@ -79,9 +79,11 @@
 			ownBuddha() {
 				this.ownBuddhaing = true;
 				const buddha_id = this.gods[this.activeIndex].id;
+				this.$store.commit('choiceGod', this.gods[this.activeIndex]);
 				ownBuddha({buddha_id}).then(res => {
 					if (res.code === 1) {
 						setTimeout(() => {
+							this.$store.commit('choiceGod', this.gods[this.activeIndex]);
 							uni.switchTab({
 								url: '../pray/pray'
 							})

@@ -71,6 +71,7 @@
 		right: 0;
 		width: 100%;
 		border-top: 2px solid #E28A2C;
+		background: #fff;
 		ul{
 			display: flex;
 			width: 100%;
