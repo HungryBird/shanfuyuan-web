@@ -1,5 +1,6 @@
 <template>
   <view class="user-content">
+    <nav-bar title="个人中心" :opacity="false"></nav-bar>
     <view class="user-banner">
       <image class="user-banner__avatar"></image>
       <view class="user-banner__account">zhaozeran_cr7@qq.com</view>
@@ -23,15 +24,14 @@
         </view>
       </view>
     </view>
-    <view class="logout-btn">退出登录</view>
-    <!-- <view class="btn-row">
-      <button v-if="!hasLogin" type="primary" class="primary" @tap="bindLogin">登录</button>
-      <button v-if="hasLogin" type="default" @tap="bindLogout">退出登录</button>
-    </view> -->
+    <view class="logout-btn" @click="quit">退出登录</view>
+    <tab-bar :active="4"></tab-bar>
   </view>
 </template>
 
 <script>
+	import tabBar from '../../components/tab-bar.vue'
+	import navBar from '../../components/nav-bar.vue'
 // import {
 //   mapState,
 //   mapMutations
@@ -39,6 +39,10 @@
 
 import config from './config.js'
 export default {
+	components:{
+		tabBar,
+		navBar,
+	},
   data () {
     return {
       menu: config.menu
@@ -48,23 +52,18 @@ export default {
   //   ...mapState(['hasLogin', 'forcedLogin'])
   // },
   methods: {
-    // ...mapMutations(['logout']),
-    // bindLogin() {
-    //   uni.navigateTo({
-    //       url: '../login/login',
-    //   });
-    // },
-    // bindLogout() {
-    //   this.logout();
-    //   /**
-    //    * 如果需要强制登录跳转回登录页面
-    //    */
-    //   if (this.forcedLogin) {
-    //     uni.reLaunch({
-    //       url: '../login/login',
-    //     });
-    //   }
-    // }
+    quit() {
+		uni.showModal({
+			title: '提示',
+			content: '确定退出登陆吗？',
+			success: (e) => {
+				if (e.cancel) return;
+				uni.navigateTo({
+					url: '/pages/login/login'
+				})
+			}
+		})
+	}
   }
 }
 </script>

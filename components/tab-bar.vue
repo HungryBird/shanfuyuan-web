@@ -46,7 +46,7 @@
 					},
 					{
 						name: '我的',
-						url: '/pages/mine/mine',
+						url: '/pages/user/user',
 						icon: 'static/img/tabbars/wode.png',
 						selectIcon: 'static/img/tabbars/wode_xz.png',
 					},
