@@ -32,8 +32,8 @@ const store = new Vuex.Store({
             state.hasLogin = false;
         },
 		choiceGod(state, god) {
-			console.log('god: ', god);
 			state.god = god;
+			setUniStorage('god', god);
 		}
     }
 })

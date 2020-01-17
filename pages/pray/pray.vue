@@ -10,9 +10,9 @@
             </view>
         </view> -->
 		<view class="main">
-			<button @click="setPaddingBottom">test</button>
 			<view class="good">
-				<img  />
+				<!-- <img :src="godDict[god.id][img]"  /> -->
+				{{ godDict[god.id] }}
 			</view>
 		</view>
         <!-- <view v-if="!hasLogin" class="hello">
@@ -28,39 +28,38 @@
     </view>
 </template>
 
-<script>
-	const godDict = {
-		1: {
-			img: '../../static/img/pray/gods/rulai_daxiang.png',
-		},
-		2: {
-			img: '../../static/img/pray/gods/milefo_daxiang.png',
-		},
-		3: {
-			img: '../../static/img/pray/gods/guanyin_daxiang.png',
-		},
-		4: {
-			img: '../../static/img/pray/gods/daxiang.png',
-		},
-		5: {
-			img: '../../static/img/pray/gods/yaoshifo_daxiang.png',
-		},
-		6: {
-			img: '../../static/img/pray/gods/guangong_daxiang.png',
-		}
-	}
-	
+<script>	
     import {
         mapState
     } from 'vuex'
 	
 	import tabBar from '../../components/tab-bar.vue'
-	import { isEmpty } from '@/utils/util.js'
+	import { isEmpty, getUniStorage, getUniStorageSync } from '@/utils/util.js'
 
     export default {
 		data() {
 			return {
 				paddingBottom: 0,
+				godDict: {
+					1: {
+						img: '../../static/img/pray/gods/rulai_daxiang.png',
+					},
+					2: {
+						img: '../../static/img/pray/gods/milefo_daxiang.png',
+					},
+					3: {
+						img: '../../static/img/pray/gods/guanyin_daxiang.png',
+					},
+					4: {
+						img: '../../static/img/pray/gods/daxiang.png',
+					},
+					5: {
+						img: '../../static/img/pray/gods/yaoshifo_daxiang.png',
+					},
+					6: {
+						img: '../../static/img/pray/gods/guangong_daxiang.png',
+					}
+				}
 			}
 		},
 		components:{
@@ -69,8 +68,8 @@
         computed: {
 			...mapState(['token', 'god']),
 			godImg() {
-				console.log('god: ', this.god);
-				return this.god.id;
+				console.log('getUniStorageSync: ', getUniStorageSync('god'))
+				return this.godDict[this.god.id]['img'];
 			}
 		},
         onLoad() {
@@ -81,6 +80,9 @@
 		},
 		onReady() {
 			this.setPaddingBottom();
+			console.log('getUniStorageSync: ', getUniStorageSync('god'))
+			console.log('god: ', this.god)
+			console.log('token: ', this.token);
 		},
 		methods:{
 			// 设置padding-bottom

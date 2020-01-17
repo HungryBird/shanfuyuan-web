@@ -176,10 +176,10 @@ export const setUniStorage = (key, data, cb) => {
 		key,
 		data,
 		success: () => {
-			cb(true)
+			if(cb) cb(true)
 		},
 		fail: () => {
-			cb(false)
+			if(cb) cb(false)
 		}
 	})
 }
@@ -189,10 +189,10 @@ export const getUniStorage = (key, cb) => {
 	uni.getStorage({
 		key,
 		success: (data) => {
-			cb(data[key])
+			if(cb) cb(data[key])
 		},
 		fail: () => {
-			cb()
+			if(cb) cb()
 		}
 	})
 }
@@ -207,10 +207,10 @@ export const removeUniStorage = (key, cb) => {
 	uni.removeStorage({
 		key,
 		success: () => {
-			cb(true)
+			if(cb) cb(true)
 		},
 		fail: () => {
-			cb(false)
+			if(cb) cb(false)
 		}
 	})
 }
@@ -218,5 +218,5 @@ export const removeUniStorage = (key, cb) => {
 // uni.clearStorage
 export const clearUniStorage = (cb) => {
 	uni.clearStorage();
-	cb(true);
+	if(cb) cb(true);
 }

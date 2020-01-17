@@ -29,10 +29,8 @@
 	
 	export default{
 		onReady() {
-			console.log('ready')
 			getUniStorage('token', (token) => {
 				if(isEmpty(token)) {
-					console.log('这里1')
 					setTimeout(() => {
 						uni.navigateTo({
 							url: '../login/login'
@@ -40,7 +38,6 @@
 					}, 3500)
 				}
 				else {
-					console.log('这里2')
 					setTimeout(() => {
 						uni.switchTab({
 							url: '../main/main'
