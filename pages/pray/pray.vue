@@ -10,6 +10,7 @@
             </view>
         </view> -->
 		<view class="main">
+			<button @click="setPaddingBottom">test</button>
 			<view class="good">
 				<img  />
 			</view>
@@ -73,36 +74,23 @@
 			}
 		},
         onLoad() {
-       //      if (isEmpty(this.token)) {
-       //          uni.showModal({
-       //              title: '未登录',
-       //              content: '您未登录，需要登录后才能继续',
-       //              /**
-       //               * 如果需要强制登录，不显示取消按钮
-       //               */
-       //              showCancel: !this.forcedLogin,
-       //              success: (res) => {
-       //                  if (res.confirm) {
-							// /**
-							//  * 如果需要强制登录，使用reLaunch方式
-							//  */
-       //                      if (this.forcedLogin) {
-       //                          uni.reLaunch({
-       //                              url: '../login/login'
-       //                          });
-       //                      } else {
-       //                          uni.navigateTo({
-       //                              url: '../login/login'
-       //                          });
-       //                      }
-       //                  }
-       //              }
-       //          });
-       //      }
+			// 
         },
-		mounted() {
-			this.paddingBottom = this.$refs.tab.$el.offsetHeight;
-			console.log('paddingBottom:' , this.paddingBottom)
+		onResize() {
+			this.setPaddingBottom();
+		},
+		onReady() {
+			this.setPaddingBottom();
+		},
+		methods:{
+			// 设置padding-bottom
+			setPaddingBottom() {
+				setTimeout(() => {
+					this.$nextTick(function(){
+						this.paddingBottom = this.$refs.tab.$el.offsetHeight;
+					})
+				}, 0)
+			}
 		}
     }
 </script>
@@ -114,7 +102,7 @@
 	.main{
 		width: 100%;
 		height: 100%;
-		background: url(../../static/img/pray/jibaibeijing.png);
+		background: url(../../static/img/pray/jibaibeijing.png) no-repeat center center;
 		background-size: cover;
 	}
     .hello {
