@@ -1,5 +1,5 @@
 <template>
-    <view class="content" :style="{'padding-bottom': paddingBottom + 'px'}">
+    <view class="content">
 		<view class="main">
 			<view class="god">
 				<img src="../../static/img/pray/dabeiguang.png" >
@@ -31,6 +31,9 @@
 			<view class="ground-wrap">
 				<view class="shaoqianpen img-wrap" @click="groundClick('shaoqianpen')">
 					<img :src="ground.shaoqianpen.url" />
+					<img :src="zhiqian.zhiqian" class="zhiqian" />
+					<img :src="zhiqian.fire" class="zhiqian-fire" />
+					<img class="gaizi" src="../../static/img/pray/goods/ground/gaizi.png" />
 				</view>
 				<view class="shanyuanxiang img-wrap" @click="groundClick('shanyuanxiang')">
 					<img :src="ground.shanyuanxiang.url" />
@@ -45,21 +48,39 @@
 				</view>
 			</view>
 		</view>
-		<view class="mask" v-show="showMask">
-			<view class="mask-inner">
-				<swiper :indicator-dots="false" @change="changeSwiper">
-					<swiper-item v-for="(god, index) in godDict" :key="'god' + index" class="inner">
-						<view class="img-wrap">
-							<img :src="god.img" />
-							<view class="name">
-								{{ god.name }}
+		<!-- 选择神佛 -->
+		<custom-mask ref="swiperMask" class="swiper-mask">
+			<swiper :indicator-dots="false" @change="changeSwiper">
+				<swiper-item v-for="(god, index) in godDict" :key="'god' + index" class="inner">
+					<view class="img-wrap">
+						<img :src="god.img" />
+						<view class="name">
+							{{ god.name }}
+						</view>
+					</view>
+					<button class="custom-btn" @click="ownBuddha">请神佛到家</button>
+				</swiper-item>
+			</swiper>
+		</custom-mask>
+		<!-- 选择贡品 -->
+		<custom-mask ref="offerMask" class="offer-mask">
+			<view class="offer-wrap">
+				<!-- <view class="top">
+					供奉
+				</view> -->
+				<swiper :indicator-dots="false" @change="changeSwiper" :display-multiple-items="3">
+					<swiper-item v-for="(offer, index) in offers" :key="'offer' + index" class="inner">
+						<view class="middle">
+							<view class="inner">
+								<img :src="offer.img" />
+								<view>{{ offer.name }}</view>
+								<view>供奉时间{{ offer.time }}小时</view>
 							</view>
 						</view>
-						<button class="custom-btn" @click="ownBuddha">请神佛到家</button>
 					</swiper-item>
 				</swiper>
 			</view>
-		</view>
+		</custom-mask>
 		<tab-bar :active="2" ref="tab" class="tab"></tab-bar>
     </view>
 </template>
@@ -70,65 +91,36 @@
     } from 'vuex'
 	import uniIcons from '../../components/uni-icons/uni-icons.vue'
 	import tabBar from '../../components/tab-bar.vue'
+	import customMask from '../../components/mask.vue'
 	import { isEmpty, getUniStorage, getUniStorageSync } from '@/utils/util.js'
 	import { buddhalist, ownBuddha } from '@/api/choiceGod/choiceGod.js'
+	import pData from './data.js';
 
     export default {
 		components:{
 			tabBar,
 			uniIcons,
-			// uniSwiperDot,
+			customMask,
 		},
 		data() {
 			return {
-				showMask: false,
+				// 纸钱
+				zhiqian: {
+					empty: true,
+					fire: '../../static/img/pray/goods/供奉品/zhiqian/fire/fire1.png',
+					zhiqian: '../../static/img/pray/goods/供奉品/zhiqian/zhiqianer.png',
+				},
 				// 是否显示选神
-				curGodId: 1,
-				showGods: true,
-				gods: [
-					{
-						id: 1,
-						is_own: 0,
-						img: '../../static/img/gods/rulai',
-						pname: '../../static/img/gods/shijiamoni.png'
-					},
-					{
-						id: 2,
-						is_own: 0,
-						img: '../../static/img/gods/milefo',
-						pname: '../../static/img/gods/milefo.png'
-					},
-					{
-						id: 3,
-						is_own: 0,
-						img: '../../static/img/gods/guanyin',
-						pname: '../../static/img/gods/guanyin.png'
-					},
-					{
-						id: 4,
-						is_own: 0,
-						img: '../../static/img/gods/caishen',
-						pname: '../../static/img/gods/wulucaishen.png'
-					},
-					{
-						id: 5,
-						is_own: 0,
-						img: '../../static/img/gods/yaoshifo',
-						pname: '../../static/img/gods/yaoshifo.png'
-					},
-					{
-						id: 6,
-						is_own: 0,
-						img: '../../static/img/gods/guangong',
-						pname: '../../static/img/gods/guangong.png'
-					},
-				],	// 神的种类
+				curGodId: 1,	// 当前神佛的id
+				showGods: true,	// 是否显示神佛
+				gods: pData.gods,	// 神的种类
 				praying: false,	// 是否祭拜中,
-				desk: {
+				desk: {	// 桌子上的物品
 					pingzi: {
 						empty: true,
 						url: '../../static/img/pray/goods/desk/pingzi.png',
 						timer: null,
+						flower: '../../static/img/pray/goods/供奉品/pingzi/dalianhuadeng.png'
 					},
 					zhutai: {
 						empty: true,
@@ -146,7 +138,7 @@
 						timer: null,
 					}
 				},
-				ground: {
+				ground: {	// 地上的物品
 					shanyuanxiang: {
 						empty: true,
 						url: '../../static/img/pray/goods/ground/shanyuanxiang.png',
@@ -158,43 +150,12 @@
 						timer: null,
 					},
 				},
-				animation: {
+				animation: {	// 动画
 					person: '',
 				},
-				paddingBottom: 0,
-				godDict: {
-					1: {
-						id: 1,
-						name: '释迦牟尼（如来佛祖）',
-						img: '../../static/img/pray/gods/rulai_daxiang.png',
-					},
-					2: {
-						id: 2,
-						name: '弥勒佛',
-						img: '../../static/img/pray/gods/milefo_daxiang.png',
-					},
-					3: {
-						id: 3,
-						name: '观音大士',
-						img: '../../static/img/pray/gods/guanyin_daxiang.png',
-					},
-					4: {
-						id: 4,
-						name: '五路财神',
-						img: '../../static/img/pray/gods/wulucaishen_daxiang.png',
-					},
-					5: {
-						id: 5,
-						name: '药师佛',
-						img: '../../static/img/pray/gods/yaoshifo_daxiang.png',
-					},
-					6: {
-						id: 6,
-						name: '关公',
-						img: '../../static/img/pray/gods/guangong_daxiang.png',
-					}
-				},
-				godImg: '',
+				godDict: pData.godDict,	// 根据id查找对应的神佛图片
+				godImg: '',	// 选中神佛的img
+				offers: [],	// 贡品
 			}
 		},
         computed: {
@@ -205,22 +166,20 @@
 			this.curGodId = this.god.id - 1;
         },
 		mounted(){
-			console.log('mounted')
 			this.setGod();
-			
+			// 一开始就烧啊
+			this.goFireZhiqian();
 		},
 		methods:{
 			setGod() {
-				console.log('this.god: ', this.god)
 				this.godImg = this.godDict[this.god.id]['img']
-				console.log('this.godImg: ', this.godImg);
 			},
  			ownBuddha(id) {
 				const buddha_id = id;
 				ownBuddha({buddha_id}).then(res => {
 					if (res.code === 1) {
 						this.$store.commit('choiceGod', this.gods[this.curGodId - 1]);
-						this.showMask = false;
+						this.$refs.swiperMask.close();
 						this.setGod();
 					}
 					this.$msg(res.msg);
@@ -254,15 +213,35 @@
 			},
 			// 点击佛像
 			clickGod() {
-				this.showMask = true;
+				this.$refs.swiperMask.open();
 			},
 			// 点击桌面物品
 			deskClick(name) {
-				// 
+				this.$refs.offerMask.open();
 			},
 			// 点击地上的物品
 			groundClick(name) {
-				// 
+				if(name === 'shaoqianpen') {
+					this.$refs.offerMask.open();
+					this.offers = pData.zhiqian;
+				}
+			},
+			// 开始烧纸钱
+			goFireZhiqian() {
+				const self = this;
+				let target = '../../static/img/pray/goods/供奉品/zhiqian/fire/fire';
+				// 填补计时器延时执行
+				this.zhiqian.fire = '../../static/img/pray/goods/供奉品/zhiqian/fire/fire1.png';
+				let index = 1;
+				let timer = setInterval(() => {
+					self.zhiqian.fire = `${target}${index}.png`;
+					if(index === 3) {
+						index = 1;
+					}
+					else {
+						index++;
+					}
+				}, 450)
 			},
 			// 开始祭拜
 			goPray() {
@@ -306,8 +285,11 @@
 				}, 1000);
 			},
 			// 清除闪烁
-			banFlash(name) {
-				
+			banFlash(where, name) {
+				const target = this[where][name];
+				clearInterval(target.timer);
+				const targetUrl = '../../static/img/pray/goods/';
+				target.url = `${targetUrl}${where}/${name}.png`;
 			}
 		},
 		watch:{
@@ -381,46 +363,66 @@
     }
 </script>
 
-<style lang="scss">
-	.mask{
-		position: fixed;
-		top: calc(var(--window-top) + env(safe-area-inset-top));
-		bottom: 0;
-		left: 0;
-		right: 0;
-		z-index: 99;
-		position: fixed;
-		text-align: center;
-		.mask-inner{
-			position: fixed;
-			bottom: 0px;
-			top: 0px;
-			left: 0px;
-			right: 0px;
-			background-color: rgba(0, 0, 0, 0.4);
-			transition-duration: 0.3s;
-			.swiper{
+<style lang="scss" scoped>
+	.offer-mask{
+		.offer-wrap{
+			position: absolute;
+			bottom: 20upx;
+			left: 20upx;
+			right: 20upx;
+			border-radius: 30upx;
+			overflow: hidden;
+			background-image: url(../../static/img/pray/sub/gongfengkuang.png);
+			background-size: cover;
+			.top{
+				text-align: center;
+				font-family: customFont;
+				color: #fff;
+				background-image: url(../../static/img/user/xiaobantou.png);
+				line-height: 2;
+			}
+			.middle{
+				display: flex;
+				height: 100%;
+				text-align: center;
+				color: #fff;
+				font-size: 12px;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				.inner{
+					img{
+						display: block;
+						width: 70%;
+						margin: 0 auto;
+						object-fit: cover;
+					}
+				}
+			}
+		}
+	}
+	.swiper-mask{
+		.swiper{
+			width: 100%;
+			height: 100%;
+		}
+		uni-swiper{
+			height: 100%;
+		}
+		.img-wrap{
+			width: 70%;
+			margin: 60upx auto;
+			img{
+				display: block;
 				width: 100%;
-				height: 100%;
+				object-fit: cover;
 			}
-			uni-swiper{
-				height: 100%;
-			}
-			.img-wrap{
-				width: 70%;
-				margin: 60upx auto;
-				img{
-					display: block;
-					width: 100%;
-					object-fit: cover;
-				}
-				.name{
-					font-family: customFont;
-					text-align: center;
-					line-height: 3;
-					background: url(../../static/img/pray/sub/shenfomingkuang.png) no-repeat 100% 100%;
-					background-size: cover;
-				}
+			.name{
+				font-family: customFont;
+				text-align: center;
+				line-height: 3;
+				background: url(../../static/img/pray/sub/shenfomingkuang.png) no-repeat 100% 100%;
+				background-size: cover;
 			}
 		}
 	}
@@ -520,12 +522,38 @@
 			display: flex;
 			justify-content: space-around;
 			.img-wrap{
+				position: relative;
 				display: block;
 				width: 36%;
 				img{
 					display: block;
 					width: 100%;
 					object-fit: cover;
+				}
+				.gaizi{
+					position: absolute;
+					top: 0;
+					left: 0;
+					bottom: 0;
+					width: 100%;
+					height: 100%;
+					z-index: 3;
+				}
+				.zhiqian{
+					position: absolute;
+					left: 50%;
+					top: 50%;
+					transform: translate(-50%, -50%);
+					width: 70%;
+					z-index: 1;
+				}
+				.zhiqian-fire{
+					position: absolute;
+					left: 50%;
+					top: 20%;
+					transform: translate(-50%, -50%);
+					width: 80%;
+					z-index: 3;
 				}
 			}
 		}
@@ -557,26 +585,6 @@
 			}
 		}
 	}
-    .hello {
-        display: flex;
-        flex: 1;
-        flex-direction: column;
-    }
-
-    .title {
-        color: #8f8f94;
-        margin-top: 50upx;
-    }
-
-    .ul {
-        font-size: 30upx;
-        color: #8f8f94;
-        margin-top: 50upx;
-    }
-
-    .ul>view {
-        line-height: 50upx;
-    }
 	@keyframes scaleLight
 	{
 		0{
