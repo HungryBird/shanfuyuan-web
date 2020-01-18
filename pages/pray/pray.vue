@@ -7,34 +7,34 @@
 			</view>
 			<view class="desk-wrap">
 				<view class="pingzi img-wrap" @click="deskClick('pingzi', 3)">
-					<!-- <img src="../../static/img/pray/goods/供奉品/pingzi/dalianhuadeng.png" class="flower" /> -->
 					<img :src="desk.pingzi.url" />
 				</view>
 				<view class="zhutai img-wrap" @click="deskClick('zhutai', 2)">
 					<img :src="desk.zhutai.url" />
 				</view>
 				<view class="diezi img-wrap" @click="deskClick('diezi', 5)">
+					<img :src="desk.diezi.offer" class="diezi-offer" v-if="!desk.diezi.empty" />
 					<img :src="desk.diezi.url" />
 				</view>
 				<view class="xianglu img-wrap" @click="deskClick('xianglu', 4)">
 					<img :src="desk.xianglu.url" />
 				</view>
 				<view class="diezi img-wrap" @click="deskClick('diezi', 5)">
+					<img :src="desk.diezi.offer" class="diezi-offer" v-if="!desk.diezi.empty" />
 					<img :src="desk.diezi.url" />
 				</view>
 				<view class="zhutai img-wrap" @click="deskClick('zhutai', 2)">
 					<img :src="desk.zhutai.url" />
 				</view>
 				<view class="pingzi img-wrap" @click="deskClick('pingzi', 3)">
-					<!-- <img src="../../static/img/pray/goods/供奉品/pingzi/dalianhuadeng.png" class="flower" /> -->
 					<img :src="desk.pingzi.url" />
 				</view>
 			</view>
 			<view class="ground-wrap">
 				<view class="shaoqianpen img-wrap" @click="groundClick('shaoqianpen', 1)">
 					<img :src="ground.shaoqianpen.url" />
-					<img :src="zhiqian.zhiqian" class="zhiqian" />
-					<img :src="zhiqian.fire" class="zhiqian-fire" />
+					<img :src="zhiqian.zhiqian" class="zhiqian" v-if="!ground.shaoqianpen.empty" />
+					<img :src="zhiqian.fire" class="zhiqian-fire" v-if="!ground.shaoqianpen.empty" />
 					<img class="gaizi" src="../../static/img/pray/goods/ground/gaizi.png" />
 				</view>
 				<view class="shanyuanxiang img-wrap" @click="groundClick('shanyuanxiang', 0)">
@@ -72,8 +72,8 @@
 				</view> -->
 				<swiper :indicator-dots="false" @change="changeSwiper" :display-multiple-items="3">
 					<swiper-item v-for="offer in offers.t1" :key="offer.id" class="inner">
-						<view class="middle">
-							<view class="inner">
+						<view class="middle" @click.stop="doNomre">
+							<view class="inner" @click="choiceOffer(offer)">
 								<img :src="offer.pic" />
 								<view>{{ offer.name }}</view>
 								<view>价格{{ offer.price }}￥</view>
@@ -91,9 +91,9 @@
 				</view> -->
 				<swiper :indicator-dots="false" @change="changeSwiper" :display-multiple-items="3">
 					<swiper-item v-for="offer in offers.t2" :key="offer.id" class="inner">
-						<view class="middle">
-							<view class="inner">
-								<img :src="offer.pic" />
+						<view class="middle" @click.stop="doNomre">
+							<view class="inner" @click="choiceOffer(offer)">
+								<img :src="offer.pic" style="height: 60px;object-fit: contain;" />
 								<view>{{ offer.name }}</view>
 								<view>价格{{ offer.price }}￥</view>
 								<view>供奉时间{{ offer.time }}小时</view>
@@ -110,9 +110,9 @@
 				</view> -->
 				<swiper :indicator-dots="false" @change="changeSwiper" :display-multiple-items="3">
 					<swiper-item v-for="offer in offers.t3" :key="offer.id" class="inner">
-						<view class="middle">
-							<view class="inner">
-								<img :src="offer.pic" />
+						<view class="middle" @click.stop="doNomre">
+							<view class="inner" @click="choiceOffer(offer)">
+								<img :src="offer.pic" style="width: 50%;" />
 								<view>{{ offer.name }}</view>
 								<view>价格{{ offer.price }}￥</view>
 								<view>供奉时间{{ offer.time }}小时</view>
@@ -129,8 +129,8 @@
 				</view> -->
 				<swiper :indicator-dots="false" @change="changeSwiper" :display-multiple-items="3">
 					<swiper-item v-for="offer in offers.t4" :key="offer.id" class="inner">
-						<view class="middle">
-							<view class="inner">
+						<view class="middle" @click.stop="doNomre">
+							<view class="inner" @click="choiceOffer(offer)">
 								<img :src="offer.pic" style="width: 30%;" />
 								<view>{{ offer.name }}</view>
 								<view>价格{{ offer.price }}￥</view>
@@ -148,8 +148,8 @@
 				</view> -->
 				<swiper :indicator-dots="false" @change="changeSwiper" :display-multiple-items="3">
 					<swiper-item v-for="offer in offers.t5" :key="offer.id" class="inner">
-						<view class="middle">
-							<view class="inner">
+						<view class="middle" @click.stop="doNomre">
+							<view class="inner" @click="choiceOffer(offer)">
 								<img :src="offer.pic" />
 								<view>{{ offer.name }}</view>
 								<view>价格{{ offer.price }}￥</view>
@@ -200,22 +200,25 @@
 						empty: true,
 						url: '../../static/img/pray/goods/desk/pingzi.png',
 						timer: null,
-						flower: '../../static/img/pray/goods/供奉品/pingzi/dalianhuadeng.png'
+						offer: '../../static/img/pray/goods/供奉品/pingzi/dalianhuadeng.png'
 					},
 					zhutai: {
 						empty: true,
 						url: '../../static/img/pray/goods/desk/zhutai.png',
 						timer: null,
+						offer: ''
 					},
 					diezi: {
 						empty: true,
 						url: '../../static/img/pray/goods/desk/diezi.png',
 						timer: null,
+						offer: '../../static/img/pray/goods/供奉品/diezi/fotouguo.png'
 					},
 					xianglu: {
 						empty: true,
 						url: '../../static/img/pray/goods/desk/xianglu.png',
 						timer: null,
+						offer: '../../static/img/pray/goods/供奉品/pingzi/dalianhuadeng.png'
 					}
 				},
 				ground: {	// 地上的物品
@@ -237,7 +240,7 @@
 				godImg: '',	// 选中神佛的img
 				offers: {	// 贡品type: 1纸钱2烛台3装饰物4香5贡品
 					t1: pData.zhiqian,
-					t2: [],
+					t2: pData.zhutai,
 					t3: pData.flowers,
 					t4: pData.xiang,
 					t5: pData.diezi,
@@ -258,6 +261,32 @@
 			this.getOffers();
 		},
 		methods:{
+			doNomre() {
+				// 
+			},
+			// 选择贡品
+			choiceOffer(offer) {
+				console.log('offer: ', offer);
+				if(offer.type === 1) {
+					this.ground.shaoqianpen.empty = false;
+					this.zhiqian.zhiqian = offer.pic;
+					this.$refs.offerMask1.close();
+				}
+				else if(offer.type === 2) {
+					
+				}
+				else if(offer.type === 3) {
+					
+				}
+				else if(offer.type === 4) {
+					
+				}
+				else if(offer.type === 5) {
+					this.desk.diezi.empty = false;
+					this.desk.diezi.offer = offer.pic;
+					this.$refs.offerMask5.close();
+				}
+			},
 			// 获取贡品
 			getOffers() {
 				enshrineType().then(res => {
@@ -415,6 +444,7 @@
 			},
 			// 清除闪烁
 			banFlash(where, name) {
+				console.log('where: ', where, 'name: ', name);
 				const target = this[where][name];
 				clearInterval(target.timer);
 				const targetUrl = '../../static/img/pray/goods/';
@@ -639,10 +669,22 @@
 					width: 100%;
 					object-fit: cover;
 				}
+				.lazhu{
+					position: absolute;
+					top: -70%;
+					left: 0;
+				}
 				.flower{
 					position: absolute;
 					top: -70%;
 					left: 0;
+				}
+				.diezi-offer{
+					width: 80%;
+					position: absolute;
+					top: -50%;
+					left: 50%;
+					transform: translateX(-50%);
 				}
 			}
 		}
@@ -677,7 +719,7 @@
 					position: absolute;
 					left: 50%;
 					top: 50%;
-					transform: translate(-50%, -50%);
+					transform: translate(-50%, -70%);
 					width: 70%;
 					z-index: 1;
 				}

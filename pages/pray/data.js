@@ -74,18 +74,21 @@ const flowers = [
 	{
 		id: 1,
 		price: 100,
+		type: 3,
 		name: 'flower1',
 		pic: '../../static/img/pray/goods/供奉品/pingzi/dalianhuadeng.png',
 	},
 	{
 		id: 2,
 		price: 100,
+		type: 3,
 		name: 'flower2',
 		pic: '../../static/img/pray/goods/供奉品/pingzi/hehua.png',
 	},
 	{
 		id: 3,
 		price: 100,
+		type: 3,
 		name: 'flower3',
 		pic: '../../static/img/pray/goods/供奉品/pingzi/jinlian.png',
 	},
@@ -98,6 +101,7 @@ const flowers = [
 	{
 		id: 5,
 		price: 100,
+		type: 3,
 		name: 'flower5',
 		pic: '../../static/img/pray/goods/供奉品/pingzi/xiaolianhuadeng.png',
 	},
@@ -107,6 +111,7 @@ const zhiqian = [
 	{
 		id: 6,
 		price: 100,
+		type: 1,
 		pic: '../../static/img/pray/goods/供奉品/zhiqian/zhiqianyi.png',
 		name: '纸钱1',
 		time: 1,
@@ -114,6 +119,7 @@ const zhiqian = [
 	{
 		id: 7,
 		price: 100,
+		type: 1,
 		pic: '../../static/img/pray/goods/供奉品/zhiqian/zhiqianer.png',
 		name: '纸钱2',
 		time: 2,
@@ -121,6 +127,7 @@ const zhiqian = [
 	{
 		id: 8,
 		price: 100,
+		type: 1,
 		pic: '../../static/img/pray/goods/供奉品/zhiqian/zhiqiansan.png',
 		name: '纸钱3',
 		time: 3,
@@ -128,12 +135,14 @@ const zhiqian = [
 	{
 		id: 9,
 		price: 100,
+		type: 1,
 		pic: '../../static/img/pray/goods/供奉品/zhiqian/zhiqiansi.png',
 		name: '纸钱4',
 		time: 4,
 	},
 	{
 		id: 10,
+		type: 1,
 		price: 100,
 		pic: '../../static/img/pray/goods/供奉品/zhiqian/zhiqianwu.png',
 		name: '纸钱5',
@@ -144,6 +153,7 @@ const zhiqian = [
 const diezi = [
 	{
 		id: 11,
+		type: 5,
 		price: 100,
 		pic: '../../static/img/pray/goods/供奉品/diezi/fotouguo.png',
 		name: '佛头果',
@@ -151,6 +161,7 @@ const diezi = [
 	},
 	{
 		id: 12,
+		type: 5,
 		price: 100,
 		pic: '../../static/img/pray/goods/供奉品/diezi/renshenguo.png',
 		name: '人参果',
@@ -158,6 +169,7 @@ const diezi = [
 	},
 	{
 		id: 13,
+		type: 5,
 		price: 100,
 		pic: '../../static/img/pray/goods/供奉品/diezi/li.png',
 		name: '梨',
@@ -165,6 +177,7 @@ const diezi = [
 	},
 	{
 		id: 14,
+		type: 5,
 		price: 100,
 		pic: '../../static/img/pray/goods/供奉品/diezi/pingguo.png',
 		name: '苹果',
@@ -172,6 +185,7 @@ const diezi = [
 	},
 	{
 		id: 15,
+		type: 5,
 		price: 100,
 		pic: '../../static/img/pray/goods/供奉品/diezi/putao.png',
 		name: '葡萄',
@@ -179,6 +193,7 @@ const diezi = [
 	},
 	{
 		id: 16,
+		type: 5,
 		price: 100,
 		pic: '../../static/img/pray/goods/供奉品/diezi/taozi.png',
 		name: '桃子',
@@ -189,6 +204,7 @@ const diezi = [
 const xiang = [
 	{
 		id: 17,
+		type: 4,
 		price: 100,
 		pic: '../../static/img/pray/goods/供奉品/xiang/pinganxiang.png',
 		name: '平安香',
@@ -196,6 +212,7 @@ const xiang = [
 	},
 	{
 		id: 18,
+		type: 4,
 		price: 100,
 		pic: '../../static/img/pray/goods/供奉品/xiang/xiaozaixiang.png',
 		name: '消灾香',
@@ -203,6 +220,7 @@ const xiang = [
 	},
 	{
 		id: 19,
+		type: 4,
 		price: 100,
 		pic: '../../static/img/pray/goods/供奉品/xiang/zengcaixiang.png',
 		name: '增财香',
@@ -210,6 +228,7 @@ const xiang = [
 	},
 	{
 		id: 20,
+		type: 4,
 		price: 100,
 		pic: '../../static/img/pray/goods/供奉品/xiang/zengfuxiang.png',
 		name: '增福香',
@@ -217,6 +236,7 @@ const xiang = [
 	},
 	{
 		id: 21,
+		type: 4,
 		price: 100,
 		pic: '../../static/img/pray/goods/供奉品/xiang/zengyuanxiang.png',
 		name: '增缘香',
@@ -224,8 +244,60 @@ const xiang = [
 	},
 	{
 		id: 22,
+		type: 4,
 		price: 100,
 		pic: '../../static/img/pray/goods/供奉品/xiang/zhihuixiang.png',
+		name: '智慧香',
+		time: 5,
+	},
+]
+
+const zhutai = [
+	{
+		id: 17,
+		type: 2,
+		price: 100,
+		pic: '../../static/img/pray/goods/供奉品/zhutai/pinganzhu.png',
+		name: '平安香',
+		time: 5,
+	},
+	{
+		id: 18,
+		type: 2,
+		price: 100,
+		pic: '../../static/img/pray/goods/供奉品/zhutai/xiaozaizhu.png',
+		name: '消灾香',
+		time: 5,
+	},
+	{
+		id: 19,
+		type: 2,
+		price: 100,
+		pic: '../../static/img/pray/goods/供奉品/zhutai/zengcaizhu.png',
+		name: '增财香',
+		time: 5,
+	},
+	{
+		id: 20,
+		type: 2,
+		price: 100,
+		pic: '../../static/img/pray/goods/供奉品/zhutai/zengfuzhu.png',
+		name: '增福香',
+		time: 5,
+	},
+	{
+		id: 21,
+		type: 2,
+		price: 100,
+		pic: '../../static/img/pray/goods/供奉品/zhutai/zengyuanzhu.png',
+		name: '增缘香',
+		time: 5,
+	},
+	{
+		id: 22,
+		type: 2,
+		price: 100,
+		pic: '../../static/img/pray/goods/供奉品/zhutai/zhihuizhu.png',
 		name: '智慧香',
 		time: 5,
 	},
@@ -238,4 +310,5 @@ export default{
 	zhiqian,
 	diezi,
 	xiang,
+	zhutai,
 }
