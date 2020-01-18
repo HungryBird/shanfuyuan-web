@@ -96,6 +96,18 @@
 		    "style": {
 		        "app-plus": {"titleNView": false}
 		    }
+		},
+		{
+		    "path": "pages/luck/luck",
+		    "style": {
+		        "app-plus": {"titleNView": false}
+		    }
+		},
+		{
+		    "path": "pages/turnDeserves/turnDeserves",
+		    "style": {
+		        "app-plus": {"titleNView": false}
+		    }
 		}
     ],
   //   "tabBar": {
