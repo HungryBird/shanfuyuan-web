@@ -1,16 +1,17 @@
 <template>
   <view class="activity-content">
     <nav-bar title="活动资讯"></nav-bar>
-    <view class="activity-list">
-      <view class="activity-list__item" v-for="ls in list" :key="ls.id">
-        <image class="activity-list__item-img" :src="ls.img"></image>
-        <view class="activity-list__item-content">
-          <view class="activity-list__item-title">{{ ls.title }}</view>
-          <view class="activity-list__item-body" v-html="ls.desc"></view>
-          <view class="activity-list__item-date">{{ ls.updated_time }}</view>
-        </view>
-      </view>
-    </view>
+	<scroll-view scroll-y="true" @scrolltolower="articleList" class="activity-list" :style="{height: middleHeight + 'px'}">
+	  <view class="activity-list__item" v-for="ls in list" :key="ls.id" @click="seeMore(ls)">
+	    <image class="activity-list__item-img" :src="ls.img"></image>
+	    <view class="activity-list__item-content">
+	      <view class="activity-list__item-title">{{ ls.title }}</view>
+	      <view class="activity-list__item-body" v-html="ls.desc"></view>
+	      <view class="activity-list__item-date">{{ ls.updated_time }}</view>
+	    </view>
+	  </view>
+	  <uni-load-more :loadingType="loadingType"></uni-load-more>
+	</scroll-view>
 	<tab-bar :active="0"></tab-bar>
   </view>
 </template>
@@ -18,48 +19,61 @@
 <script>
 	import tabBar from '../../components/tab-bar.vue'
 	import uniIcons from '../../components/uni-icons/uni-icons.vue'
+	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue'
 	import navBar from '../../components/nav-bar.vue'
+	import _data from './data.js'
+	import { articleList } from '@/api/activity/activity.js'
+	import mixins from '@/mixins/mixins.js'
 	
 export default {
 	components:{
 		tabBar,
 		uniIcons,
 		navBar,
+		uniLoadMore,
 	},
-  data () {
-    return {
-      list: [
-		  {
-			  id: 1,
-			  img: '../../static/img/activity/tupianyi.png',
-			  title: '安徽千年寺庙拜神活动开启',
-			  desc: '安徽千年寺庙拜神活动开启安徽千年寺庙拜神活动开启安徽千年寺庙拜神活动开启安徽千年寺庙拜神活动开启安徽千年寺庙拜神活动开启安徽千年寺庙拜神活动开启',
-			  updated_time: '2020-02-01',
-		  },
-		  {
-		  id: 2,
-		  img: '../../static/img/activity/tupianyi.png',
-		  title: '安徽千年寺庙拜神活动开启',
-		  desc: '安徽千年寺庙拜神活动开启安徽千年寺庙拜神活动开启安徽千年寺庙拜神活动开启安徽千年寺庙拜神活动开启安徽千年寺庙拜神活动开启安徽千年寺庙拜神活动开启',
-		  updated_time: '2020-02-01',
-		  },
-		  {
-			  id: 3,
-				  img: '../../static/img/activity/tupianyi.png',
-				  title: '安徽千年寺庙拜神活动开启',
-				  desc: '安徽千年寺庙拜神活动开启安徽千年寺庙拜神活动开启安徽千年寺庙拜神活动开启安徽千年寺庙拜神活动开启安徽千年寺庙拜神活动开启安徽千年寺庙拜神活动开启',
-				  updated_time: '2020-02-01',
-		  },
-		  {
-			  id: 4,
-				  img: '../../static/img/activity/tupianyi.png',
-				  title: '安徽千年寺庙拜神活动开启',
-				  desc: '安徽千年寺庙拜神活动开启安徽千年寺庙拜神活动开启安徽千年寺庙拜神活动开启安徽千年寺庙拜神活动开启安徽千年寺庙拜神活动开启安徽千年寺庙拜神活动开启',
-				  updated_time: '2020-02-01',
-		  },
-	  ]
-    }
-  }
+	mixins: [mixins],
+	data () {
+		return {
+		  list: _data.list,
+		  current_page: 1,
+		  total: null,
+		  per_page: 10,
+		  loadingType: 0,
+		  scrollHeight: 0,
+		}
+	},
+	onLoad() {
+		this.articleList();
+	},
+	mounted() {
+		const info = uni.getSystemInfoSync();
+		console.log('info: ', info);
+		const windowHeight = info.windowHeight;
+		// this.scrollHeight = 
+	},
+	methods:{
+		// 获取列表
+		articleList() {
+			console.log('加载')
+			if (this.loadingType !== 0) return; 
+			this.loadingType = 1;
+			articleList({current_page: this.current_page}).then(res => {
+				if(res.code === 1) {
+					this.list.concat(res.data);
+					this.current_page++;
+					this.loadingType = 0;
+					if (this.list.length >= this.total) this.loadingType = 2;
+				}
+			})
+		},
+		seeMore(ls) {
+			console.log('ls: ', ls);
+			uni.navigateTo({
+				url: `/pages/activity/more?id=${ls.id}`
+			})
+		}
+	}
 }
 </script>
 
@@ -71,9 +85,12 @@ page {
 .activity-content {
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 .activity-list {
-  margin-top: 100upx;
+	flex: 1;
+  margin-top: 40px;
   width: 100%;
   .activity-list__item {
     display: flex;

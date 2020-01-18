@@ -65,27 +65,32 @@
 
 <style lang="scss">
 	.tab-bar-wrap{
-		position: fixed;
-		left: 0;
-		bottom: 0;
-		right: 0;
+		// position: fixed;
+		// left: 0;
+		// bottom: 0;
+		// right: 0;
 		width: 100%;
+		height: 50px;
 		border-top: 2px solid #E28A2C;
 		background: #fff;
+		box-sizing: border-box;
 		ul{
 			display: flex;
 			width: 100%;
+			height: 100%;
 			box-sizing: border-box;
 			li{
 				position: relative;
 				width: 20%;
+				height: 100%;
 				padding: 10upx 0;
 				box-sizing: border-box;
 				img{
 					display: block;
 					width: 50%;
+					height: 100%;
 					margin: 0 auto;
-					object-fit: fill;
+					object-fit: contain;
 				}
 				.line{
 					position: absolute;

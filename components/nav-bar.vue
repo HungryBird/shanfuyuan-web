@@ -44,7 +44,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 100upx;
+  height: 40px;
   color: #fff;
   background-color: #E38A2C;
   display: flex;

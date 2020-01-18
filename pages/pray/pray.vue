@@ -6,36 +6,38 @@
 				<img :src="godDict[god.id]['img']"  @click="clickGod" />
 			</view>
 			<view class="desk-wrap">
-				<view class="pingzi img-wrap" @click="deskClick('pingzi')">
+				<view class="pingzi img-wrap" @click="deskClick('pingzi', 3)">
+					<!-- <img src="../../static/img/pray/goods/供奉品/pingzi/dalianhuadeng.png" class="flower" /> -->
 					<img :src="desk.pingzi.url" />
 				</view>
-				<view class="zhutai img-wrap" @click="deskClick('zhutai')">
+				<view class="zhutai img-wrap" @click="deskClick('zhutai', 2)">
 					<img :src="desk.zhutai.url" />
 				</view>
-				<view class="diezi img-wrap" @click="deskClick('diezi')">
+				<view class="diezi img-wrap" @click="deskClick('diezi', 5)">
 					<img :src="desk.diezi.url" />
 				</view>
-				<view class="xianglu img-wrap" @click="deskClick('xianglu')">
+				<view class="xianglu img-wrap" @click="deskClick('xianglu', 4)">
 					<img :src="desk.xianglu.url" />
 				</view>
-				<view class="diezi img-wrap" @click="deskClick('diezi')">
+				<view class="diezi img-wrap" @click="deskClick('diezi', 5)">
 					<img :src="desk.diezi.url" />
 				</view>
-				<view class="zhutai img-wrap" @click="deskClick('zhutai')">
+				<view class="zhutai img-wrap" @click="deskClick('zhutai', 2)">
 					<img :src="desk.zhutai.url" />
 				</view>
-				<view class="pingzi img-wrap" @click="deskClick('pingzi')">
+				<view class="pingzi img-wrap" @click="deskClick('pingzi', 3)">
+					<!-- <img src="../../static/img/pray/goods/供奉品/pingzi/dalianhuadeng.png" class="flower" /> -->
 					<img :src="desk.pingzi.url" />
 				</view>
 			</view>
 			<view class="ground-wrap">
-				<view class="shaoqianpen img-wrap" @click="groundClick('shaoqianpen')">
+				<view class="shaoqianpen img-wrap" @click="groundClick('shaoqianpen', 1)">
 					<img :src="ground.shaoqianpen.url" />
 					<img :src="zhiqian.zhiqian" class="zhiqian" />
 					<img :src="zhiqian.fire" class="zhiqian-fire" />
 					<img class="gaizi" src="../../static/img/pray/goods/ground/gaizi.png" />
 				</view>
-				<view class="shanyuanxiang img-wrap" @click="groundClick('shanyuanxiang')">
+				<view class="shanyuanxiang img-wrap" @click="groundClick('shanyuanxiang', 0)">
 					<img :src="ground.shanyuanxiang.url" />
 				</view>
 			</view>
@@ -63,17 +65,94 @@
 			</swiper>
 		</custom-mask>
 		<!-- 选择贡品 -->
-		<custom-mask ref="offerMask" class="offer-mask">
+		<custom-mask ref="offerMask1" class="offer-mask">
 			<view class="offer-wrap">
 				<!-- <view class="top">
 					供奉
 				</view> -->
 				<swiper :indicator-dots="false" @change="changeSwiper" :display-multiple-items="3">
-					<swiper-item v-for="(offer, index) in offers" :key="'offer' + index" class="inner">
+					<swiper-item v-for="offer in offers.t1" :key="offer.id" class="inner">
 						<view class="middle">
 							<view class="inner">
-								<img :src="offer.img" />
+								<img :src="offer.pic" />
 								<view>{{ offer.name }}</view>
+								<view>价格{{ offer.price }}￥</view>
+								<view>供奉时间{{ offer.time }}小时</view>
+							</view>
+						</view>
+					</swiper-item>
+				</swiper>
+			</view>
+		</custom-mask>
+		<custom-mask ref="offerMask2" class="offer-mask">
+			<view class="offer-wrap">
+				<!-- <view class="top">
+					供奉
+				</view> -->
+				<swiper :indicator-dots="false" @change="changeSwiper" :display-multiple-items="3">
+					<swiper-item v-for="offer in offers.t2" :key="offer.id" class="inner">
+						<view class="middle">
+							<view class="inner">
+								<img :src="offer.pic" />
+								<view>{{ offer.name }}</view>
+								<view>价格{{ offer.price }}￥</view>
+								<view>供奉时间{{ offer.time }}小时</view>
+							</view>
+						</view>
+					</swiper-item>
+				</swiper>
+			</view>
+		</custom-mask>
+		<custom-mask ref="offerMask3" class="offer-mask">
+			<view class="offer-wrap">
+				<!-- <view class="top">
+					供奉
+				</view> -->
+				<swiper :indicator-dots="false" @change="changeSwiper" :display-multiple-items="3">
+					<swiper-item v-for="offer in offers.t3" :key="offer.id" class="inner">
+						<view class="middle">
+							<view class="inner">
+								<img :src="offer.pic" />
+								<view>{{ offer.name }}</view>
+								<view>价格{{ offer.price }}￥</view>
+								<view>供奉时间{{ offer.time }}小时</view>
+							</view>
+						</view>
+					</swiper-item>
+				</swiper>
+			</view>
+		</custom-mask>
+		<custom-mask ref="offerMask4" class="offer-mask">
+			<view class="offer-wrap">
+				<!-- <view class="top">
+					供奉
+				</view> -->
+				<swiper :indicator-dots="false" @change="changeSwiper" :display-multiple-items="3">
+					<swiper-item v-for="offer in offers.t4" :key="offer.id" class="inner">
+						<view class="middle">
+							<view class="inner">
+								<img :src="offer.pic" style="width: 30%;" />
+								<view>{{ offer.name }}</view>
+								<view>价格{{ offer.price }}￥</view>
+								<view>供奉时间{{ offer.time }}小时</view>
+							</view>
+						</view>
+					</swiper-item>
+				</swiper>
+			</view>
+		</custom-mask>
+		<custom-mask ref="offerMask5" class="offer-mask">
+			<view class="offer-wrap">
+				<!-- <view class="top">
+					供奉
+				</view> -->
+				<swiper :indicator-dots="false" @change="changeSwiper" :display-multiple-items="3">
+					<swiper-item v-for="offer in offers.t5" :key="offer.id" class="inner">
+						<view class="middle">
+							<view class="inner">
+								<img :src="offer.pic" />
+								<view>{{ offer.name }}</view>
+								<view>价格{{ offer.price }}￥</view>
 								<view>供奉时间{{ offer.time }}小时</view>
 							</view>
 						</view>
@@ -94,7 +173,8 @@
 	import customMask from '../../components/mask.vue'
 	import { isEmpty, getUniStorage, getUniStorageSync } from '@/utils/util.js'
 	import { buddhalist, ownBuddha } from '@/api/choiceGod/choiceGod.js'
-	import pData from './data.js';
+	import pData from './data.js'
+	import { enshrineType } from '@/api/pray/pray.js'
 
     export default {
 		components:{
@@ -155,7 +235,13 @@
 				},
 				godDict: pData.godDict,	// 根据id查找对应的神佛图片
 				godImg: '',	// 选中神佛的img
-				offers: [],	// 贡品
+				offers: {	// 贡品type: 1纸钱2烛台3装饰物4香5贡品
+					t1: pData.zhiqian,
+					t2: [],
+					t3: pData.flowers,
+					t4: pData.xiang,
+					t5: pData.diezi,
+				},
 			}
 		},
         computed: {
@@ -169,8 +255,50 @@
 			this.setGod();
 			// 一开始就烧啊
 			this.goFireZhiqian();
+			this.getOffers();
 		},
 		methods:{
+			// 获取贡品
+			getOffers() {
+				enshrineType().then(res => {
+					if (res.code === 1) {
+						const o1 = [];
+						const o2 = [];
+						const o3 = [];
+						const o4 = [];
+						const o5 = [];
+						res.data.forEach(item => {
+							switch(item.type)
+							{
+								case 1:
+									o1.push(item);
+									break;
+								case 2:
+									o2.push(item);
+									break;
+								case 3:
+									o3.push(item);
+									break;
+								case 4:
+									o4.push(item);
+									break;
+								default:
+									o5.push(item);
+									return;
+							}
+						})
+						this.offers['t1'] = o1;
+						this.offers['t2'] = o2;
+						this.offers['t3'] = o3;
+						this.offers['t4'] = o4;
+						this.offers['t5'] = o5;
+					}
+					else {
+						this.$msg(res.msg);
+					}
+				})
+			},
+			// 设置神
 			setGod() {
 				this.godImg = this.godDict[this.god.id]['img']
 			},
@@ -216,14 +344,15 @@
 				this.$refs.swiperMask.open();
 			},
 			// 点击桌面物品
-			deskClick(name) {
-				this.$refs.offerMask.open();
+			deskClick(name, type) {
+				this.showType = type;
+				this.$refs[`offerMask${type}`].open();
 			},
 			// 点击地上的物品
-			groundClick(name) {
+			groundClick(name, type) {
+				this.showType = type;
 				if(name === 'shaoqianpen') {
-					this.$refs.offerMask.open();
-					this.offers = pData.zhiqian;
+					this.$refs[`offerMask${type}`].open();
 				}
 			},
 			// 开始烧纸钱
@@ -509,6 +638,11 @@
 					display: block;
 					width: 100%;
 					object-fit: cover;
+				}
+				.flower{
+					position: absolute;
+					top: -70%;
+					left: 0;
 				}
 			}
 		}

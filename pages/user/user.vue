@@ -1,70 +1,83 @@
 <template>
   <view class="user-content">
     <nav-bar title="个人中心" :opacity="false"></nav-bar>
-    <view class="user-banner">
-      <image class="user-banner__avatar"></image>
-      <view class="user-banner__account">zhaozeran_cr7@qq.com</view>
-    </view>
-    <view class="user-menu">
-      <view
-        v-for="(item, index) in menu"
-        :key="index"
-        class="user-menu__item"
-      >
-        <view class="user-menu__item-leader">
-          <image class="user-menu__item-leader--icon" :src="item.icon" ></image>
-          <view class="user-menu__item-leader--title">{{item.title}}</view>
-        </view>
-        <view class="user-menu__item-actions">
-          <image
-            class="user-menu__item-actions--icon"
-            src="../../static/img/user/jiantou.png"
-            mode="aspectFit"
-          ></image>
-        </view>
-      </view>
-    </view>
-    <view class="logout-btn" @click="quit">退出登录</view>
+	<view class="middle">
+		<view class="user-banner">
+		  <image class="user-banner__avatar"></image>
+		  <view class="user-banner__account">zhaozeran_cr7@qq.com</view>
+		</view>
+		<view class="user-menu">
+		  <view
+		   @click="goWhere(item)"
+		    v-for="(item, index) in menu"
+		    :key="index"
+		    class="user-menu__item"
+		  >
+		    <view class="user-menu__item-leader">
+		      <image class="user-menu__item-leader--icon" :src="item.icon" ></image>
+		      <view class="user-menu__item-leader--title">{{item.title}}</view>
+		    </view>
+		    <view class="user-menu__item-actions">
+		      <image
+		        class="user-menu__item-actions--icon"
+		        src="../../static/img/user/jiantou.png"
+		        mode="aspectFit"
+		      ></image>
+		    </view>
+		  </view>
+		</view>
+		<view class="logout-btn" @click="quit" v-if="token">退出登录</view>
+	</view>
     <tab-bar :active="4"></tab-bar>
   </view>
 </template>
 
 <script>
-	import tabBar from '../../components/tab-bar.vue'
-	import navBar from '../../components/nav-bar.vue'
-// import {
-//   mapState,
-//   mapMutations
-// } from 'vuex'
-
+import { mapState } from 'vuex'
+import tabBar from '../../components/tab-bar.vue'
+import navBar from '../../components/nav-bar.vue'
 import config from './config.js'
+import { isEmpty } from '@/utils/util.js'
+
 export default {
 	components:{
 		tabBar,
 		navBar,
 	},
-  data () {
-    return {
-      menu: config.menu
-    }
-  },
-  // computed: {
-  //   ...mapState(['hasLogin', 'forcedLogin'])
-  // },
-  methods: {
-    quit() {
-		uni.showModal({
-			title: '提示',
-			content: '确定退出登陆吗？',
-			success: (e) => {
-				if (e.cancel) return;
-				uni.navigateTo({
-					url: '/pages/login/login'
-				})
+	data () {
+		return {
+		  menu: config.menu
+		}
+	},
+	computed:{
+		...mapState(['token']),
+	},
+	methods: {
+		// 跳转啊
+		goWhere(item) {
+			if(isEmpty(this.token)) {
+				this.$msg('请您登录');
+				return;
 			}
-		})
+			uni.navigateTo({
+				url: item.url,
+			})
+			console.log('item: ', item);
+		},
+		// 退出啊
+		quit() {
+			uni.showModal({
+				title: '提示',
+				content: '确定退出登陆吗？',
+				success: (e) => {
+					if (e.cancel) return;
+					uni.navigateTo({
+						url: '/pages/login/login'
+					})
+				}
+			})
+		}
 	}
-  }
 }
 </script>
 
@@ -77,7 +90,13 @@ page {
 .user-content {
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
   // background-color: #efeff4;
+}
+
+.middle{
+	flex: 1;
 }
 
 .user-banner {

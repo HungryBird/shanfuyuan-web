@@ -37,18 +37,66 @@
 		        "app-plus": {"titleNView": false}
 		    }
 		},
-    {
-            "path": "pages/activity/activity",
-            "style": {
-                "navigationStyle": "custom"
-            }
-        },
-    {
+		{
+				"path": "pages/activity/activity",
+				"style": {
+					"app-plus": {"titleNView": false}
+				}
+		},
+		{
+				"path": "pages/activity/more",
+				"style": {
+					"app-plus": {"titleNView": false}
+				}
+		},
+		{
             "path": "pages/user/user",
             "style": {
-                "navigationStyle": "custom"
+                "app-plus": {"titleNView": false}
             }
-        }
+        },
+		{
+		    "path": "pages/user/yue",
+		    "style": {
+		        "app-plus": {"titleNView": false}
+		    }
+		},
+		{
+		    "path": "pages/user/jifen",
+		    "style": {
+		        "app-plus": {"titleNView": false}
+		    }
+		},
+		{
+		    "path": "pages/user/fenyong",
+		    "style": {
+		        "app-plus": {"titleNView": false}
+		    }
+		},
+		{
+		    "path": "pages/user/shoucang",
+		    "style": {
+		        "app-plus": {"titleNView": false}
+		    }
+		},
+		{
+		    "path": "pages/user/yaoqing",
+		    "style": {
+		        "app-plus": {"titleNView": false}
+		    }
+		},
+		{
+		    "path": "pages/user/shezhi",
+		    "style": {
+		        "app-plus": {"titleNView": false}
+		    }
+		},
+		{
+		    "path": "pages/user/kefu",
+		    "style": {
+		        "app-plus": {"titleNView": false}
+		    }
+		}
     ],
   //   "tabBar": {
   //       "color": "#7a7e83",

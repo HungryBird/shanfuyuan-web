@@ -73,55 +73,160 @@ const godDict = {
 const flowers = [
 	{
 		id: 1,
-		img: '../../static/img/pray/goods/供奉品/pingzi/dalianhuadeng.png',
+		price: 100,
+		name: 'flower1',
+		pic: '../../static/img/pray/goods/供奉品/pingzi/dalianhuadeng.png',
 	},
 	{
 		id: 2,
-		img: '../../static/img/pray/goods/供奉品/pingzi/hehua.png',
+		price: 100,
+		name: 'flower2',
+		pic: '../../static/img/pray/goods/供奉品/pingzi/hehua.png',
 	},
 	{
 		id: 3,
-		img: '../../static/img/pray/goods/供奉品/pingzi/jinlian.png',
+		price: 100,
+		name: 'flower3',
+		pic: '../../static/img/pray/goods/供奉品/pingzi/jinlian.png',
 	},
 	{
 		id: 4,
-		img: '../../static/img/pray/goods/供奉品/pingzi/lanhua.png',
+		price: 100,
+		name: 'flower4',
+		pic: '../../static/img/pray/goods/供奉品/pingzi/lanhua.png',
 	},
 	{
 		id: 5,
-		img: '../../static/img/pray/goods/供奉品/pingzi/xiaolianhuadeng.png',
+		price: 100,
+		name: 'flower5',
+		pic: '../../static/img/pray/goods/供奉品/pingzi/xiaolianhuadeng.png',
 	},
 ]
 
 const zhiqian = [
 	{
-		id: 1,
-		img: '../../static/img/pray/goods/供奉品/zhiqian/zhiqianyi.png',
+		id: 6,
+		price: 100,
+		pic: '../../static/img/pray/goods/供奉品/zhiqian/zhiqianyi.png',
 		name: '纸钱1',
 		time: 1,
 	},
 	{
-		id: 2,
-		img: '../../static/img/pray/goods/供奉品/zhiqian/zhiqianer.png',
+		id: 7,
+		price: 100,
+		pic: '../../static/img/pray/goods/供奉品/zhiqian/zhiqianer.png',
 		name: '纸钱2',
 		time: 2,
 	},
 	{
-		id: 3,
-		img: '../../static/img/pray/goods/供奉品/zhiqian/zhiqiansan.png',
+		id: 8,
+		price: 100,
+		pic: '../../static/img/pray/goods/供奉品/zhiqian/zhiqiansan.png',
 		name: '纸钱3',
 		time: 3,
 	},
 	{
-		id: 4,
-		img: '../../static/img/pray/goods/供奉品/zhiqian/zhiqiansi.png',
+		id: 9,
+		price: 100,
+		pic: '../../static/img/pray/goods/供奉品/zhiqian/zhiqiansi.png',
 		name: '纸钱4',
 		time: 4,
 	},
 	{
-		id: 5,
-		img: '../../static/img/pray/goods/供奉品/zhiqian/zhiqianwu.png',
+		id: 10,
+		price: 100,
+		pic: '../../static/img/pray/goods/供奉品/zhiqian/zhiqianwu.png',
 		name: '纸钱5',
+		time: 5,
+	},
+]
+
+const diezi = [
+	{
+		id: 11,
+		price: 100,
+		pic: '../../static/img/pray/goods/供奉品/diezi/fotouguo.png',
+		name: '佛头果',
+		time: 1,
+	},
+	{
+		id: 12,
+		price: 100,
+		pic: '../../static/img/pray/goods/供奉品/diezi/renshenguo.png',
+		name: '人参果',
+		time: 2,
+	},
+	{
+		id: 13,
+		price: 100,
+		pic: '../../static/img/pray/goods/供奉品/diezi/li.png',
+		name: '梨',
+		time: 3,
+	},
+	{
+		id: 14,
+		price: 100,
+		pic: '../../static/img/pray/goods/供奉品/diezi/pingguo.png',
+		name: '苹果',
+		time: 4,
+	},
+	{
+		id: 15,
+		price: 100,
+		pic: '../../static/img/pray/goods/供奉品/diezi/putao.png',
+		name: '葡萄',
+		time: 5,
+	},
+	{
+		id: 16,
+		price: 100,
+		pic: '../../static/img/pray/goods/供奉品/diezi/taozi.png',
+		name: '桃子',
+		time: 5,
+	},
+]
+
+const xiang = [
+	{
+		id: 17,
+		price: 100,
+		pic: '../../static/img/pray/goods/供奉品/xiang/pinganxiang.png',
+		name: '平安香',
+		time: 5,
+	},
+	{
+		id: 18,
+		price: 100,
+		pic: '../../static/img/pray/goods/供奉品/xiang/xiaozaixiang.png',
+		name: '消灾香',
+		time: 5,
+	},
+	{
+		id: 19,
+		price: 100,
+		pic: '../../static/img/pray/goods/供奉品/xiang/zengcaixiang.png',
+		name: '增财香',
+		time: 5,
+	},
+	{
+		id: 20,
+		price: 100,
+		pic: '../../static/img/pray/goods/供奉品/xiang/zengfuxiang.png',
+		name: '增福香',
+		time: 5,
+	},
+	{
+		id: 21,
+		price: 100,
+		pic: '../../static/img/pray/goods/供奉品/xiang/zengyuanxiang.png',
+		name: '增缘香',
+		time: 5,
+	},
+	{
+		id: 22,
+		price: 100,
+		pic: '../../static/img/pray/goods/供奉品/xiang/zhihuixiang.png',
+		name: '智慧香',
 		time: 5,
 	},
 ]
@@ -131,4 +236,6 @@ export default{
 	godDict,
 	flowers,
 	zhiqian,
+	diezi,
+	xiang,
 }
