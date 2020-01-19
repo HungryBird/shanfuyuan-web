@@ -85,10 +85,9 @@
                 };
                 login(data).then(res => {
 					if(res.code === 1) {
-						setUniStorage('token', res['data']['token'], () => {
-							uni.navigateTo({
-								url: '../choiceGod/choiceGod'
-							})
+						this.$store.commit('setToken', res['data']['token']);
+						uni.navigateTo({
+							url: '../choiceGod/choiceGod'
 						})
 					}
 					else {

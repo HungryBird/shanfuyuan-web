@@ -23,9 +23,9 @@ const store = new Vuex.Store({
 		}
 	},
     mutations: {
-        login(state, userName) {
-            state.userName = userName || '新用户';
-            state.hasLogin = true;
+        setToken(state, token) {
+            state.token = token;
+			setUniStorage('token', token);
         },
         logout(state) {
             state.userName = "";

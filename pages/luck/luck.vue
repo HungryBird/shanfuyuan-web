@@ -23,6 +23,17 @@
 		components:{
 			tabBar,
 			navBar
+		},
+		data() {
+			return{
+				
+			}
+		},
+		onLoad() {
+			console.log(this.$store)
+		},
+		methods:{
+			
 		}
 	}
 </script>
