@@ -3,8 +3,8 @@
     <nav-bar title="个人中心" :opacity="false"></nav-bar>
 	<view class="middle">
 		<view class="user-banner">
-		  <image class="user-banner__avatar"></image>
-		  <view class="user-banner__account">zhaozeran_cr7@qq.com</view>
+		  <image class="user-banner__avatar" :src="user.avatar"></image>
+		  <view class="user-banner__account">{{ user.nickname }}</view>
 		</view>
 		<view class="user-menu">
 		  <view
@@ -37,7 +37,8 @@ import { mapState } from 'vuex'
 import tabBar from '../../components/tab-bar.vue'
 import navBar from '../../components/nav-bar.vue'
 import config from './config.js'
-import { isEmpty } from '@/utils/util.js'
+import { isEmpty, clearUniStorage } from '@/utils/util.js'
+import {logOut} from '@/api/login/login.js'
 
 export default {
 	components:{
@@ -49,8 +50,11 @@ export default {
 		  menu: config.menu
 		}
 	},
+	mounted() {
+		console.log('user: ', this.$store);
+	},
 	computed:{
-		...mapState(['token']),
+		...mapState(['token', 'user']),
 	},
 	methods: {
 		// 跳转啊
@@ -62,7 +66,6 @@ export default {
 			uni.navigateTo({
 				url: item.url,
 			})
-			console.log('item: ', item);
 		},
 		// 退出啊
 		quit() {
@@ -71,8 +74,16 @@ export default {
 				content: '确定退出登陆吗？',
 				success: (e) => {
 					if (e.cancel) return;
-					uni.navigateTo({
-						url: '/pages/login/login'
+					logOut().then(res => {
+						if(res.code === 1) {
+							clearUniStorage();
+							setTimeout(() => {
+								uni.navigateTo({
+									url: '/pages/login/login'
+								})
+							}, 300)
+						}
+						this.$msg(res.msg);
 					})
 				}
 			})

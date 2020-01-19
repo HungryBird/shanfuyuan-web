@@ -38,6 +38,7 @@
     import mInput from '../../components/m-input.vue'
     import { isEmpty, setUniStorage } from '@/utils/util'
 	import { login } from '@/api/login/login.js'
+	import { userInfo } from '@/api/user/user.js'
 
     export default {
         components: {
@@ -85,9 +86,12 @@
                 };
                 login(data).then(res => {
 					if(res.code === 1) {
-						this.$store.commit('setToken', res['data']['token']);
-						uni.navigateTo({
-							url: '../choiceGod/choiceGod'
+						this.$store.commit('setToken', res.data.token);
+						userInfo().then(uRes => {
+							this.$store.commit('setUser', uRes.data)
+							uni.navigateTo({
+								url: '../choiceGod/choiceGod'
+							})
 						})
 					}
 					else {

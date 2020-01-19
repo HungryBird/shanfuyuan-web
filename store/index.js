@@ -10,9 +10,10 @@ const store = new Vuex.Store({
          * 是否需要强制登录
          */
         forcedLogin: false,
-        hasLogin: false,
         token: getUniStorageSync('token'),
 		god: getUniStorageSync('god'),
+		user: getUniStorageSync('user'),
+		orderList: getUniStorageSync('orderList'),
     },
 	getters: {
 		getToken(state) {
@@ -20,9 +21,20 @@ const store = new Vuex.Store({
 		},
 		getGod(state) {
 			return state.god;
+		},
+		getUser(state) {
+			return state.user;
+		},
+		getOrderList(state) {
+			return state.orderList;
 		}
 	},
     mutations: {
+		// 存储未燃烧完的贡品
+		setOrderList(state, orderList) {
+			state.orderList = orderList;
+			setUniStorage('orderList', orderList);
+		},
         setToken(state, token) {
             state.token = token;
 			setUniStorage('token', token);
@@ -34,6 +46,10 @@ const store = new Vuex.Store({
 		choiceGod(state, god) {
 			state.god = god;
 			setUniStorage('god', god);
+		},
+		setUser(state, user) {
+			state.user = user;
+			setUniStorage('user', user);
 		}
     }
 })

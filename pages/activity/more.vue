@@ -6,7 +6,9 @@
 				<view class="title">{{ title }}</view>
 				<view class="sub">{{ updated_time }}</view>
 			</view>
-			<!-- <img class="imgs" :src="imgs" /> -->
+			<p><br></p>
+			<img class="imgs" :src="imgs" />
+			<p><br></p>
 			<view class="detail" v-html="desc"></view>
 		</view>
 	</view>
@@ -21,9 +23,9 @@
 		},
 		data() {
 			return {
-				title: '测试啊啊啊啊 1',
-				updated_time: '2020-01',
-				desc: '<p>这是视频2</p><p><br/></p><p><video class=\"edui-upload-video video-js vjs-default-skin video-js\" controls=\"\" preload=\"none\" width=\"420\" height=\"280\" src=\"http://test.fo.com/ueditor/php/upload/video/20200114/1578986661498474.mp4\"></video></p><p>这是图片</p><p><img src=\"http://test.fo.com/ueditor/php/upload/image/20200114/1578986677670989.jpg\" title=\"1578986677670989.jpg\" alt=\"善福缘-选择角色页-祭拜页男.jpg\"/></p>',
+				title: '',
+				updated_time: '',
+				desc: '',
 				imgs: '',
 			}
 		},
@@ -65,6 +67,12 @@
 				font-size: 14px;
 				color: #C8C7CC;
 			}
+		}
+		.imgs{
+			display: block;
+			max-width: 80%;
+			margin: 0 auto;
+			object-fit: contain;
 		}
 		.detail{
 			overflow: hidden;

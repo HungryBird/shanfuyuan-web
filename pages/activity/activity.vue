@@ -35,7 +35,7 @@ export default {
 	mixins: [mixins],
 	data () {
 		return {
-		  list: _data.list,
+		  list: [],
 		  current_page: 1,
 		  total: null,
 		  per_page: 10,
@@ -48,19 +48,18 @@ export default {
 	},
 	mounted() {
 		const info = uni.getSystemInfoSync();
-		console.log('info: ', info);
 		const windowHeight = info.windowHeight;
 		// this.scrollHeight = 
 	},
 	methods:{
 		// 获取列表
 		articleList() {
-			console.log('加载')
 			if (this.loadingType !== 0) return; 
 			this.loadingType = 1;
 			articleList({current_page: this.current_page}).then(res => {
 				if(res.code === 1) {
-					this.list.concat(res.data);
+					this.list = this.list.concat(res.data.data);
+					console.log('this.list: ', this.list)
 					this.current_page++;
 					this.loadingType = 0;
 					if (this.list.length >= this.total) this.loadingType = 2;

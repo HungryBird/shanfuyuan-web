@@ -8,12 +8,13 @@ if(process.env.NODE_ENV === 'development'){
 	baseURL = 'http://fo.nnzysp.com/api'
 }
 
-const http = (url, method = 'GET', header = {}, data, timeout = 30000) => {
+const http = (url, method = 'GET', data ,header = {}, timeout = 30000) => {
+	console.log('data: ', data)
 	const token = getUniStorageSync('token');
 	if(!isEmpty(token)) {
-		header['Authorization'] = token;
+		header['token'] = token;
 	}
-	return new Promise(resolve => {
+	return new Promise((resolve, reject) => {
 		uni.request({
 			url: 'http://fo.nnzysp.com/api' + url,
 			method: getUpperCase(method),
@@ -21,10 +22,11 @@ const http = (url, method = 'GET', header = {}, data, timeout = 30000) => {
 			data,
 			timeout,
 			success: (res) => {
-				resolve(res);
+				resolve(res.data);
 			},
-			fail: (res) => {
-				resolve(res);
+			fail: (err) => {
+				console.log('fail: ', fail);
+				reject(err);
 			}
 		})
 	})

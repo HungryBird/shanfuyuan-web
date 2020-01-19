@@ -84,10 +84,10 @@
 					if (res.code === 1) {
 						setTimeout(() => {
 							this.$store.commit('choiceGod', this.gods[this.activeIndex]);
-							uni.switchTab({
+							uni.navigateTo({
 								url: '../pray/pray'
 							})
-						}, 500)
+						}, 200)
 					}
 					this.$msg(res.msg);
 					this.ownBuddhaing = false;

@@ -1,5 +1,6 @@
 <template>
     <view class="content">
+		<nav-bar :opacity="false"></nav-bar>
 		<view class="main">
 			<view class="god">
 				<img src="../../static/img/pray/dabeiguang.png" >
@@ -7,6 +8,7 @@
 			</view>
 			<view class="desk-wrap">
 				<view class="pingzi img-wrap" @click="deskClick('pingzi', 3)">
+					<img :src="desk.diezi.offer" class="flower" v-if="!desk.pingzi.empty" />
 					<img :src="desk.pingzi.url" />
 				</view>
 				<view class="zhutai img-wrap" @click="deskClick('zhutai', 2)">
@@ -17,7 +19,8 @@
 					<img :src="desk.diezi.url" />
 				</view>
 				<view class="xianglu img-wrap" @click="deskClick('xianglu', 4)">
-					<img :src="desk.xianglu.url" />
+					<img :src="desk.xianglu.url" v-if="desk.xianglu.empty" />
+					<img :src="desk.xianglu.offer" v-else />
 				</view>
 				<view class="diezi img-wrap" @click="deskClick('diezi', 5)">
 					<img :src="desk.diezi.offer" class="diezi-offer" v-if="!desk.diezi.empty" />
@@ -67,16 +70,16 @@
 		<!-- 选择贡品 -->
 		<custom-mask ref="offerMask1" class="offer-mask">
 			<view class="offer-wrap">
-				<!-- <view class="top">
+				<view class="top">
 					供奉
-				</view> -->
+				</view>
 				<swiper :indicator-dots="false" @change="changeSwiper" :display-multiple-items="3">
 					<swiper-item v-for="offer in offers.t1" :key="offer.id" class="inner">
 						<view class="middle" @click.stop="doNomre">
 							<view class="inner" @click="choiceOffer(offer)">
 								<img :src="offer.pic" />
 								<view>{{ offer.name }}</view>
-								<view>价格{{ offer.price }}￥</view>
+								<!-- <view>价格{{ offer.price }}￥</view> -->
 								<view>供奉时间{{ offer.time }}小时</view>
 							</view>
 						</view>
@@ -86,16 +89,16 @@
 		</custom-mask>
 		<custom-mask ref="offerMask2" class="offer-mask">
 			<view class="offer-wrap">
-				<!-- <view class="top">
+				<view class="top">
 					供奉
-				</view> -->
+				</view>
 				<swiper :indicator-dots="false" @change="changeSwiper" :display-multiple-items="3">
 					<swiper-item v-for="offer in offers.t2" :key="offer.id" class="inner">
 						<view class="middle" @click.stop="doNomre">
 							<view class="inner" @click="choiceOffer(offer)">
 								<img :src="offer.pic" style="height: 60px;object-fit: contain;" />
 								<view>{{ offer.name }}</view>
-								<view>价格{{ offer.price }}￥</view>
+								<!-- <view>价格{{ offer.price }}￥</view> -->
 								<view>供奉时间{{ offer.time }}小时</view>
 							</view>
 						</view>
@@ -105,16 +108,16 @@
 		</custom-mask>
 		<custom-mask ref="offerMask3" class="offer-mask">
 			<view class="offer-wrap">
-				<!-- <view class="top">
+				<view class="top">
 					供奉
-				</view> -->
+				</view>
 				<swiper :indicator-dots="false" @change="changeSwiper" :display-multiple-items="3">
 					<swiper-item v-for="offer in offers.t3" :key="offer.id" class="inner">
 						<view class="middle" @click.stop="doNomre">
 							<view class="inner" @click="choiceOffer(offer)">
 								<img :src="offer.pic" style="width: 50%;" />
 								<view>{{ offer.name }}</view>
-								<view>价格{{ offer.price }}￥</view>
+								<!-- <view>价格{{ offer.price }}￥</view> -->
 								<view>供奉时间{{ offer.time }}小时</view>
 							</view>
 						</view>
@@ -124,16 +127,16 @@
 		</custom-mask>
 		<custom-mask ref="offerMask4" class="offer-mask">
 			<view class="offer-wrap">
-				<!-- <view class="top">
+				<view class="top">
 					供奉
-				</view> -->
+				</view>
 				<swiper :indicator-dots="false" @change="changeSwiper" :display-multiple-items="3">
 					<swiper-item v-for="offer in offers.t4" :key="offer.id" class="inner">
 						<view class="middle" @click.stop="doNomre">
 							<view class="inner" @click="choiceOffer(offer)">
 								<img :src="offer.pic" style="width: 30%;" />
 								<view>{{ offer.name }}</view>
-								<view>价格{{ offer.price }}￥</view>
+								<!-- <view>价格{{ offer.price }}￥</view> -->
 								<view>供奉时间{{ offer.time }}小时</view>
 							</view>
 						</view>
@@ -143,16 +146,16 @@
 		</custom-mask>
 		<custom-mask ref="offerMask5" class="offer-mask">
 			<view class="offer-wrap">
-				<!-- <view class="top">
+				<view class="top">
 					供奉
-				</view> -->
+				</view>
 				<swiper :indicator-dots="false" @change="changeSwiper" :display-multiple-items="3">
 					<swiper-item v-for="offer in offers.t5" :key="offer.id" class="inner">
 						<view class="middle" @click.stop="doNomre">
 							<view class="inner" @click="choiceOffer(offer)">
 								<img :src="offer.pic" />
 								<view>{{ offer.name }}</view>
-								<view>价格{{ offer.price }}￥</view>
+								<!-- <view>价格{{ offer.price }}￥</view> -->
 								<view>供奉时间{{ offer.time }}小时</view>
 							</view>
 						</view>
@@ -174,13 +177,15 @@
 	import { isEmpty, getUniStorage, getUniStorageSync } from '@/utils/util.js'
 	import { buddhalist, ownBuddha } from '@/api/choiceGod/choiceGod.js'
 	import pData from './data.js'
-	import { enshrineType } from '@/api/pray/pray.js'
+	import { enshrineType, orderList } from '@/api/pray/pray.js'
+	import navBar from '@/components/nav-bar.vue'
 
     export default {
 		components:{
 			tabBar,
 			uniIcons,
 			customMask,
+			navBar,
 		},
 		data() {
 			return {
@@ -218,7 +223,9 @@
 						empty: true,
 						url: '../../static/img/pray/goods/desk/xianglu.png',
 						timer: null,
-						offer: '../../static/img/pray/goods/供奉品/pingzi/dalianhuadeng.png'
+						fTimer: null,
+						name: '',
+						offer: ''
 					}
 				},
 				ground: {	// 地上的物品
@@ -244,11 +251,16 @@
 					t3: pData.flowers,
 					t4: pData.xiang,
 					t5: pData.diezi,
+					// t1: [],
+					// t2: [],
+					// t3: [],
+					// t4: [],
+					// t5: [],
 				},
 			}
 		},
         computed: {
-			...mapState(['token', 'god']),
+			...mapState(['token', 'god', 'user']),
 		},
         onLoad() {
 			this.buddhalist();
@@ -258,15 +270,30 @@
 			this.setGod();
 			// 一开始就烧啊
 			this.goFireZhiqian();
-			this.getOffers();
+			// this.getOffers();
+		},
+		onShow(){
+			this.orderList();
 		},
 		methods:{
+			// 获取未烧完的贡品
+			orderList() {
+				this.getOffers({}).then(res => {
+					orderList().then(res => {
+						if(res.code === 1) {
+							if (res.data.length !== 0) {
+								// 检查是否燃烧结束
+								this.checkIsOver();
+							}
+						}
+					})
+				})
+			},
 			doNomre() {
 				// 
 			},
 			// 选择贡品
 			choiceOffer(offer) {
-				console.log('offer: ', offer);
 				if(offer.type === 1) {
 					this.ground.shaoqianpen.empty = false;
 					this.zhiqian.zhiqian = offer.pic;
@@ -279,7 +306,10 @@
 					
 				}
 				else if(offer.type === 4) {
-					
+					this.desk.xianglu.empty = false;
+					this.desk.xianglu.name = offer.name;
+					this.goFireXiang(offer.name);
+					this.$refs.offerMask4.close();
 				}
 				else if(offer.type === 5) {
 					this.desk.diezi.empty = false;
@@ -287,44 +317,93 @@
 					this.$refs.offerMask5.close();
 				}
 			},
-			// 获取贡品
-			getOffers() {
-				enshrineType().then(res => {
-					if (res.code === 1) {
-						const o1 = [];
-						const o2 = [];
-						const o3 = [];
-						const o4 = [];
-						const o5 = [];
-						res.data.forEach(item => {
-							switch(item.type)
-							{
-								case 1:
-									o1.push(item);
-									break;
-								case 2:
-									o2.push(item);
-									break;
-								case 3:
-									o3.push(item);
-									break;
-								case 4:
-									o4.push(item);
-									break;
-								default:
-									o5.push(item);
-									return;
-							}
-						})
-						this.offers['t1'] = o1;
-						this.offers['t2'] = o2;
-						this.offers['t3'] = o3;
-						this.offers['t4'] = o4;
-						this.offers['t5'] = o5;
+			// 开始烧香
+			goFireXiang(name) {
+				if (this.desk.zhutai.fTimer) {
+					clearInterval(this.desk.zhutai.fTimer)
+				}
+				let target = '../../static/img/pray/xiang/';
+				let which = '';
+				if (name === '消灾香') {
+					target += 'xiaozaixiang'
+					which = 'xiaozaixiang';
+				}
+				else if(name === '平安香') {
+					target += 'pinganxiang'
+					which = 'pinganxiang';
+				}
+				else if(name === '增财香') {
+					target += 'zengcaixiang'
+					which = 'zengcaixiang';
+				}
+				else if(name === '增福香') {
+					target += 'zengfuxiang'
+					which = 'zengfuxiang';
+				}
+				else if(name === '增缘香') {
+					target += 'zengyuanxiang'
+					which = 'zengyuanxiang';
+				}
+				else if(name === '智慧香') {
+					target += 'zhihuixiang'
+					which = 'zhihuixiang';
+				}
+				const self = this;
+				let index = 1;
+				// 填补计时器延时执行
+				this.desk.xianglu.offer = `${target}/${which}${index}.png`;
+				this.desk.zhutai.fTimer = setInterval(() => {
+					self.desk.xianglu.offer = `${target}/${which}${index}.png`;
+					if(index === 3) {
+						index = 1;
 					}
 					else {
-						this.$msg(res.msg);
+						index++;
 					}
+				}, 450)
+			},
+			// 获取贡品
+			getOffers() {
+				return new Promise(resolve => {
+					enshrineType().then(res => {
+						return;
+						if (res.code === 1) {
+							const o1 = [];
+							const o2 = [];
+							const o3 = [];
+							const o4 = [];
+							const o5 = [];
+							res.data.forEach(item => {
+								switch(item.type)
+								{
+									case 1:
+										o1.push(item);
+										break;
+									case 2:
+										o2.push(item);
+										break;
+									case 3:
+										o3.push(item);
+										break;
+									case 4:
+										o4.push(item);
+										break;
+									default:
+										o5.push(item);
+										return;
+								}
+							})
+							this.offers.t1 = o1;
+							this.offers.t2 = o2;
+							this.offers.t3 = o3;
+							this.offers.t4 = o4;
+							this.offers.t5 = o5;
+						}
+						else {
+							this.$msg(res.msg);
+						}
+						resolve();
+					})
 				})
 			},
 			// 设置神
@@ -351,6 +430,32 @@
 			},
 			// 获取神
 			buddhalist() {
+				const picDict = {
+					1: {
+						img: '../../static/img/gods/rulai',
+						pname: '../../static/img/gods/shijiamoni.png'
+					},
+					2: {
+						img: '../../static/img/gods/milefo',
+						pname: '../../static/img/gods/milefo.png'
+					},
+					3: {
+						img: '../../static/img/gods/guanyin',
+						pname: '../../static/img/gods/guanyin.png'
+					},
+					4: {
+						img: '../../static/img/gods/caishen',
+						pname: '../../static/img/gods/wulucaishen.png'
+					},
+					5: {
+						img: '../../static/img/gods/yaoshifo',
+						pname: '../../static/img/gods/yaoshifo.png'
+					},
+					6: {
+						img: '../../static/img/gods/guangong',
+						pname: '../../static/img/gods/guangong.png'
+					}
+				}
 				buddhalist().then(res => {
 					if (res.code === 1) {
 						this.gods = res.data.map((item, index) => {
@@ -411,8 +516,9 @@
 				let index = 1;
 				const self = this;
 				let target = '../../static/img/pray/person/';
+				const sex = this.user.sex === 1 ? 'm' : 'f';
 				// 填补计时器延时执行
-				self.animation.person = '../../static/img/pray/person/m1.png';
+				self.animation.person = `../../static/img/pray/person/${sex}1.png`;
 				let timer = setInterval(() => {
 					if(count > 2) {
 						clearInterval(timer)
@@ -420,7 +526,7 @@
 						return;
 					}
 					// m:male, f:famle
-					self.animation.person = `${target}m${index}.png`;
+					self.animation.person = `${target}${sex}${index}.png`;
 					if(index === 5) {
 						index = 1;
 						count++;
@@ -444,7 +550,6 @@
 			},
 			// 清除闪烁
 			banFlash(where, name) {
-				console.log('where: ', where, 'name: ', name);
 				const target = this[where][name];
 				clearInterval(target.timer);
 				const targetUrl = '../../static/img/pray/goods/';
@@ -491,7 +596,7 @@
 						this.flash('desk','xianglu');
 					}
 					else {
-						this.banFlash('desk','xianglu');
+						clearInterval(this.desk.xianglu.timer);
 					}
 				},
 				immediate: true,
@@ -650,7 +755,7 @@
 				&:nth-child(4){
 					width: 25%;
 					left: 50%;
-					transform: translateX(-50%);
+					transform: translate(-50%, -57%);
 				}
 				&:nth-child(5){
 					right: 25%;

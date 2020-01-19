@@ -7,7 +7,7 @@
         <view class="login-form-group">
             <view class="input-row">
                 <text class="title">账号：</text>
-                <input type="text" clearable focus v-model="account" placeholder="字母加数字"></input>
+                <input type="text" clearable focus v-model="tel" placeholder="字母加数字"></input>
             </view>
             <view class="input-row">
                 <text class="title">昵称：</text>
@@ -29,11 +29,15 @@
 			</view>
 			<view class="input-row">
 			    <text class="title">确认密码：</text>
-			    <input type="password" v-model="confirmPassword" placeholder="请再输入密码"></input>
+			    <input type="password" v-model="re_password" placeholder="请再输入密码"></input>
+			</view>
+			<view class="input-row">
+			    <text class="title">邀请码：</text>
+			    <input type="text" v-model="invite_code" placeholder="请再输入邀请码(选填)"></input>
 			</view>
         </view>
         <view class="btn-row">
-            <button type="primary" class="primary" @tap="register">立即注册</button>
+            <button type="primary" class="primary" @click="register">立即注册</button>
         </view>
     </view>
 </template>
@@ -41,6 +45,8 @@
 <script>
     import service from '../../service.js';
     import mInput from '../../components/m-input.vue';
+	import { register } from '@/api/reg/reg.js'
+	import { isEmpty } from '@/utils/util.js'
 
     export default {
         components: {
@@ -48,47 +54,58 @@
         },
         data() {
             return {
-                account: '',
+                tel: '',
                 password: '',
-				confirmPassword: '',
+				re_password: '',
                 nickname: '',
-				sex: '0',
+				sex: '1',
+				invite_code: '',
 				sexs: [
 					{
 						label: '男',
-						value: '0',
+						value: '1',
 					},
 					{
 						label: '女',
-						value: '1',
+						value: '2',
 					}
 				]
             }
         },
         methods: {
-			radioChange(val){
-				console.log('val: ', val);
+			radioChange(e){
+				this.sex = e.detail.value;
 			},
             register() {
-                /**
-                 * 客户端对账号信息进行一些必要的校验。
-                 * 实际开发中，根据业务需要进行处理，这里仅做示例。
-                 */
-                if (this.account.length < 5) {
+                if (isEmpty(this.tel)) {
                     uni.showToast({
                         icon: 'none',
-                        title: '账号最短为 5 个字符'
+                        title: '请输入账号'
                     });
                     return;
                 }
-                if (this.password.length < 6) {
+                if (isEmpty(this.password)) {
                     uni.showToast({
                         icon: 'none',
-                        title: '密码最短为 6 个字符'
+                        title: '请输入密码'
                     });
                     return;
                 }
-                if (this.password !== this.confimPassword) {
+				if (isEmpty(this.nickname)) {
+				    uni.showToast({
+				        icon: 'none',
+				        title: '请输入昵称'
+				    });
+				    return;
+				}
+				if (isEmpty(this.sex)) {
+				    uni.showToast({
+				        icon: 'none',
+				        title: '请选择性别'
+				    });
+				    return;
+				}
+                if (this.password !== this.re_password) {
                     uni.showToast({
                         icon: 'none',
                         title: '密码与确认密码不相等'
@@ -97,18 +114,27 @@
                 }
 
                 const data = {
-                    account: this.account,
+                    tel: this.tel,
                     password: this.password,
-                    sex: this.sex,
+					re_password: this.re_password,
+                    sex: Number(this.sex),
 					nickname: this.nickname,
+					invite_code: this.invite_code,
                 }
-                service.addUser(data);
-                uni.showToast({
-                    title: '注册成功'
-                });
-                uni.navigateBack({
-                    delta: 1
-                });
+				uni.showLoading();
+                register(data).then(res => {
+					if(res.code === 1) {
+						this.$msg(res.msg);
+						setTimeout(() => {
+							uni.navigateTo({
+								url: '/pages/login/login'
+							})
+						}, 200)
+					}
+					uni.hideLoading();
+				}).catch(err => {
+					console.error(err)
+				})
             }
         }
     }
