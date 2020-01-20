@@ -9,7 +9,6 @@ if(process.env.NODE_ENV === 'development'){
 }
 
 const http = (url, method = 'GET', data ,header = {}, timeout = 30000) => {
-	console.log('data: ', data)
 	const token = getUniStorageSync('token');
 	if(!isEmpty(token)) {
 		header['token'] = token;
@@ -25,7 +24,7 @@ const http = (url, method = 'GET', data ,header = {}, timeout = 30000) => {
 				resolve(res.data);
 			},
 			fail: (err) => {
-				console.log('fail: ', fail);
+				console.log('fail: ', err);
 				reject(err);
 			}
 		})

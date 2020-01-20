@@ -8,14 +8,15 @@
 			</view>
 			<view class="desk-wrap">
 				<view class="pingzi img-wrap" @click="deskClick('pingzi', 3)">
-					<img :src="desk.diezi.offer" class="flower" v-if="!desk.pingzi.empty" />
+					<img :src="desk.pingzi.pic" class="flower" v-if="!desk.pingzi.empty" />
 					<img :src="desk.pingzi.url" />
 				</view>
 				<view class="zhutai img-wrap" @click="deskClick('zhutai', 2)">
+					<img :src="desk.zhutai.pic" v-if="!desk.zhutai.empty" class="lazhu" />
 					<img :src="desk.zhutai.url" />
 				</view>
 				<view class="diezi img-wrap" @click="deskClick('diezi', 5)">
-					<img :src="desk.diezi.offer" class="diezi-offer" v-if="!desk.diezi.empty" />
+					<img :src="desk.diezi.pic" class="diezi-offer" v-if="!desk.diezi.empty" />
 					<img :src="desk.diezi.url" />
 				</view>
 				<view class="xianglu img-wrap" @click="deskClick('xianglu', 4)">
@@ -23,13 +24,15 @@
 					<img :src="desk.xianglu.offer" v-else />
 				</view>
 				<view class="diezi img-wrap" @click="deskClick('diezi', 5)">
-					<img :src="desk.diezi.offer" class="diezi-offer" v-if="!desk.diezi.empty" />
+					<img :src="desk.diezi.pic" class="diezi-offer" v-if="!desk.diezi.empty" />
 					<img :src="desk.diezi.url" />
 				</view>
 				<view class="zhutai img-wrap" @click="deskClick('zhutai', 2)">
+					<img :src="desk.zhutai.pic" v-if="!desk.zhutai.empty" class="lazhu"  />
 					<img :src="desk.zhutai.url" />
 				</view>
 				<view class="pingzi img-wrap" @click="deskClick('pingzi', 3)">
+					<img :src="desk.pingzi.pic" class="flower" v-if="!desk.pingzi.empty" />
 					<img :src="desk.pingzi.url" />
 				</view>
 			</view>
@@ -73,10 +76,10 @@
 				<view class="top">
 					供奉
 				</view>
-				<swiper :indicator-dots="false" @change="changeSwiper" :display-multiple-items="3">
+				<swiper :indicator-dots="false" :display-multiple-items="3">
 					<swiper-item v-for="offer in offers.t1" :key="offer.id" class="inner">
 						<view class="middle" @click.stop="doNomre">
-							<view class="inner" @click="choiceOffer(offer)">
+							<view class="inner" @click="createOrder(offer)">
 								<img :src="offer.pic" />
 								<view>{{ offer.name }}</view>
 								<!-- <view>价格{{ offer.price }}￥</view> -->
@@ -92,10 +95,10 @@
 				<view class="top">
 					供奉
 				</view>
-				<swiper :indicator-dots="false" @change="changeSwiper" :display-multiple-items="3">
+				<swiper :indicator-dots="false" :display-multiple-items="3">
 					<swiper-item v-for="offer in offers.t2" :key="offer.id" class="inner">
 						<view class="middle" @click.stop="doNomre">
-							<view class="inner" @click="choiceOffer(offer)">
+							<view class="inner" @click="createOrder(offer)">
 								<img :src="offer.pic" style="height: 60px;object-fit: contain;" />
 								<view>{{ offer.name }}</view>
 								<!-- <view>价格{{ offer.price }}￥</view> -->
@@ -111,10 +114,10 @@
 				<view class="top">
 					供奉
 				</view>
-				<swiper :indicator-dots="false" @change="changeSwiper" :display-multiple-items="3">
+				<swiper :indicator-dots="false" :display-multiple-items="3">
 					<swiper-item v-for="offer in offers.t3" :key="offer.id" class="inner">
 						<view class="middle" @click.stop="doNomre">
-							<view class="inner" @click="choiceOffer(offer)">
+							<view class="inner" @click="createOrder(offer)">
 								<img :src="offer.pic" style="width: 50%;" />
 								<view>{{ offer.name }}</view>
 								<!-- <view>价格{{ offer.price }}￥</view> -->
@@ -130,10 +133,10 @@
 				<view class="top">
 					供奉
 				</view>
-				<swiper :indicator-dots="false" @change="changeSwiper" :display-multiple-items="3">
+				<swiper :indicator-dots="false" :display-multiple-items="3">
 					<swiper-item v-for="offer in offers.t4" :key="offer.id" class="inner">
 						<view class="middle" @click.stop="doNomre">
-							<view class="inner" @click="choiceOffer(offer)">
+							<view class="inner" @click="createOrder(offer)">
 								<img :src="offer.pic" style="width: 30%;" />
 								<view>{{ offer.name }}</view>
 								<!-- <view>价格{{ offer.price }}￥</view> -->
@@ -149,10 +152,10 @@
 				<view class="top">
 					供奉
 				</view>
-				<swiper :indicator-dots="false" @change="changeSwiper" :display-multiple-items="3">
+				<swiper :indicator-dots="false" :display-multiple-items="3">
 					<swiper-item v-for="offer in offers.t5" :key="offer.id" class="inner">
 						<view class="middle" @click.stop="doNomre">
-							<view class="inner" @click="choiceOffer(offer)">
+							<view class="inner" @click="createOrder(offer)">
 								<img :src="offer.pic" />
 								<view>{{ offer.name }}</view>
 								<!-- <view>价格{{ offer.price }}￥</view> -->
@@ -177,7 +180,7 @@
 	import { isEmpty, getUniStorage, getUniStorageSync } from '@/utils/util.js'
 	import { buddhalist, ownBuddha } from '@/api/choiceGod/choiceGod.js'
 	import pData from './data.js'
-	import { enshrineType, orderList } from '@/api/pray/pray.js'
+	import { enshrineType, orderList, createOrder } from '@/api/pray/pray.js'
 	import navBar from '@/components/nav-bar.vue'
 
     export default {
@@ -192,8 +195,8 @@
 				// 纸钱
 				zhiqian: {
 					empty: true,
-					fire: '../../static/img/pray/goods/供奉品/zhiqian/fire/fire1.png',
-					zhiqian: '../../static/img/pray/goods/供奉品/zhiqian/zhiqianer.png',
+					fire: '../../static/img/pray/goods/offer/zhiqian/fire/fire1.png',
+					zhiqian: '../../static/img/pray/goods/offer/zhiqian/zhiqianer.png',
 				},
 				// 是否显示选神
 				curGodId: 1,	// 当前神佛的id
@@ -204,20 +207,28 @@
 					pingzi: {
 						empty: true,
 						url: '../../static/img/pray/goods/desk/pingzi.png',
+						pic: '',
 						timer: null,
-						offer: '../../static/img/pray/goods/供奉品/pingzi/dalianhuadeng.png'
+						offer: null,
+						overTimer: null,
 					},
 					zhutai: {
 						empty: true,
 						url: '../../static/img/pray/goods/desk/zhutai.png',
 						timer: null,
-						offer: ''
+						offer: null,
+						fTimer: null,
+						name: '',
+						pic: '',
+						overTimer: null,
 					},
 					diezi: {
 						empty: true,
 						url: '../../static/img/pray/goods/desk/diezi.png',
 						timer: null,
-						offer: '../../static/img/pray/goods/供奉品/diezi/fotouguo.png'
+						offer: null,
+						pic: '',
+						overTimer: null,
 					},
 					xianglu: {
 						empty: true,
@@ -225,7 +236,8 @@
 						timer: null,
 						fTimer: null,
 						name: '',
-						offer: ''
+						offer: null,
+						overTimer: null,
 					}
 				},
 				ground: {	// 地上的物品
@@ -233,11 +245,15 @@
 						empty: true,
 						url: '../../static/img/pray/goods/ground/shanyuanxiang.png',
 						timer: null,
+						offer: null,
+						overTimer: null,
 					},
 					shaoqianpen: {
 						empty: true,
 						url: '../../static/img/pray/goods/ground/shaoqianpen.png',
 						timer: null,
+						offer: null,
+						overTimer: null,
 					},
 				},
 				animation: {	// 动画
@@ -246,11 +262,12 @@
 				godDict: pData.godDict,	// 根据id查找对应的神佛图片
 				godImg: '',	// 选中神佛的img
 				offers: {	// 贡品type: 1纸钱2烛台3装饰物4香5贡品
-					t1: pData.zhiqian,
-					t2: pData.zhutai,
-					t3: pData.flowers,
-					t4: pData.xiang,
-					t5: pData.diezi,
+					t1: [],
+					t2: [],
+					t3: [],
+					t4: [],
+					t5: [],
+					init: [],	// 未分组
 					// t1: [],
 					// t2: [],
 					// t3: [],
@@ -270,7 +287,7 @@
 			this.setGod();
 			// 一开始就烧啊
 			this.goFireZhiqian();
-			// this.getOffers();
+			// this.enshrineType();
 		},
 		onShow(){
 			this.orderList();
@@ -278,73 +295,201 @@
 		methods:{
 			// 获取未烧完的贡品
 			orderList() {
-				this.getOffers({}).then(res => {
+				this.enshrineType({}).then(res => {
 					orderList().then(res => {
+						const self = this;
 						if(res.code === 1) {
 							if (res.data.length !== 0) {
-								// 检查是否燃烧结束
-								this.checkIsOver();
+								res.data = _data;
+								// 遍历未燃烧完的贡品
+								for(let i = 0; i < res.data.length; i++) {
+									for(let j = 0; j < this.offers.init.length; j++) {
+										if(res.data[i].enshrine_id === this.offers.init[j].id) {
+											this.renderOffer(this.offers.init[j]);
+											const type = res.data[i].enshrine_type;
+											if(type === 1) {
+												if(this.ground.shaoqianpen.overTimer) {
+													clearTimeout(this.ground.shaoqianpen.overTimer);
+												}
+												this.ground.shaoqianpen.overTimer = setTimeout(() => {
+													self.$msg(`${self.offers.init[j].name}供奉完毕`);
+													self.ground.shaoqianpen.empty = true;
+													clearTimeout(self.ground.shaoqianpen.overTimer);
+												}, res.data[i].burning_time_limit.sec * 1000)
+											}
+											else if(type === 2) {
+												if(this.desk.zhutai.overTimer) {
+													clearTimeout(this.desk.zhutai.overTimer);
+												}
+												this.desk.zhutai.overTimer = setTimeout(() => {
+													self.$msg(`${self.offers.init[j].name}供奉完毕`);
+													self.desk.zhutai.empty = true;
+													clearTimeout(self.desk.zhutai.overTimer);
+												}, res.data[i].burning_time_limit.sec * 1000)
+											}
+											else if(type === 3) {
+												if(this.desk.pingzi.overTimer) {
+													clearTimeout(this.desk.pingzi.overTimer);
+												}
+												this.desk.pingzi.overTimer = setTimeout(() => {
+													self.$msg(`${self.offers.init[j].name}供奉完毕`);
+													self.desk.pingzi.empty = true;
+													clearTimeout(self.desk.pingzi.overTimer);
+												}, res.data[i].burning_time_limit.sec * 1000)
+											}
+											else if(type === 4) {
+												if(this.desk.xiang.overTimer) {
+													clearTimeout(this.desk.xiang.overTimer);
+												}
+												this.desk.xiang.overTimer = setTimeout(() => {
+													self.$msg(`${self.offers.init[j].name}供奉完毕`);
+													self.desk.xiang.empty = true;
+													clearTimeout(self.desk.xiang.overTimer);
+												}, res.data[i].burning_time_limit.sec * 1000)
+											}
+											else if(type === 5) {
+												if(this.desk.diezi.overTimer) {
+													clearTimeout(this.desk.diezi.overTimer);
+												}
+												this.desk.diezi.overTimer = setTimeout(() => {
+													self.$msg(`${self.offers.init[j].name}供奉完毕`);
+													self.desk.diezi.empty = true;
+													clearTimeout(self.desk.diezi.overTimer);
+												}, res.data[i].burning_time_limit.sec * 1000)
+											}
+										}
+									}
+								}
 							}
 						}
 					})
 				})
 			},
+			// 防止冒泡
 			doNomre() {
 				// 
 			},
-			// 选择贡品
-			choiceOffer(offer) {
+			// 创建订单
+			createOrder(offer) {
+				uni.showLoading();
+				const obj = {
+					enshrine_id: offer.id,
+					buddha_id: this.god.id,
+				}
+				createOrder(obj).then(res => {
+					if (res.code === 1) {
+						this.orderList();
+					}
+					else {
+						this.$msg(res.msg);
+					}
+					uni.hideLoading();
+				})
+			},
+			// 将贡品渲染出来
+			renderOffer(offer) {
 				if(offer.type === 1) {
 					this.ground.shaoqianpen.empty = false;
 					this.zhiqian.zhiqian = offer.pic;
 					this.$refs.offerMask1.close();
 				}
 				else if(offer.type === 2) {
-					
+					this.desk.zhutai.empty = false;
+					this.desk.zhutai.name = offer.name;
+					this.goFireLazhu(offer.id);
+					this.$refs.offerMask2.close();
 				}
 				else if(offer.type === 3) {
-					
+					this.desk.pingzi.empty = false;
+					this.desk.pingzi.pic = offer.pic;
+					this.$refs.offerMask3.close();
 				}
 				else if(offer.type === 4) {
 					this.desk.xianglu.empty = false;
 					this.desk.xianglu.name = offer.name;
-					this.goFireXiang(offer.name);
+					this.goFireXiang(offer.id);
 					this.$refs.offerMask4.close();
 				}
 				else if(offer.type === 5) {
 					this.desk.diezi.empty = false;
-					this.desk.diezi.offer = offer.pic;
+					this.desk.diezi.pic = offer.pic;
 					this.$refs.offerMask5.close();
 				}
+				
 			},
-			// 开始烧香
-			goFireXiang(name) {
+			// 开始烧蜡烛
+			goFireLazhu(id) {
 				if (this.desk.zhutai.fTimer) {
 					clearInterval(this.desk.zhutai.fTimer)
 				}
-				let target = '../../static/img/pray/xiang/';
+				let target = '../../static/img/pray/goods/offer/lazhu/';
 				let which = '';
-				if (name === '消灾香') {
+				if (id === 8) {
+					target += 'xiaozaizhu'
+					which = 'xiaozaizhu';
+				}
+				else if(id === 6) {
+					target += 'pinganzhu'
+					which = 'pinganzhu';
+				}
+				else if(id === 7) {
+					target += 'zengcaizhu'
+					which = 'zengcaizhu';
+				}
+				else if(id === 11) {
+					target += 'zengfuzhu'
+					which = 'zengfuzhu';
+				}
+				else if(id === 9) {
+					target += 'zengyuanzhu'
+					which = 'zengyuanzhu';
+				}
+				else if(id === 10) {
+					target += 'zhihuizhu'
+					which = 'zhihuizhu';
+				}
+				const self = this;
+				let index = 1;
+				// 填补计时器延时执行
+				this.desk.zhutai.pic = `${target}/${which}${index}.png`;
+				this.desk.zhutai.fTimer = setInterval(() => {
+					self.desk.zhutai.pic = `${target}/${which}${index}.png`;
+					if(index === 3) {
+						index = 1;
+					}
+					else {
+						index++;
+					}
+				}, 450)
+			},
+			// 开始烧香
+			goFireXiang(id) {
+				if (this.desk.zhutai.fTimer) {
+					clearInterval(this.desk.zhutai.fTimer)
+				}
+				let target = '../../static/img/pray/goods/offer/xiang/';
+				let which = '';
+				if (id === 19) {
 					target += 'xiaozaixiang'
 					which = 'xiaozaixiang';
 				}
-				else if(name === '平安香') {
+				else if(id === 17) {
 					target += 'pinganxiang'
 					which = 'pinganxiang';
 				}
-				else if(name === '增财香') {
+				else if(id === 18) {
 					target += 'zengcaixiang'
 					which = 'zengcaixiang';
 				}
-				else if(name === '增福香') {
+				else if(id === 22) {
 					target += 'zengfuxiang'
 					which = 'zengfuxiang';
 				}
-				else if(name === '增缘香') {
+				else if(id === 20) {
 					target += 'zengyuanxiang'
 					which = 'zengyuanxiang';
 				}
-				else if(name === '智慧香') {
+				else if(id === 21) {
 					target += 'zhihuixiang'
 					which = 'zhihuixiang';
 				}
@@ -363,10 +508,9 @@
 				}, 450)
 			},
 			// 获取贡品
-			getOffers() {
+			enshrineType() {
 				return new Promise(resolve => {
 					enshrineType().then(res => {
-						return;
 						if (res.code === 1) {
 							const o1 = [];
 							const o2 = [];
@@ -398,11 +542,12 @@
 							this.offers.t3 = o3;
 							this.offers.t4 = o4;
 							this.offers.t5 = o5;
+							this.offer.init = res.data;
+							resolve();
 						}
 						else {
 							this.$msg(res.msg);
 						}
-						resolve();
 					})
 				})
 			},
@@ -427,6 +572,7 @@
 			// 滑动轮播
 			changeSwiper(e) {
 				this.curGodId = e.detail.current;
+				console.log('e')
 			},
 			// 获取神
 			buddhalist() {
@@ -492,9 +638,9 @@
 			// 开始烧纸钱
 			goFireZhiqian() {
 				const self = this;
-				let target = '../../static/img/pray/goods/供奉品/zhiqian/fire/fire';
+				let target = '../../static/img/pray/goods/offer/zhiqian/fire/fire';
 				// 填补计时器延时执行
-				this.zhiqian.fire = '../../static/img/pray/goods/供奉品/zhiqian/fire/fire1.png';
+				this.zhiqian.fire = '../../static/img/pray/goods/offer/zhiqian/fire/fire1.png';
 				let index = 1;
 				let timer = setInterval(() => {
 					self.zhiqian.fire = `${target}${index}.png`;
@@ -782,14 +928,24 @@
 				.flower{
 					position: absolute;
 					top: -70%;
-					left: 0;
+					left: 50%;
+					transform: translateX(-50%);
 				}
 				.diezi-offer{
-					width: 80%;
+					width: 100%;
 					position: absolute;
 					top: -50%;
 					left: 50%;
 					transform: translateX(-50%);
+				}
+				.lazhu{
+					display: block;
+					width: 50%;
+					position: absolute;
+					top: -95%;
+					left: 50%;
+					transform: translateX(-50%);
+					object-fit: cover;
 				}
 			}
 		}

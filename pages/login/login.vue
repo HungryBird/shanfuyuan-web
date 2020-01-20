@@ -98,7 +98,7 @@
 						this.$msg(res.msg);
 					}
 				}).catch(err => {
-					console.log('res: ', res);
+					console.error('err: ', err);
 				})
             },
             oauth(value) {

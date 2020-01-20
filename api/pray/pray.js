@@ -9,3 +9,8 @@ export const enshrineType = (data) => {
 export const orderList = (data) => {
 	return http.http('/order/orderList', 'get', data);
 }
+
+// 创建贡品订单
+export const createOrder = (data) => {
+	return http.http('/order/createOrder', 'get', data);
+}
