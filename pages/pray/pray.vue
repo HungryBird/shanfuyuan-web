@@ -300,7 +300,6 @@
 						const self = this;
 						if(res.code === 1) {
 							if (res.data.length !== 0) {
-								res.data = _data;
 								// 遍历未燃烧完的贡品
 								for(let i = 0; i < res.data.length; i++) {
 									for(let j = 0; j < this.offers.init.length; j++) {
