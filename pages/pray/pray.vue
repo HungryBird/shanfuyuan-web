@@ -542,7 +542,7 @@
 							this.offers.t3 = o3;
 							this.offers.t4 = o4;
 							this.offers.t5 = o5;
-							this.offer.init = res.data;
+							this.offers.init = res.data;
 							resolve();
 						}
 						else {
