@@ -3,13 +3,12 @@
 	<scroll-view scroll-y="true" @scrolltolower="articleList" class="activity-list" :style="{height: middleHeight + 'px'}">
 	  <uni-card v-for="ls in list" :key="ls.id" :title="ls.type_text" :extra="ls.add_date">
 		  <view class="yue-content">
-			  <view class="left">
-				  <img :src="ls.avatar" />
-			  </view>
-			  <view class="right">
-				  <view>名称：{{ ls.nickname }}</view>
-				  <view>￥{{ ls.get_money }}</view>
-			  </view>
+			  <text>
+				  余额：{{ ls.left_money }}
+			  </text>
+			  <text>
+				  {{ ls.is_off === 0 ? '+' : '-' }}{{ ls.money }}
+			  </text>
 		  </view>
 	  </uni-card>
 	  <uni-load-more :loadingType="loadingType"></uni-load-more>
@@ -22,7 +21,7 @@
 	import uniIcons from '../../components/uni-icons/uni-icons.vue'
 	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue'
 	import navBar from '../../components/nav-bar.vue'
-	import { teamList } from '@/api/user/user.js'
+	import { balanceLog } from '@/api/user/user.js'
 	import mixins from '@/mixins/mixins.js'
 	import uniCard from '@/components/uni-card/uni-card.vue'
 	import '@/style/common.css'
@@ -46,7 +45,7 @@ export default {
 		}
 	},
 	onLoad() {
-		this.teamList();
+		this.balanceLog();
 	},
 	mounted() {
 		const info = uni.getSystemInfoSync();
@@ -55,10 +54,10 @@ export default {
 	},
 	methods:{
 		// 获取列表
-		teamList() {
+		balanceLog() {
 			if (this.loadingType !== 0) return; 
 			this.loadingType = 1;
-			teamList({current_page: this.current_page}).then(res => {
+			balanceLog({current_page: this.current_page}).then(res => {
 				if(res.code === 1) {
 					this.list = this.list.concat(res.data.data);
 					this.current_page++;
@@ -78,27 +77,7 @@ page {
 }
 .yue-content{
 	display: flex;
-	padding: 10upx;
-	.left{
-		width: 30%;
-		height: 100%;
-		border-radius: 100%;
-		overflow: hidden;
-		img{
-			display: block;
-			width: 100%;
-			height: 100%;
-			object-fit: cover;
-			background-color: #333333;
-		}
-	}
-	.right{
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		text-align: right;
-	}
-	
+	justify-content: space-between;
 }
 .activity-content {
   width: 100%;

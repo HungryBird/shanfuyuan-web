@@ -3,9 +3,16 @@ import App from './App'
 
 import store from './store'
 
+import * as Common from './config/common.js'
+import * as Db from './config/db.js'
+import * as Config from './config/config.js'
+
 Vue.config.productionTip = false
 
 Vue.prototype.$store = store
+Vue.prototype.$common = Common;
+Vue.prototype.$db = Db;
+Vue.prototype.$config = Config;
 
 App.mpType = 'app'
 

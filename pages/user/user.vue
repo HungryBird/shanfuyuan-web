@@ -1,7 +1,7 @@
 <template>
   <view class="user-content">
     <nav-bar title="个人中心" :opacity="false"></nav-bar>
-	<view class="middle">
+	<view class="middle" :style="{height: mHeight + 'px'}">
 		<view class="user-banner">
 		  <image class="user-banner__avatar" :src="user.avatar"></image>
 		  <view class="user-banner__account">{{ user.nickname }}</view>
@@ -47,16 +47,22 @@ export default {
 	},
 	data () {
 		return {
-		  menu: config.menu
+			mHeight: 0,
+			menu: config.menu
 		}
 	},
 	mounted() {
 		console.log('user: ', this.$store);
+		this.calcuHeight();
 	},
 	computed:{
 		...mapState(['token', 'user']),
 	},
 	methods: {
+		calcuHeight() {
+			const {windowHeight} = uni.getSystemInfoSync();
+			this.mHeight = windowHeight - 50;
+		},
 		// 跳转啊
 		goWhere(item) {
 			if(isEmpty(this.token)) {

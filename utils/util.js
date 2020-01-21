@@ -40,7 +40,7 @@ export const isEmpty = (data) => {
     const type = getType(data)
     if (type === 'object') {
         for(const key in data) {
-            if(data.hasOwnPropert(key)) {
+            if(data.hasOwnProperty(key)) {
                 return false;
             }
         }

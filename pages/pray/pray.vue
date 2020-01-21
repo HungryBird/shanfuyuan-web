@@ -561,6 +561,7 @@
 				ownBuddha({buddha_id}).then(res => {
 					if (res.code === 1) {
 						console.log('this.gods: ', this.gods)
+						
 						this.$store.commit('choiceGod', this.gods[this.curGodId - 1]);
 						this.$refs.swiperMask.close();
 						this.setGod(id);

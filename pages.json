@@ -58,29 +58,77 @@
 		{
 		    "path": "pages/user/yue",
 		    "style": {
-		        "app-plus": {"titleNView": false}
+		        "navigationBarTitleText": "余额"
+		    }
+		},
+		{
+		    "path": "pages/user/withdraw_cash",
+		    "style": {
+		        "navigationBarTitleText": "余额提现"
+		    }
+		},
+		{
+		    "path": "pages/user/cashlist",
+		    "style": {
+		        "navigationBarTitleText": "提现记录"
+		    }
+		},
+		{
+		    "path": "pages/user/bankcard",
+		    "style": {
+		        "navigationBarTitleText": "我的银行卡"
+		    }
+		},
+		{
+		    "path": "pages/user/add_bankcard",
+		    "style": {
+		        "navigationBarTitleText": "添加银行卡"
 		    }
 		},
 		{
 		    "path": "pages/user/jifen",
 		    "style": {
-		        "app-plus": {"titleNView": false}
+		        "navigationBarTitleText": "积分"
+		    }
+		},
+		{
+		    "path": "pages/user/details",
+		    "style": {
+		        "navigationBarTitleText": "余额明细"
+		    }
+		},
+		{
+		    "path": "pages/user/userInfo",
+		    "style": {
+		        "navigationBarTitleText": "个人信息"
 		    }
 		},
 		{
 		    "path": "pages/user/fenyong",
 		    "style": {
-		        "app-plus": {"titleNView": false}
+		        "navigationBarTitleText": "分佣"
 		    }
 		},
 		{
 		    "path": "pages/user/shoucang",
 		    "style": {
-		        "app-plus": {"titleNView": false}
+		        "navigationBarTitleText": "收藏"
 		    }
 		},
 		{
 		    "path": "pages/user/yaoqing",
+		    "style": {
+		        "navigationBarTitleText": "邀请好友"
+		    }
+		},
+		{
+		    "path": "pages/turnDeserves/suanming",
+		    "style": {
+		        "app-plus": {"titleNView": false}
+		    }
+		},
+		{
+		    "path": "pages/turnDeserves/details",
 		    "style": {
 		        "app-plus": {"titleNView": false}
 		    }
@@ -88,13 +136,13 @@
 		{
 		    "path": "pages/user/shezhi",
 		    "style": {
-		        "app-plus": {"titleNView": false}
+		        "navigationBarTitleText": "设置"
 		    }
 		},
 		{
 		    "path": "pages/user/kefu",
 		    "style": {
-		        "app-plus": {"titleNView": false}
+		        "navigationBarTitleText": "客服"
 		    }
 		},
 		{

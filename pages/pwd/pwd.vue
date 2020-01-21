@@ -1,5 +1,6 @@
 <template>
     <view class="content">
+		<nav-bar title="联系客服"></nav-bar>
         <view class="logo-wrap">
         	<image src="../../static/img/LOGO.png" mode="widthFix"></image>
         	<image src="../../static/img/pinyin.png" mode="widthFix"></image>
@@ -14,8 +15,12 @@
 <script>
     import service from '../../service.js';
 	import {systemCustomer} from '@/api/forget/forget.js'
+	import navBar from '../../components/nav-bar.vue'
 
     export default {
+		components:{
+			navBar
+		},
         data() {
             return {
                 QQ: ''

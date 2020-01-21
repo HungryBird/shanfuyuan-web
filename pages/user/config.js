@@ -32,7 +32,7 @@ export default {
     },
     {
       icon: require('../../static/img/user/lianxikefu.png'),
-	  url: '/pages/user/kefu',
+	  url: '/pages/pwd/pwd',
       title: '联系客服'
     }
   ]

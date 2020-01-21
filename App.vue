@@ -26,6 +26,16 @@
 		src: url(static/fonts/方正粗黑宋简体.ttf);
 	}
 	
+	.margin-cell-group {
+	    margin: 10px 0;
+	    color: #666;
+	}
+	
+	.margin-cell-group {
+	    margin: 20upx 0;
+	    color: #666666;
+	}
+	
 	.custom-btn{
 		display: inline-block;
 		color: #fff;
