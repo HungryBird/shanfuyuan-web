@@ -284,7 +284,6 @@
 			this.curGodId = this.god.id - 1;
         },
 		mounted(){
-			this.setGod();
 			// 一开始就烧啊
 			this.goFireZhiqian();
 			// this.enshrineType();
@@ -551,8 +550,9 @@
 				})
 			},
 			// 设置神
-			setGod() {
-				this.godImg = this.godDict[this.god.id]['img']
+			setGod(id) {
+				id = id ? id : this.god.id;
+				this.godImg = this.godDict[id]['img']
 			},
 			// 请佛回家
  			ownBuddha(id) {
@@ -560,13 +560,13 @@
 				const buddha_id = id;
 				ownBuddha({buddha_id}).then(res => {
 					if (res.code === 1) {
+						console.log('this.gods: ', this.gods)
 						this.$store.commit('choiceGod', this.gods[this.curGodId - 1]);
 						this.$refs.swiperMask.close();
-						this.setGod();
+						this.setGod(id);
 					}
 					this.$msg(res.msg);
 				})
-				this.$store.commit('choiceGod', this.gods[this.curGodId]);
 				this.showMask = false;
 				this.setGod();
 			},

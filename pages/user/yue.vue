@@ -1,14 +1,13 @@
 <template>
-	<view>
-		<swiper :indicator-dots="false" :display-multiple-items="1">
-			<swiper-item >
-				1
-			</swiper-item>
-			<swiper-item >
-				2
-			</swiper-item>
-			<swiper-item >
-				3
+	<view style="width: 100%;">
+		<swiper :indicator-dots="false" @change="changeSwiper">
+			<swiper-item v-for="(god, index) in godDict" :key="'god' + index" class="inner">
+				<view class="img-wrap">
+					<!-- <img :src="god.img" /> -->
+					<view class="name">
+						{{ god.name }}
+					</view>
+				</view>
 			</swiper-item>
 		</swiper>
 	</view>
@@ -16,9 +15,18 @@
 
 <script>
 	import navBar from '../../components/nav-bar.vue'
+	import pData from '../pray/data.js'
 	export default{
 		components:{
 			navBar,
+		},
+		data() {
+			return {
+				godDict: pData.godDict,	// 根据id查找对应的神佛图片
+			}
+		},
+		methods: {
+			
 		}
 	}
 </script>
