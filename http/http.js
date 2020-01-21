@@ -21,6 +21,12 @@ const http = (url, method = 'GET', data ,header = {}, timeout = 30000) => {
 			data,
 			timeout,
 			success: (res) => {
+				if(res.data.code === 10005) {
+					uni.navigateTo({
+						url: '/pages/login/login'
+					})
+					return;
+				}
 				resolve(res.data);
 			},
 			fail: (err) => {
