@@ -37,11 +37,11 @@
 			
 			<!-- 提现金额手续费 提现金额input -->
 			<view class='cell-group margin-cell-group'>
-				<view class='cell-item'>
+				<!-- <view class='cell-item'>
 					<view class='cell-item-bd'>
 						<view class='cell-hd-title' style="color: #666;">收取服务费1%</view>
 					</view>
-				</view>
+				</view> -->
 				<view class='cell-item'>
 					<view class='cell-item-bd withdrawcash-input'>
 						<view class='cell-hd-title'><text>￥</text><input type="number" focus v-model="money"/></view>

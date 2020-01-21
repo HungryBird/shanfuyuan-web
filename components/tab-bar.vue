@@ -1,5 +1,5 @@
 <template>
-	<view class="tab-bar-wrap">
+	<view class="tab-bar-wrap" :class="{'t-fixed': fixed}">
 		<ul>
 			<li v-for="(tab, index) in tabs" :key="index" @click="go(tab.url)">
 				<img :src="index === active ? tab.selectIcon : tab.icon" />
@@ -15,6 +15,10 @@
 			active: {
 				type: Number,
 				default: 0,
+			},
+			fixed: {
+				type: Boolean,
+				default: false,
 			}
 		},
 		data() {
@@ -64,6 +68,12 @@
 </script>
 
 <style lang="scss">
+	.t-fixed{
+		position: fixed;
+		left: 0;
+		bottom: 0;
+		right: 0;
+	}
 	.tab-bar-wrap{
 		// position: fixed;
 		// left: 0;

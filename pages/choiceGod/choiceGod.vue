@@ -30,38 +30,38 @@
 					{
 						id: 4,
 						is_own: 0,
-						img: '../../static/img/gods/caishen',
-						pname: '../../static/img/gods/wulucaishen.png'
+						img: `${this.$pathURL}static/img/gods/caishen`,
+						pname: `${this.$pathURL}static/img/gods/wulucaishen.png`
 					},
 					{
 						id: 6,
 						is_own: 0,
-						img: '../../static/img/gods/guangong',
-						pname: '../../static/img/gods/guangong.png'
+						img: `${this.$pathURL}static/img/gods/guangong`,
+						pname: `${this.$pathURL}static/img/gods/guangong.png`
 					},
 					{
 						id: 3,
 						is_own: 0,
-						img: '../../static/img/gods/guanyin',
-						pname: '../../static/img/gods/guanyin.png'
+						img: `${this.$pathURL}static/img/gods/guanyin`,
+						pname: `${this.$pathURL}static/img/gods/guanyin.png`
 					},
 					{
 						id: 2,
 						is_own: 0,
-						img: '../../static/img/gods/milefo',
-						pname: '../../static/img/gods/milefo.png'
+						img: `${this.$pathURL}static/img/gods/milefo`,
+						pname: `${this.$pathURL}static/img/gods/milefo.png`
 					},
 					{
 						id: 1,
 						is_own: 0,
-						img: '../../static/img/gods/rulai',
-						pname: '../../static/img/gods/shijiamoni.png'
+						img: `${this.$pathURL}static/img/gods/rulai`,
+						pname: `${this.$pathURL}static/img/gods/shijiamoni.png`
 					},
 					{
 						id: 5,
 						is_own: 0,
-						img: '../../static/img/gods/yaoshifo',
-						pname: '../../static/img/gods/yaoshifo.png'
+						img: `${this.$pathURL}static/img/gods/yaoshifo`,
+						pname: `${this.$pathURL}static/img/gods/yaoshifo.png`
 					},
 				],
 				posXY: [],
@@ -97,28 +97,28 @@
 			buddhalist() {
 				const picDict = {
 					1: {
-						img: '../../static/img/gods/rulai',
-						pname: '../../static/img/gods/shijiamoni.png'
+						img: `${this.$pathURL}static/img/gods/rulai`,
+						pname: `${this.$pathURL}static/img/gods/shijiamoni.png`
 					},
 					2: {
-						img: '../../static/img/gods/milefo',
-						pname: '../../static/img/gods/milefo.png'
+						img: `${this.$pathURL}static/img/gods/milefo`,
+						pname: `${this.$pathURL}static/img/gods/milefo.png`
 					},
 					3: {
-						img: '../../static/img/gods/guanyin',
-						pname: '../../static/img/gods/guanyin.png'
+						img: `${this.$pathURL}static/img/gods/guanyin`,
+						pname: `${this.$pathURL}static/img/gods/guanyin.png`
 					},
 					4: {
-						img: '../../static/img/gods/caishen',
-						pname: '../../static/img/gods/wulucaishen.png'
+						img: `${this.$pathURL}static/img/gods/caishen`,
+						pname: `${this.$pathURL}static/img/gods/wulucaishen.png`
 					},
 					5: {
-						img: '../../static/img/gods/yaoshifo',
-						pname: '../../static/img/gods/yaoshifo.png'
+						img: `${this.$pathURL}static/img/gods/yaoshifo`,
+						pname: `${this.$pathURL}static/img/gods/yaoshifo.png`
 					},
 					6: {
-						img: '../../static/img/gods/guangong',
-						pname: '../../static/img/gods/guangong.png'
+						img: `${this.$pathURL}static/img/gods/guangong`,
+						pname: `${this.$pathURL}static/img/gods/guangong.png`
 					}
 				}
 				buddhalist().then(res => {

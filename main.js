@@ -14,6 +14,8 @@ Vue.prototype.$common = Common;
 Vue.prototype.$db = Db;
 Vue.prototype.$config = Config;
 
+Vue.prototype.$pathURL = process.env.NODE_ENV === 'development' ? '' : '/web/';
+
 App.mpType = 'app'
 
 const msg = (title, duration=1500, mask=false, icon='none')=>{

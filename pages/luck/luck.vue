@@ -94,7 +94,7 @@
 				</view>
 			</view>
 		</view>
-		<tab-bar :active="1"></tab-bar>
+		<tab-bar :active="1" :fixed="true"></tab-bar>
 	</view>
 </template>
 
@@ -299,8 +299,8 @@
 				background-position: center;
 				background-size: cover;
 				.bottom{
-					position: absolute;
-					bottom: -10%;
+					position: fixed;
+					bottom: -1%;
 					left: 0;
 					right: 0;
 					width: 100%;

@@ -12,7 +12,7 @@
 	export default {
 		data() {
 			return {
-				img: '../static/img/shengyin',
+				img: `${this.$pathURL}static/img/shengyin`,
 				slience: false,
 			};
 		},

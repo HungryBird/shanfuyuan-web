@@ -195,8 +195,8 @@
 				// 纸钱
 				zhiqian: {
 					empty: true,
-					fire: '../../static/img/pray/goods/offer/zhiqian/fire/fire1.png',
-					zhiqian: '../../static/img/pray/goods/offer/zhiqian/zhiqianer.png',
+					fire: `${this.$pathURL}static/img/pray/goods/offer/zhiqian/fire/fire1.png`,
+					zhiqian: `${this.$pathURL}static/img/pray/goods/offer/zhiqian/zhiqianer.png`,
 				},
 				// 是否显示选神
 				curGodId: 1,	// 当前神佛的id
@@ -206,7 +206,7 @@
 				desk: {	// 桌子上的物品
 					pingzi: {
 						empty: true,
-						url: '../../static/img/pray/goods/desk/pingzi.png',
+						url: `${this.$pathURL}static/img/pray/goods/desk/pingzi.png`,
 						pic: '',
 						timer: null,
 						offer: null,
@@ -214,7 +214,7 @@
 					},
 					zhutai: {
 						empty: true,
-						url: '../../static/img/pray/goods/desk/zhutai.png',
+						url: `${this.$pathURL}static/img/pray/goods/desk/zhutai.png`,
 						timer: null,
 						offer: null,
 						fTimer: null,
@@ -224,7 +224,7 @@
 					},
 					diezi: {
 						empty: true,
-						url: '../../static/img/pray/goods/desk/diezi.png',
+						url: require('../../static/img/pray/goods/desk/diezi.png'),
 						timer: null,
 						offer: null,
 						pic: '',
@@ -232,7 +232,7 @@
 					},
 					xianglu: {
 						empty: true,
-						url: '../../static/img/pray/goods/desk/xianglu.png',
+						url: require('../../static/img/pray/goods/desk/xianglu.png'),
 						timer: null,
 						fTimer: null,
 						name: '',
@@ -243,14 +243,14 @@
 				ground: {	// 地上的物品
 					shanyuanxiang: {
 						empty: true,
-						url: '../../static/img/pray/goods/ground/shanyuanxiang.png',
+						url: require('../../static/img/pray/goods/ground/shanyuanxiang.png'),
 						timer: null,
 						offer: null,
 						overTimer: null,
 					},
 					shaoqianpen: {
 						empty: true,
-						url: '../../static/img/pray/goods/ground/shaoqianpen.png',
+						url: require('../../static/img/pray/goods/ground/shaoqianpen.png'),
 						timer: null,
 						offer: null,
 						overTimer: null,
@@ -259,7 +259,38 @@
 				animation: {	// 动画
 					person: '',
 				},
-				godDict: pData.godDict,	// 根据id查找对应的神佛图片
+				godDict: {
+					1: {
+						id: 1,
+						name: '释迦牟尼（如来佛祖）',
+						img: `${this.$pathURL}static/img/pray/gods/rulai_daxiang.png`,
+					},
+					2: {
+						id: 2,
+						name: '弥勒佛',
+						img: `${this.$pathURL}static/img/pray/gods/milefo_daxiang.png`,
+					},
+					3: {
+						id: 3,
+						name: '观音大士',
+						img: `${this.$pathURL}static/img/pray/gods/guanyin_daxiang.png`,
+					},
+					4: {
+						id: 4,
+						name: '五路财神',
+						img: `${this.$pathURL}static/img/pray/gods/wulucaishen_daxiang.png`,
+					},
+					5: {
+						id: 5,
+						name: '药师佛',
+						img: `${this.$pathURL}static/img/pray/gods/yaoshifo_daxiang.png`,
+					},
+					6: {
+						id: 6,
+						name: '关公',
+						img: `${this.$pathURL}static/img/pray/gods/guangong_daxiang.png`,
+					}
+				},	// 根据id查找对应的神佛图片
 				godImg: '',	// 选中神佛的img
 				offers: {	// 贡品type: 1纸钱2烛台3装饰物4香5贡品
 					t1: [],
@@ -278,6 +309,14 @@
 		},
         computed: {
 			...mapState(['token', 'god', 'user']),
+			PathUrl() {
+				if(process.env.NODE_ENV === 'development') {
+					return '/'
+				}
+				else{
+					return '/web/'
+				}
+			}
 		},
         onLoad() {
 			this.buddhalist();
@@ -286,7 +325,6 @@
 		mounted(){
 			// 一开始就烧啊
 			this.goFireZhiqian();
-			// this.enshrineType();
 		},
 		onShow(){
 			this.orderList();
@@ -303,6 +341,7 @@
 								for(let i = 0; i < res.data.length; i++) {
 									for(let j = 0; j < this.offers.init.length; j++) {
 										if(res.data[i].enshrine_id === this.offers.init[j].id) {
+											console.log('this.offers.init[j]:' ,this.offers.init[j])
 											this.renderOffer(this.offers.init[j]);
 											const type = res.data[i].enshrine_type;
 											if(type === 1) {
@@ -336,13 +375,13 @@
 												}, res.data[i].burning_time_limit.sec * 1000)
 											}
 											else if(type === 4) {
-												if(this.desk.xiang.overTimer) {
-													clearTimeout(this.desk.xiang.overTimer);
+												if(this.desk.xianglu.overTimer) {
+													clearTimeout(this.desk.xianglu.overTimer);
 												}
-												this.desk.xiang.overTimer = setTimeout(() => {
+												this.desk.xianglu.overTimer = setTimeout(() => {
 													self.$msg(`${self.offers.init[j].name}供奉完毕`);
-													self.desk.xiang.empty = true;
-													clearTimeout(self.desk.xiang.overTimer);
+													self.desk.xianglu.empty = true;
+													clearTimeout(self.desk.xianglu.overTimer);
 												}, res.data[i].burning_time_limit.sec * 1000)
 											}
 											else if(type === 5) {
@@ -386,6 +425,7 @@
 			},
 			// 将贡品渲染出来
 			renderOffer(offer) {
+				console.log('offer: ', offer);
 				if(offer.type === 1) {
 					this.ground.shaoqianpen.empty = false;
 					this.zhiqian.zhiqian = offer.pic;
@@ -420,7 +460,7 @@
 				if (this.desk.zhutai.fTimer) {
 					clearInterval(this.desk.zhutai.fTimer)
 				}
-				let target = '../../static/img/pray/goods/offer/lazhu/';
+				let target = `${this.$pathURL}static/img/pray/goods/offer/lazhu/`;
 				let which = '';
 				if (id === 8) {
 					target += 'xiaozaizhu'
@@ -465,7 +505,7 @@
 				if (this.desk.zhutai.fTimer) {
 					clearInterval(this.desk.zhutai.fTimer)
 				}
-				let target = '../../static/img/pray/goods/offer/xiang/';
+				let target = `${this.$pathURL}static/img/pray/goods/offer/xiang/`;
 				let which = '';
 				if (id === 19) {
 					target += 'xiaozaixiang'
@@ -580,28 +620,28 @@
 			buddhalist() {
 				const picDict = {
 					1: {
-						img: '../../static/img/gods/rulai',
-						pname: '../../static/img/gods/shijiamoni.png'
+						img: `${this.$pathURL}static/img/gods/rulai`,
+						pname: '${this.$pathURL}static/img/gods/shijiamoni.png'
 					},
 					2: {
-						img: '../../static/img/gods/milefo',
-						pname: '../../static/img/gods/milefo.png'
+						img: `${this.$pathURL}static/img/gods/milefo`,
+						pname: `${this.$pathURL}static/img/gods/milefo.png`
 					},
 					3: {
-						img: '../../static/img/gods/guanyin',
-						pname: '../../static/img/gods/guanyin.png'
+						img: `${this.$pathURL}static/img/gods/guanyin`,
+						pname: `${this.$pathURL}static/img/gods/guanyin.png`
 					},
 					4: {
-						img: '../../static/img/gods/caishen',
-						pname: '../../static/img/gods/wulucaishen.png'
+						img: `${this.$pathURL}static/img/gods/caishen`,
+						pname: `${this.$pathURL}static/img/gods/wulucaishen.png`
 					},
 					5: {
-						img: '../../static/img/gods/yaoshifo',
-						pname: '../../static/img/gods/yaoshifo.png'
+						img: `${this.$pathURL}static/img/gods/yaoshifo`,
+						pname: `${this.$pathURL}static/img/gods/yaoshifo.png`
 					},
 					6: {
-						img: '../../static/img/gods/guangong',
-						pname: '../../static/img/gods/guangong.png'
+						img: `${this.$pathURL}static/img/gods/guangong`,
+						pname: `${this.$pathURL}static/img/gods/guangong.png`
 					}
 				}
 				buddhalist().then(res => {
@@ -640,9 +680,9 @@
 			// 开始烧纸钱
 			goFireZhiqian() {
 				const self = this;
-				let target = '../../static/img/pray/goods/offer/zhiqian/fire/fire';
+				let target = `${this.$pathURL}static/img/pray/goods/offer/zhiqian/fire/fire`;
 				// 填补计时器延时执行
-				this.zhiqian.fire = '../../static/img/pray/goods/offer/zhiqian/fire/fire1.png';
+				this.zhiqian.fire = `${this.$pathURL}static/img/pray/goods/offer/zhiqian/fire/fire1.png`;
 				let index = 1;
 				let timer = setInterval(() => {
 					self.zhiqian.fire = `${target}${index}.png`;
@@ -663,10 +703,10 @@
 				// 当前图片是哪个
 				let index = 1;
 				const self = this;
-				let target = '../../static/img/pray/person/';
+				let target = `${this.$pathURL}static/img/pray/person/`;
 				const sex = this.user.sex === 1 ? 'm' : 'f';
 				// 填补计时器延时执行
-				self.animation.person = `../../static/img/pray/person/${sex}1.png`;
+				self.animation.person = `${this.$pathURL}static/img/pray/person/${sex}1.png`;
 				let timer = setInterval(() => {
 					if(count > 2) {
 						clearInterval(timer)
@@ -689,7 +729,7 @@
 				const target = this[where][name];
 				let count = 0;
 				const self = this;
-				let targetUrl = '../../static/img/pray/goods/';
+				let targetUrl = `${this.$pathURL}static/img/pray/goods/`;
 				target.timer = setInterval(() => {
 					count++;
 					const status = count%2 === 1 ? `${name}_liang` : name;
@@ -700,7 +740,7 @@
 			banFlash(where, name) {
 				const target = this[where][name];
 				clearInterval(target.timer);
-				const targetUrl = '../../static/img/pray/goods/';
+				const targetUrl = `${this.$pathURL}static/img/pray/goods/`;
 				target.url = `${targetUrl}${where}/${name}.png`;
 			}
 		},
