@@ -43,9 +43,9 @@
 					<img :src="zhiqian.fire" class="zhiqian-fire" v-if="!ground.shaoqianpen.empty" />
 					<img class="gaizi" src="../../static/img/pray/goods/ground/gaizi.png" />
 				</view>
-				<view class="shanyuanxiang img-wrap" @click="groundClick('shanyuanxiang', 0)">
+				<!-- <view class="shanyuanxiang img-wrap" @click="groundClick('shanyuanxiang', 0)">
 					<img :src="ground.shanyuanxiang.url" />
-				</view>
+				</view> -->
 			</view>
 			<view class="cushion-wrap">
 				<view class="person" v-if='praying'>
@@ -66,7 +66,7 @@
 							{{ god.name }}
 						</view>
 					</view>
-					<button class="custom-btn" @click="ownBuddha">请神佛到家</button>
+					<button class="custom-btn" @click="ownBuddha(god.id)">请神佛到家</button>
 				</swiper-item>
 			</swiper>
 		</custom-mask>
@@ -554,7 +554,9 @@
 			setGod() {
 				this.godImg = this.godDict[this.god.id]['img']
 			},
+			// 请佛回家
  			ownBuddha(id) {
+				console.log('id: ', id);
 				const buddha_id = id;
 				ownBuddha({buddha_id}).then(res => {
 					if (res.code === 1) {
@@ -746,17 +748,17 @@
 				},
 				immediate: true,
 			},
-			'ground.shanyuanxiang.empty': {
-				handler(val) {
-					if(val) {
-						this.flash('ground', 'shanyuanxiang');
-					}
-					else {
-						this.banFlash('ground', 'shanyuanxiang');
-					}
-				},
-				immediate: true,
-			},
+			// 'ground.shanyuanxiang.empty': {
+			// 	handler(val) {
+			// 		if(val) {
+			// 			this.flash('ground', 'shanyuanxiang');
+			// 		}
+			// 		else {
+			// 			this.banFlash('ground', 'shanyuanxiang');
+			// 		}
+			// 	},
+			// 	immediate: true,
+			// },
 			'ground.shaoqianpen.empty': {
 				handler(val) {
 					if(val) {
@@ -956,7 +958,7 @@
 			width: 100%;
 			bottom: 60upx;
 			display: flex;
-			justify-content: space-around;
+			// justify-content: space-around;
 			.img-wrap{
 				position: relative;
 				display: block;
