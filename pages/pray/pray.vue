@@ -443,6 +443,7 @@
 				else if(offer.type === 3) {
 					this.desk.pingzi.empty = false;
 					this.desk.pingzi.url = offer.pic;
+					console.log('renderOffer this.desk.pingzi.url：', this.desk.pingzi.url)
 					this.$refs.offerMask3.close();
 				}
 				else if(offer.type === 4) {
@@ -754,7 +755,8 @@
 						this.flash('desk','pingzi');
 					}
 					else {
-						this.banFlash('desk','pingzi');
+						const target = this['desk']['pingzi'];
+						clearInterval(target.timer);
 					}
 				},
 				immediate: true,
