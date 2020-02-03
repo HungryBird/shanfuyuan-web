@@ -189,7 +189,7 @@ export const getUniStorage = (key, cb) => {
 	uni.getStorage({
 		key,
 		success: (data) => {
-			if(cb) cb(data[key])
+			if(cb) cb(data.data)
 		},
 		fail: () => {
 			if(cb) cb()

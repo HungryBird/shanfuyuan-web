@@ -36,6 +36,7 @@ const store = new Vuex.Store({
 			setUniStorage('orderList', orderList);
 		},
         setToken(state, token) {
+			console.log('setToken: ', token);
             state.token = token;
 			setUniStorage('token', token);
         },

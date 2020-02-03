@@ -26,7 +26,7 @@
 			  </view>
 		  </view>
 	  </uni-card>
-	  <uni-load-more :loadingType="loadingType"></uni-load-more>
+	  <uni-load-more :status="loadingType"></uni-load-more>
 	</scroll-view>
   </view>
 </template>
@@ -51,55 +51,11 @@ export default {
 	mixins: [mixins],
 	data () {
 		return {
-		  list: [{
-                "id": 8,
-                "bank_id": 4,
-                "user_id": 187,
-                "withdraw_money": "70",
-                "status": 2,
-                "card_number": "62179076000010124299",
-                "card_holder": "兰兰",
-                "bank_name": "工商银行",
-                "apply_time": "2020-01-16 10:36:18",
-                "check_time": "2020-01-16 12:02:47",
-                "service_charge": "0.00",
-                "remark": "不给啊",
-                "status_text": "审核未通过"
-            },
-            {
-                "id": 7,
-                "bank_id": 4,
-                "user_id": 187,
-                "withdraw_money": "20",
-                "status": 1,
-                "card_number": "62179076000010124299",
-                "card_holder": "兰兰",
-                "bank_name": "工商银行",
-                "apply_time": "2020-01-16 10:35:50",
-                "check_time": "2020-01-16 11:58:46",
-                "service_charge": "0.00",
-                "remark": null,
-                "status_text": "审核通过"
-            },
-            {
-                "id": 6,
-                "bank_id": 4,
-                "user_id": 187,
-                "withdraw_money": "10",
-                "status": 1,
-                "card_number": "62179076000010124299",
-                "card_holder": "兰兰",
-                "bank_name": "工商银行",
-                "apply_time": "2020-01-16 10:35:37",
-                "check_time": "2020-01-16 11:58:11",
-                "service_charge": "0.00",
-                "remark": null,
-                "status_text": "审核通过"
-            }],
+		  list: [],
 		  current_page: 1,
 		  total: null,
 		  per_page: 10,
-		  loadingType: 0,
+		  loadingType: 'more',
 		  scrollHeight: 0,
 		}
 	},
@@ -114,15 +70,14 @@ export default {
 	methods:{
 		// 获取列表
 		withdrawList() {
-			if (this.loadingType !== 0) return; 
-			this.loadingType = 1;
+			if (this.loadingType !== 'more') return; 
+			this.loadingType = 'loading';
 			withdrawList({current_page: this.current_page}).then(res => {
-				return;
 				if(res.code === 1) {
 					this.list = this.list.concat(res.data.data);
 					this.current_page++;
-					this.loadingType = 0;
-					if (this.list.length >= this.total) this.loadingType = 2;
+					this.loadingType = 'more';
+					if (this.list.length >= this.total) this.loadingType = 'noMore';
 				}
 			})
 		},

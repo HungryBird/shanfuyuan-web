@@ -19,7 +19,7 @@
 			myCode() {
 				uni.showLoading()
 				const str = location.href.split('#')[0];
-				const register_url = `${str}/#/${this.$route.path}`
+				const register_url = `${str}#/pages/reg/reg`
 				myCode({register_url}).then(res => {
 					if(res.code !== 1) {
 						this.$msg(res.msg);

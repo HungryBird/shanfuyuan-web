@@ -14,6 +14,10 @@
                 <input type="password" v-model="password" placeholder="请输入登录密码"></input>
             </view>
         </view>
+		<checkbox-group @change="changeRM" class="rm">
+			<text class="title">记住密码：</text>
+			<checkbox value="1" />
+		</checkbox-group>
         <view class="btn-row">
             <button type="primary" class="primary" @tap="bindLogin">立即登录</button>
         </view>
@@ -48,6 +52,7 @@
             return {
                 providerList: [],
                 hasProvider: false,
+				remember: 0,
                 tel: '',
                 password: '',
                 positionTop: 0
@@ -56,6 +61,9 @@
         computed: mapState(['forcedLogin']),
         methods: {
             ...mapMutations(['login']),
+			changeRM(e) {
+				this.remember = e.detail.value.length === 0 ? 0 : 1;
+			},
             bindLogin() {
                 /**
                  * 客户端对账号信息进行一些必要的校验。
@@ -82,7 +90,8 @@
                  */
                 const data = {
                     tel: this.tel,
-                    password: this.password
+                    password: this.password,
+					remember: this.remember,
                 };
                 login(data).then(res => {
 					if(res.code === 1) {
@@ -200,6 +209,14 @@
 			border-bottom-right-radius: 40upx;
 			background-image: linear-gradient(to right, rgb(235, 114, 033),  rgb(232, 172, 094));
 			font-family: customFont;
+		}
+	}
+	.rm{
+		width: 500upx;
+		margin: 50upx auto 26upx auto;
+		.title{
+			font-family: customFont;
+			color: #646262;
 		}
 	}
 </style>

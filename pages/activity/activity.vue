@@ -3,14 +3,14 @@
     <nav-bar title="活动资讯"></nav-bar>
 	<scroll-view scroll-y="true" @scrolltolower="articleList" class="activity-list" :style="{height: middleHeight + 'px'}">
 	  <view class="activity-list__item" v-for="ls in list" :key="ls.id" @click="seeMore(ls)">
-	    <image class="activity-list__item-img" :src="ls.img"></image>
+	    <image class="activity-list__item-img" :src="ls.img" mode="aspectFit"></image>
 	    <view class="activity-list__item-content">
 	      <view class="activity-list__item-title">{{ ls.title }}</view>
 	      <view class="activity-list__item-body" v-html="ls.desc"></view>
 	      <view class="activity-list__item-date">{{ ls.updated_time }}</view>
 	    </view>
 	  </view>
-	  <uni-load-more :loadingType="loadingType"></uni-load-more>
+	  <uni-load-more :status="status"></uni-load-more>
 	</scroll-view>
 	<tab-bar :active="0"></tab-bar>
   </view>
@@ -39,7 +39,7 @@ export default {
 		  current_page: 1,
 		  total: null,
 		  per_page: 10,
-		  loadingType: 0,
+		  status: 'more',
 		  scrollHeight: 0,
 		}
 	},
@@ -49,25 +49,22 @@ export default {
 	mounted() {
 		const info = uni.getSystemInfoSync();
 		const windowHeight = info.windowHeight;
-		// this.scrollHeight = 
 	},
 	methods:{
 		// 获取列表
 		articleList() {
-			if (this.loadingType !== 0) return; 
-			this.loadingType = 1;
+			if (this.status !== 'more') return; 
+			this.status = 'loading';
 			articleList({current_page: this.current_page}).then(res => {
 				if(res.code === 1) {
 					this.list = this.list.concat(res.data.data);
-					console.log('this.list: ', this.list)
 					this.current_page++;
-					this.loadingType = 0;
-					if (this.list.length >= this.total) this.loadingType = 2;
+					this.status = 'more';
+					if (this.list.length >= this.total) this.status = 'noMore';
 				}
 			})
 		},
 		seeMore(ls) {
-			console.log('ls: ', ls);
 			uni.navigateTo({
 				url: `/pages/activity/more?id=${ls.id}`
 			})

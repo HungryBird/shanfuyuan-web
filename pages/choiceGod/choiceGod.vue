@@ -4,11 +4,13 @@
 			<view class="gods">
 				<view class="god" ref="god" v-for="(god, index) in gods" :key="god.url" :class="{scaleImg: index === activeIndex}" @click="clickGod(index)">
 					<img :src="god.img + '_' + (index === activeIndex ? '1' + '.png' : '0' + '.png')" />
-					<img :src="god.pname" v-if="index === activeIndex" />
+					<view class="name-wrap" v-if="index === activeIndex">
+						<img :src="god.pname" />
+					</view>
+					<button class="choice-btn" @click="ownBuddha" v-if="index === activeIndex">确 定</button>
 				</view>
 			</view>
 		</view>
-		<button class="custom-btn" @click="ownBuddha" v-if="!ownBuddhaing">确 定</button>
 		<view class="bottom">
 			<img src="../../static/img/simiaofaguang.png" class="light" />
 			<image src="../../static/img/simiao.png" mode="widthFix" class="temple"></image>
@@ -189,6 +191,7 @@
 			},
 			// 变换位置
 			translatePos(val) {
+				return;
 				const len = this.gods.length;
 				// 右划
 				if(val > 0) {
@@ -213,12 +216,23 @@
 </script>
 
 <style lang="scss">
-	.custom-btn{
+	.choice-btn{
 		position: absolute;
 		left: 50%;
-		bottom: 60upx;
-		transform: translate(-50%, 0);
+		top: 100%;
+		transform: translate(-50%, -50%);
+		width: 80%;
 		z-index: 99999;
+		color: #fff;
+		font-size: 28upx;
+		border-top-left-radius: 60upx;
+		border-top-right-radius: 60upx;
+		border-bottom-left-radius: 60upx;
+		border-bottom-right-radius: 60upx;
+		background-image: linear-gradient(to right, rgb(235, 114, 033),  rgb(232, 172, 094));
+		font-family: customFont;
+		line-height: 2;
+		font-size: 28upx;
 	}
 	.content{
 		background: url(../../static/img/beijingtu.png);
@@ -255,13 +269,21 @@
 					&:first-child{
 						width: 100%;
 					}
-					&:nth-child(2){
+				}
+				.name-wrap{
+					position: absolute;
+					left: 50%;
+					bottom: 80upx;
+					transform: translate(-50%, 0);
+					width: 100%;
+					height: auto;
+					img{
+						display: block;
+						object-fit: cover;
 						position: absolute;
-						left: 50%;
-						top: 50%;
-						transform: translate(-50%, 40%);
+						left: 0;
+						top: 0;
 						width: 100%;
-						height: auto;
 					}
 				}
 			}

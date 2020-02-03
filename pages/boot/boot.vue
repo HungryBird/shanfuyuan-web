@@ -28,7 +28,7 @@
 	import { getUniStorage, isEmpty } from '@/utils/util.js'
 	
 	export default{
-		onReady() {
+		onShow() {
 			getUniStorage('token', (token) => {
 				if(isEmpty(token)) {
 					setTimeout(() => {
@@ -38,11 +38,22 @@
 					}, 3500)
 				}
 				else {
-					setTimeout(() => {
-						uni.switchTab({
-							url: '../main/main'
-						})
-					}, 3500)
+					getUniStorage('god', (god) => {
+						if(isEmpty(god.id)) {
+							setTimeout(() => {
+								uni.navigateTo({
+									url: '../choiceGod/choiceGod'
+								})
+							}, 3500)
+						}
+						else {
+							setTimeout(() => {
+								uni.navigateTo({
+									url: '../pray/pray'
+								})
+							}, 3500)
+						}
+					})
 				}
 			})
 		}

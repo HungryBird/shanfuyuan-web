@@ -33,7 +33,7 @@
 			</view>
 			<view class="input-row">
 			    <text class="title">邀请码：</text>
-			    <input type="text" v-model="invite_code" placeholder="请再输入邀请码(选填)"></input>
+			    <input type="text" disabled="disabled" v-model="invite_code" placeholder="请再输入邀请码(选填)"></input>
 			</view>
         </view>
         <view class="btn-row">
@@ -72,6 +72,9 @@
 				]
             }
         },
+		onLoad(data) {
+			this.invite_code = data.id;
+		},
         methods: {
 			radioChange(e){
 				this.sex = e.detail.value;

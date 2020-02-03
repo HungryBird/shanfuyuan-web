@@ -341,7 +341,6 @@
 								for(let i = 0; i < res.data.length; i++) {
 									for(let j = 0; j < this.offers.init.length; j++) {
 										if(res.data[i].enshrine_id === this.offers.init[j].id) {
-											console.log('this.offers.init[j]:' ,this.offers.init[j])
 											this.renderOffer(this.offers.init[j]);
 											const type = res.data[i].enshrine_type;
 											if(type === 1) {
@@ -352,7 +351,8 @@
 													self.$msg(`${self.offers.init[j].name}供奉完毕`);
 													self.ground.shaoqianpen.empty = true;
 													clearTimeout(self.ground.shaoqianpen.overTimer);
-												}, res.data[i].burning_time_limit.sec * 1000)
+													self.orderList();
+												}, res.data[i].burned_time * 1000)
 											}
 											else if(type === 2) {
 												if(this.desk.zhutai.overTimer) {
@@ -362,7 +362,8 @@
 													self.$msg(`${self.offers.init[j].name}供奉完毕`);
 													self.desk.zhutai.empty = true;
 													clearTimeout(self.desk.zhutai.overTimer);
-												}, res.data[i].burning_time_limit.sec * 1000)
+													self.orderList();
+												}, res.data[i].burned_time * 1000)
 											}
 											else if(type === 3) {
 												if(this.desk.pingzi.overTimer) {
@@ -372,7 +373,8 @@
 													self.$msg(`${self.offers.init[j].name}供奉完毕`);
 													self.desk.pingzi.empty = true;
 													clearTimeout(self.desk.pingzi.overTimer);
-												}, res.data[i].burning_time_limit.sec * 1000)
+													self.orderList();
+												}, res.data[i].burned_time * 1000)
 											}
 											else if(type === 4) {
 												if(this.desk.xianglu.overTimer) {
@@ -382,7 +384,8 @@
 													self.$msg(`${self.offers.init[j].name}供奉完毕`);
 													self.desk.xianglu.empty = true;
 													clearTimeout(self.desk.xianglu.overTimer);
-												}, res.data[i].burning_time_limit.sec * 1000)
+													self.orderList();
+												}, res.data[i].burned_time * 1000)
 											}
 											else if(type === 5) {
 												if(this.desk.diezi.overTimer) {
@@ -392,7 +395,8 @@
 													self.$msg(`${self.offers.init[j].name}供奉完毕`);
 													self.desk.diezi.empty = true;
 													clearTimeout(self.desk.diezi.overTimer);
-												}, res.data[i].burning_time_limit.sec * 1000)
+													self.orderList();
+												}, res.data[i].burned_time * 1000)
 											}
 										}
 									}
@@ -425,7 +429,6 @@
 			},
 			// 将贡品渲染出来
 			renderOffer(offer) {
-				console.log('offer: ', offer);
 				if(offer.type === 1) {
 					this.ground.shaoqianpen.empty = false;
 					this.zhiqian.zhiqian = offer.pic;
@@ -439,7 +442,7 @@
 				}
 				else if(offer.type === 3) {
 					this.desk.pingzi.empty = false;
-					this.desk.pingzi.pic = offer.pic;
+					this.desk.pingzi.url = offer.pic;
 					this.$refs.offerMask3.close();
 				}
 				else if(offer.type === 4) {
@@ -596,7 +599,6 @@
 			},
 			// 请佛回家
  			ownBuddha(id) {
-				console.log('id: ', id);
 				const buddha_id = id;
 				ownBuddha({buddha_id}).then(res => {
 					if (res.code === 1) {
@@ -705,6 +707,7 @@
 				const self = this;
 				let target = `${this.$pathURL}static/img/pray/person/`;
 				const sex = this.user.sex === 1 ? 'm' : 'f';
+				console.log('user: ', this.user);
 				// 填补计时器延时执行
 				self.animation.person = `${this.$pathURL}static/img/pray/person/${sex}1.png`;
 				let timer = setInterval(() => {
@@ -930,7 +933,7 @@
 				width: 15%;
 				&:first-child{
 					left: 5%;
-					margin-top: -80upx;
+					margin-top: -100upx;
 				}
 				&:nth-child(2){
 					left: 14%;
@@ -955,7 +958,7 @@
 				}
 				&:nth-child(7){
 					right: 5%;
-					margin-top: -80upx;
+					margin-top: -100upx;
 				}
 				img{
 					display: block;
@@ -1044,7 +1047,7 @@
 			.person{
 				position: relative;
 				width: 40%;
-				top: 60upx;
+				top: 80upx;
 				z-index: 99999999;
 				margin: 0 auto;
 				img{

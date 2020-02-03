@@ -73,7 +73,8 @@
 				</view>
 				<view class="result">
 					<view v-if="status.check_status === 0">{{ status.desc }}</view>
-					<view class="confirm-text" v-else>
+					<view v-if="status.check_status === -1">请您先算命</view>
+					<view class="confirm-text" v-else-if="status.check_status === 1">
 						<view>施主，大师帮您算出您该祭拜的方向为</view>
 						<view>
 							<text class="position-bei position" v-if="status.position === '北'">北</text>

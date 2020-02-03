@@ -1,4 +1,4 @@
-import { getUpperCase, getUniStorageSync, isEmpty } from '@/utils/util.js'
+import { getUpperCase, getUniStorageSync, isEmpty, clearUniStorage } from '@/utils/util.js'
 
 let baseURL;
 
@@ -21,7 +21,8 @@ const http = (url, method = 'GET', data ,header = {}, timeout = 30000) => {
 			data,
 			timeout,
 			success: (res) => {
-				if(res.data.code === 10005) {
+				if(res.data.code >= 10000) {
+					clearUniStorage();
 					uni.navigateTo({
 						url: '/pages/login/login'
 					})
