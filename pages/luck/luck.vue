@@ -89,7 +89,7 @@
 				<view class="btn-row">
 				    <button type="primary" class="custom-btn" @click="fortune">确定</button>
 				</view>
-				<view class="bottom">
+				<view class="bottom" v-show="hideshow">
 					<img src="../../static/img/luck/bottom.png" />
 				</view>
 			</view>
@@ -112,6 +112,9 @@
 		},
 		data() {
 			return{
+				docmHeight: document.documentElement.clientHeight,  //默认屏幕高度
+				showHeight: document.documentElement.clientHeight,   //实时屏幕高度
+				hideshow:true,  //显示或者隐藏footer
 				dateIndex: [0,0,0],
 				hasResult: false,
 				form: {
@@ -138,6 +141,7 @@
 				}
 				timer = setTimeout(() => {
 					self.calcuHeight();
+					self.showHeight = document.body.clientHeight;
 				}, 200)
 			})
 		},
@@ -188,6 +192,15 @@
 					}
 					uni.hideLoading();
 				})
+			}
+		},
+		watch: {
+			showHeight:function() {
+			    if(this.docmHeight > this.showHeight){
+			       this.hideshow = false
+			    }else{
+			       this.hideshow = true
+			    }
 			}
 		}
 	}

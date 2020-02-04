@@ -8,7 +8,6 @@
 			</view>
 			<view class="desk-wrap">
 				<view class="pingzi img-wrap" @click="deskClick('pingzi', 3)">
-					<img :src="desk.pingzi.pic" class="flower" v-if="!desk.pingzi.empty" />
 					<img :src="desk.pingzi.url" />
 				</view>
 				<view class="zhutai img-wrap" @click="deskClick('zhutai', 2)">
@@ -32,7 +31,6 @@
 					<img :src="desk.zhutai.url" />
 				</view>
 				<view class="pingzi img-wrap" @click="deskClick('pingzi', 3)">
-					<img :src="desk.pingzi.pic" class="flower" v-if="!desk.pingzi.empty" />
 					<img :src="desk.pingzi.url" />
 				</view>
 			</view>
@@ -821,6 +819,7 @@
 
 <style lang="scss" scoped>
 	.offer-mask{
+		z-index: 999999999;
 		.offer-wrap{
 			position: absolute;
 			bottom: 20upx;
@@ -933,8 +932,9 @@
 				position: absolute;
 				width: 15%;
 				&:first-child{
-					left: 5%;
-					margin-top: -100upx;
+					left: 1%;
+					margin-top: -200upx;
+					width: 22%;
 				}
 				&:nth-child(2){
 					left: 14%;
@@ -958,8 +958,9 @@
 					margin-top: -30upx;
 				}
 				&:nth-child(7){
-					right: 5%;
-					margin-top: -100upx;
+					right: 1%;
+					margin-top: -200upx;
+					width: 22%;
 				}
 				img{
 					display: block;
@@ -1001,7 +1002,7 @@
 			left: 0;
 			right: 0;
 			width: 100%;
-			bottom: 60upx;
+			bottom: 0;
 			display: flex;
 			// justify-content: space-around;
 			.img-wrap{
@@ -1045,6 +1046,7 @@
 			bottom: 0;
 			left: 50%;
 			transform: translateX(-50%);
+			z-index: 999;
 			.person{
 				position: relative;
 				width: 40%;

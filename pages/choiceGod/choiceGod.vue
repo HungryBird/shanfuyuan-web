@@ -26,6 +26,7 @@
 	export default{
 		data() {
 			return {
+				playCount: 0,
 				into: false,
 				flying: false,
 				ownBuddhaing: false,
@@ -81,6 +82,32 @@
 			this.calcuPos();
 		},
 		methods:{
+			// 开始播放声音
+			startPlay() {
+				const innerAudioContext = uni.createInnerAudioContext();
+				innerAudioContext.src = '../../static/sounds/choice_god.mp3';
+				innerAudioContext.autoplay =true;
+				innerAudioContext.onEnded(() => {
+					if(this.playCount > 2) {
+						this.$store.commit('choiceGod', this.gods[this.activeIndex]);
+						this.into = false;
+						this.flying = false;
+						this.playCount = 0;
+						uni.navigateTo({
+							url: '../pray/pray'
+						})
+						return;
+					}
+					this.startPlay();
+				});
+				innerAudioContext.onPlay(() => {
+					// 
+				});
+				innerAudioContext.onError((err) => {
+					console.error('err: ', err.msg)
+				});
+				this.playCount++;
+			},
 			// 请神回家
 			ownBuddha(index) {
 				if(this.ownBuddhaing) return;
@@ -98,16 +125,9 @@
 						// this.$refs.god[index].$el.style.top = null;
 						this.flying = true;
 						const self = this;
+						self.startPlay();
 						setTimeout(() => {
 							self.into = true;
-							setTimeout(() => {
-								self.$store.commit('choiceGod', this.gods[this.activeIndex]);
-								uni.navigateTo({
-									url: '../pray/pray'
-								})
-								self.into = false;
-								self.flying = false;
-							}, 3750)
 						}, 1750)
 					}
 					this.ownBuddhaing = false;
@@ -245,7 +265,7 @@
 	.choice-btn{
 		position: absolute;
 		left: 50%;
-		top: 100%;
+		top: 110%;
 		transform: translate(-50%, -50%);
 		width: 80%;
 		z-index: 99999;

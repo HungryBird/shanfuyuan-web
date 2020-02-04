@@ -80,16 +80,16 @@ page {
 	display: flex;
 	padding: 10upx;
 	.left{
-		width: 30%;
-		height: 100%;
+		width: 100upx;
+		height: 100upx;
 		border-radius: 100%;
 		overflow: hidden;
+		background-color: #333333;
 		img{
 			display: block;
 			width: 100%;
 			height: 100%;
 			object-fit: cover;
-			background-color: #333333;
 		}
 	}
 	.right{
