@@ -2,17 +2,19 @@
 	<view class="content" @touchstart="tStart" @touchmove="tMove">
 		<view class="top">
 			<view class="gods">
-				<view class="god" ref="god" v-for="(god, index) in gods" :key="god.url" :class="{scaleImg: index === activeIndex}" @click="clickGod(index)">
+				<view class="god" ref="god" v-for="(god, index) in gods" :key="god.url" 
+				:class="{scaleImg: index === activeIndex, 'go-down': index === activeIndex && flying}" @click="clickGod(index)">
 					<img :src="god.img + '_' + (index === activeIndex ? '1' + '.png' : '0' + '.png')" />
-					<view class="name-wrap" v-if="index === activeIndex">
+					<view class="name-wrap" v-if="index === activeIndex && !flying">
 						<img :src="god.pname" />
 					</view>
-					<button class="choice-btn" @click="ownBuddha" v-if="index === activeIndex">确 定</button>
+					<img src="../../static/img/xuanzhongbeiguang.png" class="light" v-if="index === activeIndex" />
+					<button class="choice-btn" @click="ownBuddha(index)" v-if="index === activeIndex && !flying">确 定</button>
 				</view>
 			</view>
 		</view>
 		<view class="bottom">
-			<img src="../../static/img/simiaofaguang.png" class="light" />
+			<img src="../../static/img/simiaofaguang.png" class="light" v-if="into" />
 			<image src="../../static/img/simiao.png" mode="widthFix" class="temple"></image>
 		</view>
 	</view>
@@ -24,6 +26,8 @@
 	export default{
 		data() {
 			return {
+				into: false,
+				flying: false,
 				ownBuddhaing: false,
 				startPageX: 0,
 				endPageX: 0,
@@ -69,7 +73,7 @@
 				posXY: [],
 			}
 		},
-		onLoad() {
+		onShow() {
 			this.buddhalist();
 		},
 		mounted() {
@@ -78,20 +82,34 @@
 		},
 		methods:{
 			// 请神回家
-			ownBuddha() {
+			ownBuddha(index) {
+				if(this.ownBuddhaing) return;
 				this.ownBuddhaing = true;
 				const buddha_id = this.gods[this.activeIndex].id;
 				this.$store.commit('choiceGod', this.gods[this.activeIndex]);
 				ownBuddha({buddha_id}).then(res => {
 					if (res.code === 1) {
+						// setTimeout(() => {
+						// 	this.$store.commit('choiceGod', this.gods[this.activeIndex]);
+						// 	uni.navigateTo({
+						// 		url: '../pray/pray'
+						// 	})
+						// }, 200)
+						// this.$refs.god[index].$el.style.top = null;
+						this.flying = true;
+						const self = this;
 						setTimeout(() => {
-							this.$store.commit('choiceGod', this.gods[this.activeIndex]);
-							uni.navigateTo({
-								url: '../pray/pray'
-							})
-						}, 200)
+							self.into = true;
+							setTimeout(() => {
+								self.$store.commit('choiceGod', this.gods[this.activeIndex]);
+								uni.navigateTo({
+									url: '../pray/pray'
+								})
+								self.into = false;
+								self.flying = false;
+							}, 3750)
+						}, 1750)
 					}
-					this.$msg(res.msg);
 					this.ownBuddhaing = false;
 				})
 			},
@@ -155,13 +173,18 @@
 			// 计算位置
 			calcuPos() {
 				const { windowWidth } = uni.getSystemInfoSync();
+				// 固定6张图片
 				var total = 6,
-				coords = {},
 				diam,radius1,radius2,imgW,radius;
+				// 直径等于屏幕宽度
 				diam = windowWidth;
+				// 屏幕宽度的半径
 				var radius = diam / 2,
+				// 图片宽度等于25%屏幕宽度
 				imgW = windowWidth/4,
+				// 内半径
 				radius2 = radius - imgW;
+				// 90°
 				var alpha = Math.PI / 2,
 				len = 6,
 				corner = 2 * Math.PI / total;
@@ -204,7 +227,10 @@
 			},
 			// 点击神
 			clickGod(index) {
-				this.activeIndex = index;
+				if(this.flying) return;
+				// this.activeIndex = index;
+				const newArr = this.gods.splice(0, index);
+				this.gods = this.gods.concat(newArr);
 			}
 		},
 		watch: {
@@ -240,6 +266,16 @@
 		background-repeat: no-repeat;
 		position: relative;
 	}
+	.go-down{
+		position: fixed !important;
+		left: 50% !important;
+		transform: translateX(-50%) !important;
+		top: 80% !important;
+		transition: all 1.75s !important;
+		animation: fade 0.75s;
+		animation-delay: 1.75s;
+		animation-fill-mode: forwards;
+	}
 	.top{
 		position: absolute;
 		top: -6%;
@@ -269,6 +305,20 @@
 					&:first-child{
 						width: 100%;
 					}
+				}
+				.light{
+					position: absolute;
+					left: 0;
+					top: 0;
+					display: block;
+					height: 100%;
+					width: 100%;
+					margin: 0 auto;
+					object-fit: cover;
+					z-index: -1;
+					animation: scaleLight-big 2s;
+					animation-timing-function: ease-in-out;
+					animation-iteration-count: infinite;
 				}
 				.name-wrap{
 					position: absolute;
@@ -304,7 +354,7 @@
 			width: 100%;
 			margin: 0 auto;
 			object-fit: cover;
-			animation: scaleLight 2s;
+			animation: scaleLight-small 2s;
 			animation-timing-function: ease-in-out;
 			animation-iteration-count: infinite;
 		}
@@ -315,7 +365,19 @@
 			width: 100%;
 		}
 	}
-	@keyframes scaleLight
+	@keyframes scaleLight-big
+	{
+		0{
+			transform: scale(1);
+		}
+		50%{
+			transform: scale(1.6);
+		}
+		100%{
+			transform: scale(1);
+		}
+	}
+	@keyframes scaleLight-small
 	{
 		0{
 			transform: scale(1);
@@ -325,6 +387,12 @@
 		}
 		100%{
 			transform: scale(1);
+		}
+	}
+	@keyframes fade
+	{
+		to{
+			opacity: 0;
 		}
 	}
 </style>
