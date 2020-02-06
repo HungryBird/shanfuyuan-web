@@ -1,18 +1,44 @@
 <template>
   <view class="activity-content">
     <nav-bar title="活动资讯"></nav-bar>
-	<scroll-view scroll-y="true" @scrolltolower="articleList" class="activity-list" :style="{height: middleHeight + 'px'}">
-	  <view class="activity-list__item" v-for="ls in list" :key="ls.id" @click="seeMore(ls)">
-	    <image class="activity-list__item-img" :src="ls.img" mode="aspectFit"></image>
-	    <view class="activity-list__item-content">
-	      <view class="activity-list__item-title">{{ ls.title }}</view>
-	      <view class="activity-list__item-body" v-html="ls.desc"></view>
-	      <view class="activity-list__item-date">{{ ls.updated_time }}</view>
-	    </view>
-	  </view>
-	  <uni-load-more :status="status"></uni-load-more>
-	</scroll-view>
-	<tab-bar :active="0"></tab-bar>
+	<view class="activity-middle">
+		<view class="inner">
+			<view class="block">
+				<view class="block-inner" @click="goRoute('./videos')">
+					<img src="../../static/img/activity/dabofangtubiao.png" mode="widthFix" /> 
+					<text>视频</text>
+				</view>
+			</view>
+			<view class="block">
+				<view class="block-inner" @click="goRoute('./story')">
+					<img src="../../static/img/activity/gushitubiao.png" mode="widthFix" />
+					<text>善佛缘故事</text>
+				</view>
+			</view>
+			<view class="block">
+				<view class="block-inner" @click="goRoute('./art')">
+					<img src="../../static/img/activity/yishutubiao.png" mode="widthFix" />
+					<text>善佛缘艺术</text>
+				</view>
+			</view>
+			<view class="block">
+				<view class="block-inner" @click="goRoute('./relics')">
+					<img src="../../static/img/activity/shelitubiao.png" mode="widthFix" />
+					<text>神佛舍利</text>
+				</view>
+			</view>
+			<view class="block">
+				<view class="block-inner" @click="goRoute('./world_temples')">
+					<view class="center">
+						<img src="../../static/img/activity/simioaotubiao.png" mode="widthFix" />
+						<text>世界寺庙大全</text>
+					</view>
+				</view>
+			</view>
+		</view>
+		<image src="../../static/img/activity/huodongbeijxiaotu.png" class="bottom-img" mode="aspectFit" />
+	</view>
+	<tab-bar :active="0" class="bottom"></tab-bar>
   </view>
 </template>
 
@@ -35,43 +61,125 @@ export default {
 	mixins: [mixins],
 	data () {
 		return {
-		  list: [],
-		  current_page: 1,
-		  total: null,
-		  per_page: 10,
-		  status: 'more',
-		  scrollHeight: 0,
+		  // 
 		}
 	},
 	onLoad() {
-		this.articleList();
+		// 
 	},
 	mounted() {
-		const info = uni.getSystemInfoSync();
-		const windowHeight = info.windowHeight;
+		// 
 	},
 	methods:{
-		// 获取列表
-		articleList() {
-			if (this.status !== 'more') return; 
-			this.status = 'loading';
-			articleList({current_page: this.current_page}).then(res => {
-				if(res.code === 1) {
-					this.list = this.list.concat(res.data.data);
-					this.current_page++;
-					this.status = 'more';
-					if (this.list.length >= this.total) this.status = 'noMore';
-				}
-			})
-		},
-		seeMore(ls) {
+		goRoute(url) {
 			uni.navigateTo({
-				url: `/pages/activity/more?id=${ls.id}`
+				url,
 			})
 		}
 	}
 }
 </script>
+
+<style lang="scss">
+	.activity-middle{
+		position: relative;
+		flex: 1;
+		padding: 40px 20upx 50px 20upx;
+		background-image: url(../../static/img/tongyongbeijing.png);
+		background-position: center;
+		background-attachment:fixed;
+		background-size: 100% 100%;
+		background-repeat: no-repeat;
+		.inner{
+			display: flex;
+			width: 100%;
+			flex-wrap: wrap;
+			.block{
+				box-sizing: border-box;
+				width: 50%;
+				padding-top: 20upx;
+				font-family: customFont;
+				overflow: hidden;
+				&:nth-child(even){
+					padding-left: 10upx;
+				}
+				&:nth-child(odd){
+					padding-right: 10upx;
+				}
+				&:last-child{
+					width: 100%;
+					padding: 0;
+					padding-top: 20upx;
+				}
+				&:nth-child(1){
+					.block-inner{
+						background-color: #8f6096;
+					}
+				}
+				&:nth-child(2){
+					.block-inner{
+						background-color: #ae76b7;
+					}
+				}
+				&:nth-child(3){
+					.block-inner{
+						background-color: #cf689d;
+					}
+				}
+				&:nth-child(4){
+					.block-inner{
+						background-color: #b55887;
+					}
+				}
+				&:nth-child(5){
+					.block-inner{
+						text-align: center;
+						background-color: #8ec220;
+						.center{
+							margin: auto;
+							line-height: 100upx;
+						}
+						img{
+							display: inline-block;
+							margin: 0;
+							margin-right: 20upx;
+							height: 100upx;
+							vertical-align: middle;
+						}
+					}
+				}
+				.block-inner{
+					display: flex;
+					flex-direction: column;
+					align-items: space-between;
+					padding: 40upx;
+					text-align: center;
+					color: #fff;
+					img{
+						display: block;
+						margin: 0 auto;
+						margin-bottom: 20upx;
+						width: auto;
+						height: 60upx;
+						object-fit: cover;
+					}
+				}
+			}
+		}
+		.bottom-img{
+			position: absolute;
+			left: 0;
+			bottom: -50px;
+			width: 100%;
+		}
+	}
+	.bottom{
+		position: fixed;
+		left: 0;
+		width: 100%;
+		bottom: 0;
+	}
+</style>
 
 <style lang="less">
 page {
@@ -79,10 +187,10 @@ page {
   height: 100%;
 }
 .activity-content {
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  height: 100%;
 }
 .activity-list {
 	flex: 1;

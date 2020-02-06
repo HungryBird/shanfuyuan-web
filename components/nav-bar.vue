@@ -32,6 +32,7 @@
 				this.$emit('toggle-sound', this.slience);
 			},
 			goBack() {
+				this.$emit('go-back');
 				uni.navigateBack()
 			}
 		}

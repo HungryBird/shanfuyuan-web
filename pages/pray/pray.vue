@@ -1,6 +1,6 @@
 <template>
     <view class="content">
-		<nav-bar :opacity="false"></nav-bar>
+		<nav-bar :opacity="false" @go-back="leaveNow" @toggle-sound="toggleSound"></nav-bar>
 		<view class="main">
 			<view class="god">
 				<img src="../../static/img/pray/dabeiguang.png" >
@@ -303,6 +303,7 @@
 					// t4: [],
 					// t5: [],
 				},
+				innerAudioContext: null,
 			}
 		},
         computed: {
@@ -326,8 +327,42 @@
 		},
 		onShow(){
 			this.orderList();
+			this.startPlay();
+		},
+		onHide() {
+			this.leaveNow();
 		},
 		methods:{
+			// 切换声音
+			toggleSound(val) {
+				if(val) {
+					this.innerAudioContext.stop();
+				}
+				else{
+					this.innerAudioContext.play();
+				}
+			},
+			// 返回
+			leaveNow() {
+				this.innerAudioContext.stop();
+				this.innerAudioContext = null;
+			},
+			// 开始播放声音
+			startPlay() {
+				this.innerAudioContext = uni.createInnerAudioContext();
+				this.innerAudioContext.src = '../../static/sounds/choice_god.mp3';
+				this.innerAudioContext.autoplay = true;
+				this.innerAudioContext.loop = true;
+				this.innerAudioContext.onEnded(() => {
+					// 
+				});
+				this.innerAudioContext.onPlay(() => {
+					// 
+				});
+				this.innerAudioContext.onError((err) => {
+					console.error('err: ', err.msg)
+				});
+			},
 			// 获取未烧完的贡品
 			orderList() {
 				this.enshrineType({}).then(res => {

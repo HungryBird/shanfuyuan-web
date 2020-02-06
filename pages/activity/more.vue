@@ -1,15 +1,17 @@
 <template>
 	<view>
-		<nav-bar title="活动咨询"></nav-bar>
+		<nav-bar title="活动资讯"></nav-bar>
 		<view class="inner">
 			<view class="top">
 				<view class="title">{{ title }}</view>
 				<view class="sub">{{ updated_time }}</view>
 			</view>
 			<p><br></p>
-			<img class="imgs" :src="imgs" />
+			<img class="imgs" :src="img1" />
 			<p><br></p>
 			<view class="detail" v-html="desc"></view>
+			<p><br></p>
+			<img class="imgs" :src="img2" />
 		</view>
 	</view>
 </template>
@@ -23,14 +25,15 @@
 		},
 		data() {
 			return {
-				title: '',
-				updated_time: '',
-				desc: '',
-				imgs: '',
+				title: '标题标题',
+				updated_time: '2020-02-06 14:44:05',
+				desc: '<view style="text-indent:2em;font-size:15px;color:#666;">资讯资讯资讯资讯资讯资讯资讯资讯资讯资讯资讯资讯资讯资讯资讯资讯资讯资讯资讯资讯资讯资讯资讯资讯资讯资讯资讯资讯资讯资讯资讯</view>',
+				img1: '/web/static/img/activity/temples/1.jpg',
+				img2: '/web/static/img/activity/temples/3.png',
 			}
 		},
 		onLoad(params) {
-			this.articleDetail(params.id);
+			// this.articleDetail(params.id);
 		},
 		methods:{
 			articleDetail(article_id) {
@@ -65,12 +68,12 @@
 			.sub{
 				padding-bottom: 10upx;
 				font-size: 14px;
-				color: #C8C7CC;
+				color: #888888;
 			}
 		}
 		.imgs{
 			display: block;
-			max-width: 80%;
+			max-width: 100%;
 			margin: 0 auto;
 			object-fit: contain;
 		}

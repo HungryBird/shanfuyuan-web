@@ -44,6 +44,48 @@
 				}
 		},
 		{
+				"path": "pages/activity/videos",
+				"style": {
+					"app-plus": {"titleNView": false}
+				}
+		},
+		{
+				"path": "pages/activity/video",
+				"style": {
+					"app-plus": {"titleNView": false}
+				}
+		},
+		{
+				"path": "pages/activity/story",
+				"style": {
+					"app-plus": {"titleNView": false}
+				}
+		},
+		{
+				"path": "pages/activity/art",
+				"style": {
+					"app-plus": {"titleNView": false}
+				}
+		},
+		{
+				"path": "pages/activity/artMore",
+				"style": {
+					"app-plus": {"titleNView": false}
+				}
+		},
+		{
+				"path": "pages/activity/relics",
+				"style": {
+					"app-plus": {"titleNView": false}
+				}
+		},
+		{
+				"path": "pages/activity/world_temples",
+				"style": {
+					"app-plus": {"titleNView": false}
+				}
+		},
+		{
 				"path": "pages/activity/more",
 				"style": {
 					"app-plus": {"titleNView": false}

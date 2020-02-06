@@ -26,7 +26,7 @@
 	export default{
 		data() {
 			return {
-				playCount: 0,
+				innerAudioContext: null,
 				into: false,
 				flying: false,
 				ownBuddhaing: false,
@@ -76,37 +76,29 @@
 		},
 		onShow() {
 			this.buddhalist();
+			this.startPlay();
 		},
 		mounted() {
 			// 计算位置
 			this.calcuPos();
+			
 		},
 		methods:{
 			// 开始播放声音
 			startPlay() {
-				const innerAudioContext = uni.createInnerAudioContext();
-				innerAudioContext.src = '../../static/sounds/choice_god.mp3';
-				innerAudioContext.autoplay =true;
-				innerAudioContext.onEnded(() => {
-					if(this.playCount > 2) {
-						this.$store.commit('choiceGod', this.gods[this.activeIndex]);
-						this.into = false;
-						this.flying = false;
-						this.playCount = 0;
-						uni.navigateTo({
-							url: '../pray/pray'
-						})
-						return;
-					}
-					this.startPlay();
+				this.innerAudioContext = uni.createInnerAudioContext();
+				this.innerAudioContext.src = '../../static/sounds/choice_god.mp3';
+				this.innerAudioContext.autoplay = true;
+				this.innerAudioContext.loop = true;
+				this.innerAudioContext.onEnded(() => {
+					
 				});
-				innerAudioContext.onPlay(() => {
-					// 
+				this.innerAudioContext.onPlay(() => {
+					
 				});
-				innerAudioContext.onError((err) => {
-					console.error('err: ', err.msg)
+				this.innerAudioContext.onError((err) => {
+					
 				});
-				this.playCount++;
 			},
 			// 请神回家
 			ownBuddha(index) {
@@ -116,18 +108,20 @@
 				this.$store.commit('choiceGod', this.gods[this.activeIndex]);
 				ownBuddha({buddha_id}).then(res => {
 					if (res.code === 1) {
-						// setTimeout(() => {
-						// 	this.$store.commit('choiceGod', this.gods[this.activeIndex]);
-						// 	uni.navigateTo({
-						// 		url: '../pray/pray'
-						// 	})
-						// }, 200)
-						// this.$refs.god[index].$el.style.top = null;
 						this.flying = true;
 						const self = this;
-						self.startPlay();
 						setTimeout(() => {
 							self.into = true;
+							setTimeout(() => {
+								self.$store.commit('choiceGod', this.gods[this.activeIndex]);
+								self.into = false;
+								self.flying = false;
+								self.innerAudioContext.stop();
+								self.innerAudioContext = null;
+								uni.navigateTo({
+									url: '../pray/pray'
+								}, 3750)
+							})
 						}, 1750)
 					}
 					this.ownBuddhaing = false;
