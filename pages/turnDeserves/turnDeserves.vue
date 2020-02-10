@@ -11,7 +11,7 @@
 						<img src="../../static/img/jide/bei.png" />
 					</view>
 					<view class="name">
-						{{ temples.bei.name }}
+						{{ temples.bei.position_name }}
 					</view>
 				</view>
 			</view>
@@ -24,7 +24,7 @@
 						<img src="../../static/img/jide/xi.png" />
 					</view>
 					<view class="name">
-						{{ temples.xi.name }}
+						{{ temples.xi.position_name }}
 					</view>
 				</view>
 				<view class="temple zhong" @click="goTemple(temples.zhong.id)">
@@ -35,7 +35,7 @@
 						<img src="../../static/img/jide/zhong.png" />
 					</view>
 					<view class="name">
-						{{ temples.zhong.name }}
+						{{ temples.zhong.position_name }}
 					</view>
 				</view>
 				<view class="temple dong" @click="goTemple(temples.dong.id)">
@@ -46,7 +46,7 @@
 						<img src="../../static/img/jide/dong.png" />
 					</view>
 					<view class="name">
-						{{ temples.dong.name }}
+						{{ temples.dong.position_name }}
 					</view>
 				</view>
 			</view>
@@ -59,7 +59,7 @@
 						<img src="../../static/img/jide/nan.png" />
 					</view>
 					<view class="name">
-						{{ temples.nan.name }}
+						{{ temples.nan.position_name }}
 					</view>
 				</view>
 			</view>
@@ -223,6 +223,7 @@
 			text-align: center;
 			background-image: url('../../static/img/beijingtuan.png');
 			background-size: cover;
+			background-repeat: no-repeat;
 			background-position: center top;
 			.top{
 				display: flex;

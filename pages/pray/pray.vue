@@ -344,6 +344,7 @@
 			},
 			// 返回
 			leaveNow() {
+				console.log('leave now');
 				this.innerAudioContext.stop();
 				this.innerAudioContext = null;
 			},
@@ -632,7 +633,9 @@
 			},
 			// 请佛回家
  			ownBuddha(id) {
+				console.log('buddha_id: ', id)
 				const buddha_id = id;
+				this.curGodId = id;
 				ownBuddha({buddha_id}).then(res => {
 					if (res.code === 1) {
 						console.log('this.gods: ', this.gods)

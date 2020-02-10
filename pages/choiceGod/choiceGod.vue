@@ -113,6 +113,7 @@
 						setTimeout(() => {
 							self.into = true;
 							setTimeout(() => {
+								console.log('开始没有')
 								self.$store.commit('choiceGod', this.gods[this.activeIndex]);
 								self.into = false;
 								self.flying = false;
@@ -120,8 +121,8 @@
 								self.innerAudioContext = null;
 								uni.navigateTo({
 									url: '../pray/pray'
-								}, 3750)
-							})
+								})
+							}, 4750)
 						}, 1750)
 					}
 					this.ownBuddhaing = false;

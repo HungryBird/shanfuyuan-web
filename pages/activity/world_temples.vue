@@ -57,8 +57,8 @@
 		data() {
 			return{
 				templesImg: [
-					`/${this.$pathURL}static/img/activity/temples/1.jpg`,
-					`/${this.$pathURL}static/img/activity/temples/2.jpg`,
+					`/static/img/activity/temples/1.jpg`,
+					`/static/img/activity/temples/2.jpg`,
 				],
 				status: 'more',
 				lists: [
