@@ -69,21 +69,58 @@
 			</view>
 			<view class="form" v-else>
 				<view class="login-form-group">
-				    <view class="input-row">
+					<view class="row">
+						<view class="input-row">
+						    <text class="title" space="emsp">姓氏</text>
+						    <input type="text" clearable focus v-model="form.fname"></input>
+						</view>
+						<view class="input-row">
+						    <text class="title" space="emsp">名字</text>
+						    <input type="text" clearable focus v-model="form.lname"></input>
+						</view>
+					</view>
+				    <!-- <view class="input-row">
 				        <text class="title" space="emsp">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</text>
 				        <input type="text" clearable focus v-model="form.name" placeholder="输入姓名"></input>
 				    </view>
 				    <view class="input-row">
 				        <text class="title" space="emsp">属&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;相</text>
 				        <input type="text" v-model="form.zodiac" placeholder="请输入属相"></input>
-				    </view>
+				    </view> -->
 					<view class="input-row">
-					    <text class="title">生辰八字</text>
-					    <input type="text" v-model="form.birth" placeholder="请输入生辰八字"></input>
-						<!-- <picker mode="date" :value="dateIndex" @change="changeDate">
-							<view v-if="!form.birth">请选择生辰八字</view>
-							<view v-else>{{ form.birth }}</view>
-						</picker> -->
+						<text class="title" space="emsp">公历</text>
+						<view class="row">
+							<picker @change="yearChange" :value="yearIndex" range-key="year" :range="yearArray">
+								<input v-model="form.year" />
+							</picker>年
+						</view>
+						<view class="row">
+							<picker :disabled="!form.year" @change="monthChange" :value="monthIndex" range-key="month" :range="monthArray">
+								<input :disabled="!form.year" v-model="form.month" />
+							</picker>月
+						</view>
+						<view class="row">
+							<picker :disabled="!form.year || !form.month" @change="dayChange" :value="dayIndex" range-key="day" :range="dayArray">
+								<input :disabled="!form.year || !form.month" v-model="form.day" />
+							</picker>日
+						</view>
+					</view>
+					<view class="input-row">
+					    <text class="title">时辰</text>
+						<picker range-key="time" :value="timeIndex" @change="timeChange" :range="timeArray">
+							<input type="text" v-model="form.birthTime" placeholder="请选择时辰"></input>
+						</picker>
+					</view>
+					<view class="input-row">
+						<text class="title">性别</text>
+						<radio-group @change="radioChange" class="row">
+							<label class="uni-list-cell uni-list-cell-pd row" v-for="item in sexs" :key="item.value">
+								<view>
+									<radio class="custm-radio" :value="item.value" :checked="item.value === form.sex" />
+								</view>
+								<view>{{item.label}}</view>
+							</label>
+						</radio-group>
 					</view>
 				</view>
 				<view class="btn-row">
@@ -105,6 +142,31 @@
 	import { isEmpty } from '@/utils/util.js'
 	import { fortune } from '@/api/luck/luck'
 	import { ownBuddha } from '@/api/choiceGod/choiceGod.js'
+	
+	function getYear() {
+		const date = new Date();
+		const endY = date.getFullYear() + 50;
+		const startY = endY - 200;
+		const arr = []
+		for(let i = startY; i <= endY; i++) {
+			arr.push({
+				year: i,
+			})
+		}
+		return arr;
+	}
+	
+	function initYearIndex() {
+		const date = new Date();
+		const year = date.getFullYear();
+		const arr = getYear();
+		for(let i = 0; i < arr.length; i++) {
+			if(year === arr[i].year) {
+				return i;
+			}
+		}
+	}
+	
 	export default{
 		components:{
 			tabBar,
@@ -112,15 +174,54 @@
 		},
 		data() {
 			return{
+				sexs: [
+					{
+						label: '男性',
+						value: '1',
+					},
+					{
+						label: '女性',
+						value: '2',
+					}
+				],
 				docmHeight: document.documentElement.clientHeight,  //默认屏幕高度
 				showHeight: document.documentElement.clientHeight,   //实时屏幕高度
 				hideshow:true,  //显示或者隐藏footer
-				dateIndex: [0,0,0],
+				timeIndex: 0,
+				yearIndex: initYearIndex(),
+				monthIndex: 0,
+				dayIndex: 0,
 				hasResult: false,
+				yearArray: getYear(),
+				monthArray: [
+					{month: '1'},{month: '2'},{month: '3'},{month: '4'},{month: '5'},{month: '6'},{month: '7'},{month: '8'},{month: '9'},{month: '10'},{month: '11'},{month: '12'},
+				],
+				dayArray: [],
+				timeArray: [
+					{time: '子时 23:00~01:00'},
+					{time: '丑时 01:00~03:00'},
+					{time: '寅时 03:00~05:00'},
+					{time: '卯时 05:00~07:00'},
+					{time: '辰时 07:00~09:00'},
+					{time: '巳时 09:00~11:00'},
+					{time: '午时 11:00~13:00'},
+					{time: '未时 13:00~15:00'},
+					{time: '申时 15:00~17:00'},
+					{time: '酉时 17:00~19:00'},
+					{time: '戌时 19:00~21:00'},
+					{time: '亥时 21:00~23:00'},
+				],
 				form: {
 					name: '',
 					zodiac: '',
-					birth: '',
+					brithDate: '',
+					fname: '',
+					lname: '',
+					birthTime: '',
+					year: '',
+					month: '',
+					day: '',
+					sex: '1',
 				},
 				result: {
 					sum_up: '',
@@ -146,8 +247,35 @@
 			})
 		},
 		methods:{
-			changeDate(e) {
-				this.form.birth = e.detail.value;
+			radioChange(e){
+				this.form.sex = e.detail.value;
+			},
+			// 选择时辰
+			timeChange(e) {
+				const index = e.detail.value;
+				this.timeIndex = index;
+				this.form.birthTime = this.timeArray[index].time;
+			},
+			dayChange(e) {
+				const index = e.detail.value;
+				this.dayIndex = index;
+				this.form.day = this.dayArray[index].day;
+			},
+			monthChange(e) {
+				const index = e.detail.value;
+				this.monthIndex = index;
+				this.form.month = this.monthArray[index].month;
+				this.form.day = '';
+				this.dayIndex = 0;
+			},
+			yearChange(e) {
+				const index = e.detail.value;
+				this.yearIndex = index;
+				this.form.year = this.yearArray[index].year;
+				this.form.month = '';
+				this.form.day = '';
+				this.monthIndex = 0;
+				this.dayIndex = 0;
 			},
 			calcuHeight() {
 				const {windowHeight} = uni.getSystemInfoSync();
@@ -201,6 +329,18 @@
 			    }else{
 			       this.hideshow = true
 			    }
+			},
+			'form.month': {
+				handler() {
+					const lastDay = new Date(this.form.year, this.form.month, 0).getDate();
+					const arr = []
+					for(let i = 1; i <= lastDay; i++) {
+						arr.push({
+							day: i,
+						})
+					}
+					this.dayArray = arr;
+				}
 			}
 		}
 	}
@@ -212,6 +352,13 @@
 		width: 100%;
 		height: 100%;
 		flex-direction: column;
+		.row{
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			font-weight: 600;
+			color: #646262;
+		}
 		.luck-main{
 			overflow-y: auto;
 			flex-grow: 1;
@@ -341,8 +488,9 @@
 				font-weight: 600;
 				color: #646262;
 				padding: 0;
-				&::after{
-					content: '：';
+				white-space: nowrap;
+				&:after{
+					content: ':';
 				}
 			}
 			uni-input,uni-picker{
