@@ -134,6 +134,9 @@
 							})
 						}, 200)
 					}
+					else{
+						this.$msg(res.msg);
+					}
 					uni.hideLoading();
 				}).catch(err => {
 					console.error(err)

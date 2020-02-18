@@ -7,16 +7,16 @@
 					<image mode="aspectFill" class="swiper-img" :src="temple"></image>
 				</swiper-item>
 			</swiper>
-			<view class="temples">
-				<view class="temple" v-for="temple in temples" :key="temple.id">
+			<view class="temples" v-if="show">
+				<view class="temple" v-for="temple in temples" :key="temple.id" @click="seeMore(temple)">
 					<image mode="aspectFill" :src="temple.img"></image>
 					<view class="bottom">
-						{{ temple.name }}
+						{{ temple.title }}
 					</view>
 				</view>
 			</view>
 			<view class="list-wrap">
-				<view v-for="ls in lists" :key="ls.id" class="list" @click="seeMore(ls.id)">
+				<view v-for="ls in lists" :key="ls.id" class="list" @click="seeMore(ls)">
 					<view class="left">
 						<image :src="ls.img" mode="aspectFill"></image>
 					</view>
@@ -30,10 +30,10 @@
 						<view class="bottom">
 							<view class="num">
 								<image src="../../static/img/activity/yuedutubiao.png" mode="aspectFit"></image>
-								{{ ls.num }}
+								{{ ls.num || 0 }}
 							</view>
 							<view class="time">
-								{{ ls.time }}
+								{{ ls.updated_time }}
 							</view>
 						</view>
 					</view>
@@ -48,6 +48,8 @@
 	import navBar from '@/components/nav-bar.vue'
 	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue'
 	import mixins from '@/mixins/mixins.js'
+	import { articleList } from '@/api/activity/activity.js'
+	
 	export default{
 		components:{
 			navBar,
@@ -61,54 +63,11 @@
 					`/static/img/activity/temples/2.jpg`,
 				],
 				status: 'more',
-				lists: [
-					{
-						id: 1,
-						title: '标题1',
-						img: '/static/img/activity/temples/1.jpg',
-						time: '2020-02-06',
-						num: 123456,
-						descript: '概述概述',
-					},
-					{
-						id: 2,
-						title: '标题2',
-						img: '/static/img/activity/temples/1.jpg',
-						time: '2020-02-06',
-						num: 123456,
-						descript: '概述概述',
-					},
-					{
-						id: 3,
-						title: '标题3',
-						img: '/static/img/activity/temples/1.jpg',
-						time: '2020-02-06',
-						num: 123456,
-						descript: '概述概述',
-					},
-				],
-				temples: [
-					{
-						id: 1,
-						img: '/static/img/activity/temples/1.jpg',
-						name: '河南嵩山少林寺',
-					},
-					{
-						id: 2,
-						img: '/static/img/activity/temples/1.jpg',
-						name: '河南嵩山少林寺',
-					},
-					{
-						id: 3,
-						img: '/static/img/activity/temples/1.jpg',
-						name: '河南嵩山少林寺',
-					},
-					{
-						id: 4,
-						img: '/static/img/activity/temples/1.jpg',
-						name: '河南嵩山少林寺',
-					},
-				]
+				page: 1,
+				total: 0,
+				lists: [],
+				show: false,
+				temples: []
 			}
 		},
 		onShow() {
@@ -116,11 +75,27 @@
 		},
 		methods: {
 			loadMore() {
-				//
+				if(this.status !== 'more') return;
+				this.status = 'loading';
+				articleList({
+					cate_id: 5,
+					page: this.page,
+				}).then(res => {
+					if(res.code === 1) {
+						this.page++;
+						this.lists = this.lists.concat(res.data.data);
+						this.status = res.data.total === this.lists.length ? 'nomore' : 'more';
+						this.show = true;
+						this.temples = this.lists.slice(0, 4);
+					}
+					else {
+						this.$msg(res.msg);
+					}
+				})
 			},
-			seeMore(id) {
+			seeMore(list) {
 				uni.navigateTo({
-					url: `./more?id=${id}`
+					url: `./more?id=${list.id}&title=${list.title}&updated_time=${list.updated_time}&desc=${list.desc}`
 				})
 			}
 		}

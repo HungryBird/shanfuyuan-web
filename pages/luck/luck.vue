@@ -2,7 +2,25 @@
 	<view class="luck">
 		<nav-bar title="运势" style="position: static;"></nav-bar>
 		<view class="luck-main" :style="{height: mHeight + 'px'}">
-			<view class="result" v-if="hasResult">
+			<view class="new-result" v-if="hasResult">
+				<view class="block">
+					<view class="bold">
+						您的出生资料
+					</view>
+					<view class="result-content">
+						<view>生日(阴历)：{{ form.year }}年{{ form.month }}月{{ form.day }}日 {{ time }}</view>
+						<view>生肖为{{ result.shengxiao }}</view>
+						<view>{{ form.sex === '1' ? '男' : '女' }}命(八字) {{ result.bazi }}</view>
+					</view>
+					<view class="bold">
+						算命结果
+					</view>
+					<view class="result-content">
+						{{ result.sum_up }}
+					</view>
+				</view>
+			</view>
+			<!-- <view class="result" v-if="hasResult">
 				<view class="top">
 					<img src="../../static/img/luck/shu.png" />
 					<view class="text">
@@ -13,7 +31,7 @@
 					<view class="module">
 						<view class="banner b1">
 							<view class="left">
-								<view class="ts"><!-- 变形 --></view>
+								<view class="ts"></view>
 								<img src="../../static/img/luck/caiyun_tubiao.png" />
 								<text>财运</text>
 							</view>
@@ -26,7 +44,7 @@
 					<view class="module">
 						<view class="banner b2">
 							<view class="left">
-								<view class="ts"><!-- 变形 --></view>
+								<view class="ts"></view>
 								<img src="../../static/img/luck/caiyun_tubiao.png" />
 								<text>事业</text>
 							</view>
@@ -39,7 +57,7 @@
 					<view class="module">
 						<view class="banner b3">
 							<view class="left">
-								<view class="ts"><!-- 变形 --></view>
+								<view class="ts"></view>
 								<img src="../../static/img/luck/caiyun_tubiao.png" />
 								<text>感情</text>
 							</view>
@@ -52,7 +70,7 @@
 					<view class="module">
 						<view class="banner b4">
 							<view class="left">
-								<view class="ts"><!-- 变形 --></view>
+								<view class="ts"></view>
 								<img src="../../static/img/luck/caiyun_tubiao.png" />
 								<text>健康</text>
 							</view>
@@ -66,17 +84,17 @@
 						<button class="custom-btn" style="margin: 20upx auto;">再算一次</button>
 					</view>
 				</view>
-			</view>
+			</view> -->
 			<view class="form" v-else>
 				<view class="login-form-group">
 					<view class="row">
 						<view class="input-row">
 						    <text class="title" space="emsp">姓氏</text>
-						    <input type="text" clearable focus v-model="form.fname"></input>
+						    <input type="text" clearable focus v-model="form.lastname"></input>
 						</view>
 						<view class="input-row">
 						    <text class="title" space="emsp">名字</text>
-						    <input type="text" clearable focus v-model="form.lname"></input>
+						    <input type="text" clearable focus v-model="form.firstname"></input>
 						</view>
 					</view>
 				    <!-- <view class="input-row">
@@ -88,7 +106,7 @@
 				        <input type="text" v-model="form.zodiac" placeholder="请输入属相"></input>
 				    </view> -->
 					<view class="input-row">
-						<text class="title" space="emsp">公历</text>
+						<text class="title" space="emsp">农历</text>
 						<view class="row">
 							<picker @change="yearChange" :value="yearIndex" range-key="year" :range="yearArray">
 								<input v-model="form.year" />
@@ -106,9 +124,13 @@
 						</view>
 					</view>
 					<view class="input-row">
+					    <text class="title">生肖</text>
+						<input type="text" v-model="shengxiao" disabled="disabled"></input>
+					</view>
+					<view class="input-row">
 					    <text class="title">时辰</text>
 						<picker range-key="time" :value="timeIndex" @change="timeChange" :range="timeArray">
-							<input type="text" v-model="form.birthTime" placeholder="请选择时辰"></input>
+							<input type="text" v-model="time" placeholder="请选择时辰"></input>
 						</picker>
 					</view>
 					<view class="input-row">
@@ -124,7 +146,7 @@
 					</view>
 				</view>
 				<view class="btn-row">
-				    <button type="primary" class="custom-btn" @click="fortune">确定</button>
+				    <button type="primary" class="custom-btn" @click="fortune">开始算命</button>
 				</view>
 				<view class="bottom" v-show="hideshow">
 					<img src="../../static/img/luck/bottom.png" />
@@ -143,7 +165,7 @@
 	import { fortune } from '@/api/luck/luck'
 	import { ownBuddha } from '@/api/choiceGod/choiceGod.js'
 	
-	function getYear() {
+	function getYears() {
 		const date = new Date();
 		const endY = date.getFullYear() + 50;
 		const startY = endY - 200;
@@ -156,16 +178,38 @@
 		return arr;
 	}
 	
+	function getMonths() {
+		const arr = [];
+		for(let i = 1; i <= 13; i++) {
+			arr.push({
+				month: i
+			})
+		}
+		return arr;
+	}
+	
+	function getDays() {
+		const arr = [];
+		for(let i = 1; i <= 30; i++) {
+			arr.push({
+				day: i
+			})
+		}
+		return arr;
+	}
+	
 	function initYearIndex() {
 		const date = new Date();
 		const year = date.getFullYear();
-		const arr = getYear();
+		const arr = getYears();
 		for(let i = 0; i < arr.length; i++) {
 			if(year === arr[i].year) {
 				return i;
 			}
 		}
 	}
+	
+	const times = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥']
 	
 	export default{
 		components:{
@@ -192,11 +236,9 @@
 				monthIndex: 0,
 				dayIndex: 0,
 				hasResult: false,
-				yearArray: getYear(),
-				monthArray: [
-					{month: '1'},{month: '2'},{month: '3'},{month: '4'},{month: '5'},{month: '6'},{month: '7'},{month: '8'},{month: '9'},{month: '10'},{month: '11'},{month: '12'},
-				],
-				dayArray: [],
+				yearArray: getYears(),
+				monthArray: getMonths(),
+				dayArray: getDays(),
 				timeArray: [
 					{time: '子时 23:00~01:00'},
 					{time: '丑时 01:00~03:00'},
@@ -212,23 +254,23 @@
 					{time: '亥时 21:00~23:00'},
 				],
 				form: {
-					name: '',
-					zodiac: '',
-					brithDate: '',
-					fname: '',
-					lname: '',
-					birthTime: '',
+					lastname: '',
+					firstname: '',
+					time: '',
 					year: '',
 					month: '',
 					day: '',
 					sex: '1',
 				},
+				shengxiao: '',
+				time: '',
 				result: {
 					sum_up: '',
 					fortunes: '',
 					cause: '',
 					feeling: '',
 					healthy: '',
+					shengxiao: '',
 				},
 				mHeight: 0,
 			}
@@ -254,7 +296,8 @@
 			timeChange(e) {
 				const index = e.detail.value;
 				this.timeIndex = index;
-				this.form.birthTime = this.timeArray[index].time;
+				this.time = this.timeArray[index].time;
+				this.form.time = times[index];
 			},
 			dayChange(e) {
 				const index = e.detail.value;
@@ -282,17 +325,25 @@
 				this.mHeight = windowHeight - 40 - 50;
 			},
 			fortune() {
-				if (isEmpty(this.form.name)) {
-					this.$msg('请输入名字')
-					return;
-				}
-				else if(isEmpty(this.form.zodiac)) {
-					this.$msg('请输入属相')
-					return;
-				}
-				else if(isEmpty(this.form.birth)) {
-					this.$msg('请输入生辰八字')
-					return;
+				// if (isEmpty(this.form.name)) {
+				// 	this.$msg('请输入名字')
+				// 	return;
+				// }
+				// else if(isEmpty(this.form.zodiac)) {
+				// 	this.$msg('请输入属相')
+				// 	return;
+				// }
+				// else if(isEmpty(this.form.birth)) {
+				// 	this.$msg('请输入生辰八字')
+				// 	return;
+				// }
+				for(const key in this.form) {
+					if(this.form.hasOwnProperty(key)) {
+						if(isEmpty(this.form[key])) {
+							this.$msg('请您输入完整算命内容');
+							return;
+						}
+					}
 				}
 				uni.showLoading({
 				    title: '算运中'
@@ -330,18 +381,25 @@
 			       this.hideshow = true
 			    }
 			},
-			'form.month': {
+			'form.year': {
 				handler() {
-					const lastDay = new Date(this.form.year, this.form.month, 0).getDate();
-					const arr = []
-					for(let i = 1; i <= lastDay; i++) {
-						arr.push({
-							day: i,
-						})
-					}
-					this.dayArray = arr;
+					const year = (new Date(this.form.year)).getFullYear();
+					const arr = [ '猴', '鸡', '狗', '猪', '鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊' ];
+					this.shengxiao = arr[year % 12];
 				}
-			}
+			},
+			// 'form.month': {
+			// 	handler() {
+			// 		const lastDay = new Date(this.form.year, this.form.month, 0).getDate();
+			// 		const arr = []
+			// 		for(let i = 1; i <= lastDay; i++) {
+			// 			arr.push({
+			// 				day: i,
+			// 			})
+			// 		}
+			// 		this.dayArray = arr;
+			// 	}
+			// }
 		}
 	}
 </script>
@@ -352,6 +410,21 @@
 		width: 100%;
 		height: 100%;
 		flex-direction: column;
+		.new-result{
+			padding: 40upx;
+			box-sizing: border-box;
+			.block{
+				.bold{
+					font-weight: bold;
+					font-size: 36upx;
+				}
+				.result-content{
+					margin: 40upx 0;
+					font-size: 32upx;
+					color: #424242;
+				}
+			}
+		}
 		.row{
 			display: flex;
 			justify-content: space-between;

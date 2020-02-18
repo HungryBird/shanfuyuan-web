@@ -13,7 +13,7 @@
 
 <script>
 	import navBar from '@/components/nav-bar.vue'
-	
+	import { articleDetail } from '@/api/activity/activity.js'
 	export default{
 		components:{
 			navBar,
@@ -23,7 +23,18 @@
 				title: 'xxxx视频',
 			}
 		},
+		onLoad(e) {
+			this.title = e.title;
+			this.articleDetail(e.id);
+		},
 		methods:{
+			articleDetail(id) {
+				articleDetail({
+					article_id: id,
+				}).then(res => {
+					console.log('res: ', res)
+				})
+			},
 			videoErrorCallback(err) {
 				console.error(err)
 			},

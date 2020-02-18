@@ -8,7 +8,7 @@
 				</swiper-item>
 			</swiper>
 			<view class="list-wrap">
-				<view v-for="ls in lists" :key="ls.id" class="list" @click="seeMore(ls.id)">
+				<view v-for="ls in lists" :key="ls.id" class="list" @click="seeMore(ls)">
 					<view class="left">
 						<image :src="ls.img" mode="aspectFill"></image>
 					</view>
@@ -22,10 +22,10 @@
 						<view class="bottom">
 							<view class="num">
 								<image src="../../static/img/activity/yuedutubiao.png" mode="aspectFit"></image>
-								{{ ls.num }}
+								{{ ls.num || 0 }}
 							</view>
 							<view class="time">
-								{{ ls.time }}
+								{{ ls.updated_time }}
 							</view>
 						</view>
 					</view>
@@ -40,6 +40,7 @@
 	import navBar from '@/components/nav-bar.vue'
 	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue'
 	import mixins from '@/mixins/mixins.js'
+	import { articleList } from '@/api/activity/activity.js'
 	export default{
 		components:{
 			navBar,
@@ -53,32 +54,9 @@
 					`/static/img/activity/temples/2.jpg`,
 				],
 				status: 'more',
-				lists: [
-					{
-						id: 1,
-						title: '标题1',
-						img: '/static/img/activity/temples/1.jpg',
-						time: '2020-02-06',
-						num: 123456,
-						descript: '概述概述',
-					},
-					{
-						id: 2,
-						title: '标题2',
-						img: '/static/img/activity/temples/1.jpg',
-						time: '2020-02-06',
-						num: 123456,
-						descript: '概述概述',
-					},
-					{
-						id: 3,
-						title: '标题3',
-						img: '/static/img/activity/temples/1.jpg',
-						time: '2020-02-06',
-						num: 123456,
-						descript: '概述概述',
-					},
-				],
+				page: 1,
+				total: 0,
+				lists: [],
 			}
 		},
 		onShow() {
@@ -86,11 +64,25 @@
 		},
 		methods: {
 			loadMore() {
-				//
+				if(this.status !== 'more') return;
+				this.status = 'loading';
+				articleList({
+					cate_id: 2,
+					page: this.page,
+				}).then(res => {
+					if(res.code === 1) {
+						this.page++;
+						this.lists = this.lists.concat(res.data.data);
+						this.status = res.data.total === this.lists.length ? 'nomore' : 'more';
+					}
+					else {
+						this.$msg(res.msg);
+					}
+				})
 			},
-			seeMore(id) {
+			seeMore(list) {
 				uni.navigateTo({
-					url: `./more?id=${id}`
+					url: `./more?id=${list.id}&title=${list.title}&updated_time=${list.updated_time}&desc=${list.desc}`
 				})
 			}
 		}
